@@ -1,0 +1,21 @@
+# Exported from Wings 3D 1.0.1
+newmtl PineNeedles
+Ns 100.0
+d 1.0
+illum 2
+Kd 0.239216 0.329412 0.219608
+Ka 0.2 0.2 0.2
+Ks 1.0 1.0 1.0
+Ke 0.0 0.0 0.0
+map_Kd PineNeedles.png
+
+newmtl PineTrunk
+Ns 100.0
+d 1.0
+illum 2
+Kd 0.34902 0.25098 0.2
+Ka 0.2 0.2 0.2
+Ks 1.0 1.0 1.0
+Ke 0.0 0.0 0.0
+map_Kd NewBark.jpg
+
