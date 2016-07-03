@@ -9,11 +9,11 @@ RenderManager::RenderManager() : reflectionBuffer(640, 320), refractionBuffer(12
 }
 
 void RenderManager::render(const std::vector<Entity*>& entities, const std::vector<Light*>& lights, Terrain* terrain, Entity* water, SkyboxRenderer& skybox, ShadowMap shadowMap, Camera* cam, const glm::mat4& projection, const int winX, const int winY){
-	// SHADOW PASS 
+	// SHADOW PASS
     glDisable(GL_CLIP_DISTANCE0);
-    shadowMap.enableFramebuffer();
+    shadowMap.bind();
     renderer.render(entities, lights, shadowMap.getView(), shadowMap.getProjection(), skybox.getSkyboxTexture(), glm::vec4(0,1,0,10000));
-    shadowMap.disableFramebuffer();
+    shadowMap.unbind();
 
     // REFRACTION PASS
     glEnable(GL_CLIP_DISTANCE0);
@@ -23,7 +23,7 @@ void RenderManager::render(const std::vector<Entity*>& entities, const std::vect
     renderer.render(entities, lights, cam->getViewMtx(), projection, skybox.getSkyboxTexture(), shadowMap.getView(), shadowMap.getProjection(), shadowMap.getTextureID(), glm::vec4(0,-1,0,water->getPosition().y));
     ParticleManager::getParticleManager()->render(cam->getViewMtx(), projection);
     refractionBuffer.unbind();
-    
+
     // REFLECTION PASS
     glEnable(GL_CLIP_DISTANCE0);
     glm::mat4 invView = cam->getInverted();

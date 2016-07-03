@@ -1,6 +1,11 @@
 #include "FrameBuffer.h"
 
-FrameBuffer::FrameBuffer(int width, int height){
+FrameBuffer::FrameBuffer(int width, int height)
+    : height(height),
+    width(width),
+    depthBuffer(-1),
+    depthTexture(-1),
+    colourTexture(-1) {
     this->width = width;
     this->height = height;
 
@@ -19,7 +24,7 @@ void FrameBuffer::addColourTexture(){
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, colourTexture, 0);
 
-    // Isn't necessary at the moment but I feel like it should be 
+    // Isn't necessary at the moment but I feel like it should be
     // GLenum DrawBuffers[1] = {GL_COLOR_ATTACHMENT0};
     // glDrawBuffers(1, DrawBuffers); // "1" is the size of DrawBuffers
 

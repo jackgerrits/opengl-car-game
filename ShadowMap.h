@@ -10,10 +10,9 @@
 #include <GL/glew.h>
 #include <glm/glm.hpp>
 
-class ShadowMap {
+class ShadowMap : public FrameBuffer {
 private:
     Player* player;
-    FrameBuffer fb;
 
     const GLuint textureSize;
 
@@ -26,12 +25,12 @@ public:
 
     GLuint getTextureID();
     GLuint getTextureSize();
-    void enableFramebuffer();
-    void disableFramebuffer();
     glm::mat4 getView();
     glm::mat4 getProjection();
+
+    // Override default bind of FrameBuffer to update state.
+    // Unbind is unchanged
+    virtual void bind();
 };
-
-
 
 #endif

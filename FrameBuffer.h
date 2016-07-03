@@ -36,8 +36,8 @@ public:
     int getWidth();
     int getHeight();
 
-    void bind();
-    void unbind();
+    virtual void bind();
+    virtual void unbind();
 };
 
 #endif
