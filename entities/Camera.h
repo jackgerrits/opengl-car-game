@@ -21,7 +21,6 @@ public:
     Camera( glm::vec3 eye );
 
     const glm::mat4 getViewMtx() const;
-    //    void orthogonaliseViewMtx();
     void reset();
 
     virtual void update( InputState &input ) = 0;

@@ -17,7 +17,6 @@
 #include "particles/ParticleManager.h"
 #include "particles/ParticleSystem.h"
 
-
 #include <iostream>
 #include <vector>
 #include <cstdlib>
@@ -325,8 +324,6 @@ int main(int argc, char **argv) {
         for(size_t i = 0; i < entities.size(); i++){
             entities[i]->update();
         }
-
-        // cout<< to_string(player->getPosition()) << endl;
 
         // Generate dust particles at the players positions if the car is going past enough or moving
         if(player->absVel > 5.0f || player->getThrottle() > 0.1f || (basic_controls && player->getBrake() > 0.1f)){

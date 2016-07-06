@@ -4,29 +4,23 @@
 #define VALS_PER_NORMAL 3
 #define VALS_PER_TEX 2
 
-Image::Image(){
-    this->data = NULL;
-    this->width = -1;
-    this->height = -1;
-    this->channels = -1;
+Image::Image()
+    : data(NULL), width(-1), height(-1), channels(-1) {
 }
 
-Image::Image(unsigned char* data, int width, int height, int channels){
-    this->data = data;
-    this->width = width;
-    this->height = height;
-    this->channels = channels;
+Image::Image(unsigned char* data, int width, int height, int channels)
+    : data(data), width(width), height(height), channels(channels) {
 }
 
 glm::vec3 Image::getPixel(int x, int y){
     if(x < 0 || x >= width || y < 0 || y >= height){
-        return glm::vec3(-1.0f,-1.0f,-1.0f);
+        return glm::vec3(-1.0f,-1.0f,-1.0f);    // Returns a vector of -1 to indicate the image does not contain a pixel at that location.
     }
-    int offset = ((width * y) + x) * channels;
+    int offset = ((width * y) + x) * channels;  // Determine the position in data to start reading. Each pixel is 1 byte.
     return glm::vec3((float)data[offset] / 255, (float)data[offset + 1] / 255, (float)data[offset + 2] / 255);
 }
 
-// Initialise singleton
+// Initialise Loader singleton
 Loader* Loader::loader = NULL;
 
 Loader::Loader(){}
@@ -61,14 +55,14 @@ std::vector<float> Loader::generateNormals(std::vector<float> vertices, std::vec
         glm::vec3 faceNormal = glm::cross(v1, v2);
         faceNormal = glm::normalize(faceNormal);
 
-        // Interate over each vertex in that triangle
+        // Iterate over each vertex in that triangle
         for(size_t j = i; j < i+3; j++){
             glm::vec3 vertNormal(resultNormals[indices[j] * 3],
                 resultNormals[(indices[j] * 3) + 1],
                 resultNormals[(indices[j] * 3) + 2]);
 
             // Add the current faces normal to the vertexes normal
-            vertNormal = glm::normalize(vertNormal + faceNormal); 
+            vertNormal = glm::normalize(vertNormal + faceNormal);
 
             resultNormals[indices[j] * 3] = vertNormal.x;
             resultNormals[(indices[j] * 3) + 1] = vertNormal.y;
@@ -82,8 +76,8 @@ std::vector<float> Loader::generateNormals(std::vector<float> vertices, std::vec
 
 // http://stackoverflow.com/questions/12774207/fastest-way-to-check-if-a-file-exist-using-standard-c-c11-c
 inline bool Loader::fileExists(const std::string& name) {
-    struct stat buffer;   
-    return (stat (name.c_str(), &buffer) == 0); 
+    struct stat buffer;
+    return (stat (name.c_str(), &buffer) == 0);
 }
 
 Model Loader::loadModel(std::string filepath){
@@ -109,10 +103,11 @@ Model Loader::loadModel(std::string filepath){
     if (!err.empty()) std::cerr << err << std::endl;
     if (!ret) exit(1);
 
-    
+
 
     return loadModel(shapes, materials, mtlPath);
 }
+
 Model Loader::loadModel(std::vector<tinyobj::shape_t> shapes, std::vector<tinyobj::material_t> materials, std::string materialpath){
     Model model;
     for(size_t i = 0; i < shapes.size(); i++){
@@ -128,7 +123,7 @@ ModelComponent Loader::loadModelComponent(tinyobj::shape_t shape, std::vector<ti
     int numIndices = shape.mesh.indices.size();
     tinyobj::material_t material = materials[shape.mesh.material_ids[0]]; // Loads the first material
     GLuint textureID = loadTexture(materialpath + material.diffuse_texname);
-    
+
     return ModelComponent(vao, numIndices, textureID, material);
 }
 
@@ -136,14 +131,15 @@ ModelComponent Loader::loadModelComponent(std::vector<float> vertices, std::vect
     GLuint vao = loadVAO(vertices, indices, texCoords);
     int numIndices = indices.size();
     GLuint textureID = loadDefaultTexture();
-    
+
     return ModelComponent(vao, numIndices, textureID);
 }
+
 ModelComponent Loader::loadModelComponent(std::vector<float> vertices, std::vector<unsigned int> indices, std::vector<float> texCoords, std::vector<float> normals){
     GLuint vao = loadVAO(vertices, indices, texCoords,normals);
     int numIndices = indices.size();
     GLuint textureID = loadDefaultTexture();
-    
+
     return ModelComponent(vao, numIndices, textureID);
 }
 
@@ -151,7 +147,7 @@ ModelComponent Loader::loadModelComponent(std::vector<float> vertices, std::vect
     GLuint vao = loadVAO(vertices, indices, texCoords);
     int numIndices = indices.size();
     GLuint textureID = loadTexture(texturepath);
-    
+
     return ModelComponent(vao, numIndices, textureID);
 }
 
@@ -159,7 +155,7 @@ ModelComponent Loader::loadModelComponent(std::vector<float> vertices, std::vect
     GLuint vao = loadVAO(vertices, indices, texCoords,normals);
     int numIndices = indices.size();
     GLuint textureID = loadTexture(texturepath);
-    
+
     return ModelComponent(vao, numIndices, textureID);
 }
 
@@ -203,7 +199,7 @@ GLuint Loader::loadVAO(std::vector<float> vertices, std::vector<unsigned int> in
 
     unsigned int buffer[4];
     glGenBuffers(4, buffer);
-    
+
     setupBuffer(buffer[0], vertices, 0, VALS_PER_VERT);
     setupBuffer(buffer[1], normals, 1, VALS_PER_NORMAL);
     setupBuffer(buffer[2], texCoords, 2, VALS_PER_TEX);
@@ -254,11 +250,11 @@ GLuint Loader::loadVAO(tinyobj::shape_t shape){
 Image Loader::loadImage(std::string filepath){
     int x, y, n;
     unsigned char *data = stbi_load(
-                                    filepath.c_str(), /*char* filepath */
-                                    &x, /*The address to store the width of the image*/
-                                    &y, /*The address to store the height of the image*/
-                                    &n  /*Number of channels in the image*/,
-                                    0   /*Force number of channels if > 0*/
+        filepath.c_str(),   // char* filepath
+        &x,                 // The address to store the width of the image
+        &y,                 // The address to store the height of the image
+        &n,                  // Number of channels in the image
+        0                   // Force number of channels if > 0
     );
 
     return Image(data, x,y,n);
@@ -269,6 +265,7 @@ GLuint Loader::loadCubemapTexture(std::vector<std::string> filenames){
         std::cerr << "[Loader][Error] Cubemap requires 6 texture files." << std::endl;
         exit(1);
     }
+
     GLuint textureID;
     glActiveTexture(GL_TEXTURE0);
     glGenTextures( 1, &textureID );
@@ -295,7 +292,7 @@ GLuint Loader::loadCubemapTexture(std::vector<std::string> filenames){
         glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
         glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
     }
-    
+
     return textureID;
 }
 
@@ -311,16 +308,16 @@ GLuint Loader::loadTexture(std::string filepath){
         return loadDefaultTexture();
     }
 
-    // load an image from file as texture
+    // Load an image from file as texture
     Image image = loadImage(filepath);
 
     GLuint textureID = loadTextureData(image.data, image.width, image.height, image.channels, GL_TEXTURE0);
 
     stbi_image_free(image.data);
 
-    // Save texture
+    // Save texture to cache
     loadedTextures[filepath] = textureID;
-    
+
     return textureID;
 }
 
@@ -331,18 +328,20 @@ GLuint Loader::loadTextureData(GLubyte *data, int x, int y, int n, GLenum textur
     glGenTextures( 1, &textureID );
     glBindTexture( GL_TEXTURE_2D, textureID );
     GLenum format = GL_RGB;
+
+    // If there are four channels include alpha
     if(n==4){
         format = GL_RGBA;
     }
 
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, x, y, 0, format, GL_UNSIGNED_BYTE, data);
-    
-    // Set texture parameters, may need to be moved later so that alternatives can be set
+
+    // Set texture parameters
     glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT );
     glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT );
     glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
     glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-    glGenerateMipmap(GL_TEXTURE_2D); 
+    glGenerateMipmap(GL_TEXTURE_2D);
 
     return textureID;
 }
@@ -356,7 +355,7 @@ GLuint Loader::loadDefaultTexture(){
     const int SIZE = 64;
     GLubyte myimage[SIZE][SIZE][3];
 
-    // Create checkerboard image
+    // Create checkerboard image as the default texture
     for(size_t i=0; i < SIZE; i++){
         for(size_t j=0; j < SIZE; j++) {
             GLubyte c;

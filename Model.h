@@ -34,7 +34,7 @@ public:
 class Model {
 private:
     std::vector<ModelComponent> components;
-    std::vector<float> maxRanges;   // Essentially forms a bounding box for the model.
+    std::vector<float> maxRanges;   // Essentially forms a bounding box for the model. Format: [xMin, xMax, yMin, yMax, zMin, zMax]
 public:
     Model(std::vector<ModelComponent>);
     Model();

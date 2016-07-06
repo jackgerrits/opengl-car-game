@@ -5,15 +5,16 @@
 #include <math.h>
 #include <algorithm>
 
+#include "glm/gtc/matrix_transform.hpp"
+
+#define DEG2RAD(x) ((x)*M_PI/180.0)
+#define RAD2DEG(x) ((x)*180.0/M_PI)
+
+
 template <typename T>
 T clamp(const T& n, const T& lower, const T& upper) {
   return std::max(lower, std::min(n, upper));
 }
-
-#include "glm/gtc/matrix_transform.hpp"
-
-#define DEG2RAD(x) ((x)*M_PI/180.0) 
-#define RAD2DEG(x) ((x)*180.0/M_PI) 
 
 Camera::Camera( glm::vec3 eye ) {
     initEye = eye;
@@ -25,7 +26,7 @@ const glm::mat4 Camera::getViewMtx() const {
 }
 
 /**
- Resets the view matrix to the value the camera was 
+ Resets the view matrix to the value the camera was
  initialised with. Assumes looking at the origin.
 */
 void Camera::reset() {

@@ -1,8 +1,8 @@
 PLATFORM := $(shell uname)
 
 # Use pkg-config to get the right libraries for your platform
-GL_LIBS = `pkg-config --static --libs glfw3` -lGLEW 
-EXT = 
+GL_LIBS = `pkg-config --static --libs glfw3` -lGLEW
+EXT =
 DEFS = `pkg-config --cflags glfw3`
 
 # Any other platform specific libraries here...
@@ -12,7 +12,7 @@ ifneq (, $(findstring CYGWIN, $(PLATFORM)))
     DEFS =-DWIN32
 endif
 
-EXE=assign4$(EXT)
+EXE=driver$(EXT)
 
 DEFS +=-std=c++0x -Wall -Wextra
 

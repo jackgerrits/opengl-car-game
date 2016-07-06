@@ -29,6 +29,7 @@ private:
     static Loader* loader;
     Loader();
 
+    // Stores the file/id mapping for each loaded texture to use for caching.
     std::map<std::string, GLuint> loadedTextures;
     GLuint loadTextureData(GLubyte *data, int x, int y, int n, GLenum textureUnit);
     GLuint setupBuffer(unsigned int buffer, std::vector<float> values, int attributeIndex, int dataDimension);
@@ -51,7 +52,7 @@ public:
     GLuint loadVAO(std::vector<float> vertices, std::vector<unsigned int> indices, std::vector<float> texCoords);
     GLuint loadVAO(std::vector<float> vertices, std::vector<unsigned int> indices, std::vector<float> texCoords, std::vector<float> normals);
     GLuint loadVAO(tinyobj::shape_t);
-    
+
     Image loadImage(std::string filepath);
     GLuint loadCubemapTexture(std::vector<std::string> filenames);
     GLuint loadTexture(std::string filepath);
