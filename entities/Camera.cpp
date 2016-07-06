@@ -16,26 +16,45 @@ T clamp(const T& n, const T& lower, const T& upper) {
   return std::max(lower, std::min(n, upper));
 }
 
-Camera::Camera( glm::vec3 eye ) {
-    initEye = eye;
-    reset();
-}
+Camera::Camera()
+    : position(glm::vec3(0.0f))
+    , focalPoint(glm::vec3(0.0f))
+    , viewMtx(glm::mat4(1.0f))
+{ }
 
 const glm::mat4 Camera::getViewMtx() const {
     return viewMtx;
 }
 
-/**
- Resets the view matrix to the value the camera was
- initialised with. Assumes looking at the origin.
-*/
-void Camera::reset() {
-    glm::vec3 at(0.0f, 0.0f, 0.0f);
-    glm::vec3 up(0.0f, 1.0f, 0.0f);
-    viewMtx = glm::lookAt(initEye, at, up);
+glm::vec3 Camera::getPosition(){
+    return position;
+}
+void Camera::setPosition(glm::vec3 position){
+    this->position = position;
+}
+void Camera::update(InputState &input){
+    // Input has no effect in the base object.
 }
 
-PlayerCamera::PlayerCamera(Player* player) : Camera(glm::vec3(0.0f,0.0f,0.0f)){
+void Camera::look(glm::vec3 at){
+    glm::vec3 up(0.0f, 1.0f, 0.0f);
+    viewMtx = glm::lookAt(position, at, up);
+}
+
+void Camera::look(glm::vec3 from, glm::vec3 at){
+    glm::vec3 up(0.0f, 1.0f, 0.0f);
+    viewMtx = glm::lookAt(from, at, up);
+}
+
+glm::mat4 Camera::getInverted(float pivotPoint){
+    float offset = fabs(this->position.y - pivotPoint);
+    glm::vec3 camPos = this->position - glm::vec3(0, 2*offset, 0);
+
+    glm::vec3 up(0.0f, 1.0f, 0.0f);
+    return glm::lookAt(camPos, this->focalPoint, up);
+}
+
+PlayerCamera::PlayerCamera(Player* player) : Camera(){
     this->player = player;
     this->distance = 5.0f;
     this->pitch = (float)M_PI/8;
@@ -82,38 +101,8 @@ void PlayerCamera::update(InputState &input){
     float offsetX = hDist * glm::sin(angle);
     float offsetZ = hDist * glm::cos(angle);
 
-    glm::vec3 camPos(-offsetX, vDist, -offsetZ);
-    camPos = camPos + player->getPosition();
+    this->focalPoint = player->getPosition();
+    this->position = glm::vec3(-offsetX, vDist, -offsetZ) + this->focalPoint;
 
-    glm::vec3 up(0.0f, 1.0f, 0.0f);
-    viewMtx = glm::lookAt(camPos, player->getPosition(), up);
-}
-
-glm::mat4 PlayerCamera::getInverted(){
-    float angle = angleAround + player->getRotationY();
-
-    float hDist = distance * glm::cos(pitch);
-    float vDist = distance * glm::sin(pitch);
-    float offsetX = hDist * glm::sin(angle);
-    float offsetZ = hDist * glm::cos(angle);
-
-    glm::vec3 camPos(-offsetX, -vDist, -offsetZ);
-    // 0.4 is midpoint of car to base. Cannot seem to get the reflections to work unless the center of the car is aligned with the water plane.
-    // Surely this can be fixed based on the fact that it works if their centres align.
-    camPos = camPos + glm::vec3(player->getPosition().x, WATER_PLANE_HEIGHT, player->getPosition().z);
-
-    glm::vec3 up(0.0f, 1.0f, 0.0f);
-    return glm::lookAt(camPos,glm::vec3(player->getPosition().x, WATER_PLANE_HEIGHT, player->getPosition().z), up);
-}
-
-glm::vec3 PlayerCamera::getPosition(){
-    float angle = angleAround + player->getRotationY();
-
-    float hDist = distance * glm::cos(pitch);
-    float vDist = distance * glm::sin(pitch);
-    float offsetX = hDist * glm::sin(angle);
-    float offsetZ = hDist * glm::cos(angle);
-
-    glm::vec3 camPos(-offsetX, vDist, -offsetZ);
-    return camPos + glm::vec3(player->getPosition().x, WATER_PLANE_HEIGHT, player->getPosition().z);
+    look(this->focalPoint);
 }

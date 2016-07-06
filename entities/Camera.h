@@ -7,25 +7,27 @@
 #include <cmath>
 #include <glm/glm.hpp>
 
-const float WATER_PLANE_HEIGHT = 0.398918f;
 
-/* Most of the camera code is reused from the example given */
+
 class Camera {
 protected:
-    glm::mat4 viewMtx;
-    glm::vec3 initEye;
-    glm::vec3 initAt;
-    glm::vec3 initUp;
+    glm::vec3 position;
+    glm::vec3 focalPoint;
 
+    glm::mat4 viewMtx;
 public:
-    Camera( glm::vec3 eye );
+    Camera();
 
     const glm::mat4 getViewMtx() const;
-    void reset();
 
-    virtual void update( InputState &input ) = 0;
-    virtual glm::mat4 getInverted() = 0;
-    virtual glm::vec3 getPosition() = 0;
+    glm::vec3 getPosition();
+    void setPosition(glm::vec3 position);
+    glm::mat4 getInverted(float pivotPoint);
+
+    virtual void update(InputState &input);
+
+    void look(glm::vec3 at);
+    void look(glm::vec3 from, glm::vec3 at);
 };
 
 
@@ -40,10 +42,7 @@ private:
 public:
     PlayerCamera(Player* player);
 
-    virtual void update( InputState &input );
-    virtual glm::mat4 getInverted();
-    virtual glm::vec3 getPosition();
+    virtual void update(InputState &input);
 };
-
 
 #endif

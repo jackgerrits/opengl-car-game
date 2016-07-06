@@ -26,7 +26,7 @@ void RenderManager::render(const std::vector<Entity*>& entities, const std::vect
 
     // REFLECTION PASS
     glEnable(GL_CLIP_DISTANCE0);
-    glm::mat4 invView = cam->getInverted();
+    glm::mat4 invView = cam->getInverted(WATER_PLANE_HEIGHT);
     reflectionBuffer.bind();
     terrainRenderer.render(terrain, lights, invView, projection, shadowMap.getView(), shadowMap.getProjection(), shadowMap.getTextureID(), glm::vec4(0,1,0,-water->getPosition().y));
     skybox.render(invView, projection);

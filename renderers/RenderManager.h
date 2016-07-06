@@ -28,6 +28,8 @@
 #include <glm/ext.hpp>
 #include <GL/glew.h>
 
+const float WATER_PLANE_HEIGHT = 0.398918f;
+
 class RenderManager {
 private:
     FrameBuffer reflectionBuffer;
@@ -41,7 +43,7 @@ public:
     RenderManager();
 
     // Renders the entire scene, including 4 passes (shadow, refraction, reflection, total)
-    // Lots of parameters, some of these could be moved to the constructor as they do not change.
+    // Lots of parameters, some of these could be maybe moved to the constructor as they do not change.
     void render(const std::vector<Entity*>& entities, const std::vector<Light*>& lights, Terrain* terrain, Entity* water, SkyboxRenderer& skybox, ShadowMap shadowMap, Camera* cam, const glm::mat4& projection, const int winX, const int winY);
 };
 
