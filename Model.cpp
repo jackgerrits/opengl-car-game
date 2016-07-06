@@ -21,7 +21,7 @@ void initMaterial(tinyobj::material_t &material) {
     material.dissolve = 1.f;
     material.shininess = 1.f;
     material.ior = 1.f;
-  material.unknown_parameter.clear();
+    material.unknown_parameter.clear();
 }
 
 ModelComponent::ModelComponent(GLuint vaoID, int indexCount, GLuint textureID, tinyobj::material_t material){
