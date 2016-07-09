@@ -2,7 +2,6 @@
 #define RENDER_MANAGER_H
 
 #include "EntityRenderer.h"
-#include "BackgroundRenderer.h"
 #include "TerrainRenderer.h"
 #include "SkyboxRenderer.h"
 #include "../Model.h"
