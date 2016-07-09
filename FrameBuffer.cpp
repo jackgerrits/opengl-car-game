@@ -1,14 +1,11 @@
 #include "FrameBuffer.h"
 
 FrameBuffer::FrameBuffer(int width, int height)
-    : height(height),
-    width(width),
+    : depthTexture(-1),
     depthBuffer(-1),
-    depthTexture(-1),
-    colourTexture(-1) {
-    this->width = width;
-    this->height = height;
-
+    colourTexture(-1),
+    width(width),
+    height(height) {
     glGenFramebuffers(1, &framebufferID);
 }
 
