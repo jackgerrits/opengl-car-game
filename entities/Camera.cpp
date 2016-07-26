@@ -46,6 +46,7 @@ void Camera::look(glm::vec3 from, glm::vec3 at){
     viewMtx = glm::lookAt(from, at, up);
 }
 
+// Revisit old and new version of this becuase of car refraction.
 glm::mat4 Camera::getInverted(float pivotPoint){
     float offset = fabs(this->position.y - pivotPoint);
     glm::vec3 camPos = this->position - glm::vec3(0, 2*offset, 0);
