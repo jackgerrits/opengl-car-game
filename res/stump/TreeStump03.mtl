@@ -1,0 +1,21 @@
+# Exported from Wings 3D 1.0.1
+newmtl Bark
+Ns 100.0
+d 1.0
+illum 2
+Kd 0.435294 0.254902 0.133333
+Ka 0.2 0.2 0.2
+Ks 1.0 1.0 1.0
+Ke 0.0 0.0 0.0
+map_Kd StumpBark02.png
+
+newmtl CutStump
+Ns 100.0
+d 1.0
+illum 2
+Kd 1.0 0.870588 0.568627
+Ka 0.2 0.2 0.2
+Ks 1.0 1.0 1.0
+Ke 0.0 0.0 0.0
+map_Kd StumpEnd02.png
+

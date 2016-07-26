@@ -1,0 +1,21 @@
+# Exported from Wings 3D 1.0.1
+newmtl Bark
+Ns 100.0
+d 1.0
+illum 2
+Kd 0.435294 0.254902 0.133333
+Ka 1.0 1.0 1.0
+Ks 0 0 0
+Ke 0.0 0.0 0.0
+map_Kd TreeBark.png
+
+newmtl Leaves
+Ns 100.0
+d 1.0
+illum 2
+Kd 0.129412 0.439216 0.145098
+Ka 1.0 1.0 1.0
+Ks 0 0 0
+Ke 0.0 0.0 0.0
+map_Kd leaves01.png
+
