@@ -46,13 +46,18 @@ void Camera::look(glm::vec3 from, glm::vec3 at){
     viewMtx = glm::lookAt(from, at, up);
 }
 
-// Revisit old and new version of this becuase of car refraction.
-glm::mat4 Camera::getInverted(float pivotPoint){
-    float offset = fabs(this->position.y - pivotPoint);
+
+glm::mat4 Camera::getInverted(float WATER_HEIGHT){
+    glm::vec3 playerPos = this->focalPoint;
+
+    float offset = fabs(this->position.y - playerPos.y);
     glm::vec3 camPos = this->position - glm::vec3(0, 2*offset, 0);
 
+    camPos -= glm::vec3(0, playerPos.y - WATER_HEIGHT, 0);
+    playerPos -= glm::vec3(0, playerPos.y - WATER_HEIGHT, 0);
+
     glm::vec3 up(0.0f, 1.0f, 0.0f);
-    return glm::lookAt(camPos, this->focalPoint, up);
+    return glm::lookAt(camPos, playerPos, up);
 }
 
 PlayerCamera::PlayerCamera(Player* player) : Camera(){
