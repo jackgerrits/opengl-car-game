@@ -26,4 +26,5 @@ make
 USAGE: ./driver basic|physics
 ```
 __basic__ - No intertia, simple turning
+
 __physics__ - uses formula for more realistic driving experience.
