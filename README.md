@@ -1,5 +1,7 @@
 # opengl-car-game
 
+![](http://i.imgur.com/GGQdqUS.png)
+
 Simple car game written in c++, using OpenGL 3.3.
 
 Notable features include:
