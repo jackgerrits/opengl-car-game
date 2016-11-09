@@ -13,7 +13,7 @@ void ParticleSystem::generateParticles(glm::vec3 emissionPoint){
     renderQueue += particlesPerSecond * GameTime::getGameTime()->getDt();
     while(renderQueue > 1.0f) {
         glm::vec3 velo((rand() % 100)/50.f - 1.0f, 1.0f, (rand() % 100)/50.f - 1.0f);
-        velo = normalize(velo);
+        velo = glm::normalize(velo);
         velo *= particleSpeed;
         Particle* p = new Particle(emissionPoint, velo, gravityFactor, lifeDuration, textureid);
         float scaleVal = (rand() % 100)/100.f;
