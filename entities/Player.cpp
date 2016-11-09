@@ -153,7 +153,7 @@ bool Player::update(){
 
         // Slow the car down when no throttle, the overall equation doesn't seem to do this very well.
         if(throttle < 0.5f){
-            velocity = velocity - (velocity * 0.5 * dt);
+            velocity = velocity - (velocity * 0.5f * dt);
         }
 
         // calculate rotational forces
