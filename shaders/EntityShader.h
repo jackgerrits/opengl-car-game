@@ -1,6 +1,8 @@
 #ifndef ENTITYSHADER_H
 #define ENTITYSHADER_H
 
+#define _USE_MATH_DEFINES
+
 #include "../entities/Entity.h"
 #include "../entities/Light.h"
 #include "../entities/Camera.h"

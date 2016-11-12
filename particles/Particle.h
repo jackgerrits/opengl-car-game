@@ -1,6 +1,8 @@
 #ifndef PARTICLE_H
 #define PARTICLE_H
 
+#define _USE_MATH_DEFINES
+
 #include "../Model.h"
 #include "../entities/Entity.h"
 #include "../Loader.h"

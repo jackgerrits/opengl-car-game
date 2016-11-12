@@ -1,6 +1,8 @@
 #ifndef SHADOW_MAP_H
 #define SHADOW_MAP_H
 
+#define _USE_MATH_DEFINES
+
 #include "entities/Light.h"
 #include "entities/Player.h"
 #include "FrameBuffer.h"

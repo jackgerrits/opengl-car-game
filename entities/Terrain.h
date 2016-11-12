@@ -1,6 +1,10 @@
 #ifndef TERRAIN_H
 #define TERRAIN_H
 
+#define _USE_MATH_DEFINES
+
+#include <cmath>
+
 #include "../Model.h"
 #include "Entity.h"
 #include "../Loader.h"

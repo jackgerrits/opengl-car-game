@@ -1,6 +1,8 @@
 #ifndef WATER_RENDERER_H
 #define WATER_RENDERER_H
 
+#define _USE_MATH_DEFINES
+
 #include "WaterShader.h"
 #include "../entities/Entity.h"
 #include "../Loader.h"

@@ -1,6 +1,8 @@
 #ifndef TERRAINSHADER_H
 #define TERRAINSHADER_H
 
+#define _USE_MATH_DEFINES
+
 #include "../entities/Terrain.h"
 #include "../entities/Light.h"
 #include "../entities/Camera.h"

@@ -1,6 +1,8 @@
 #ifndef SKYBOX_RENDERER_H
 #define SKYBOX_RENDERER_H
 
+#define _USE_MATH_DEFINES
+
 #include "../shaders/SkyboxShader.h"
 #include "../entities/Light.h"
 #include "../entities/Camera.h"

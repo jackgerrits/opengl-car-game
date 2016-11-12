@@ -1,6 +1,7 @@
 #ifndef PARTICLE_SHADER_H
 #define PARTICLE_SHADER_H
 
+#define _USE_MATH_DEFINES
 
 #include "../entities/Camera.h"
 #include "../Model.h"

@@ -1,6 +1,8 @@
 #ifndef SHADERPROGRAM_H
 #define SHADERPROGRAM_H
 
+#define _USE_MATH_DEFINES
+
 #include <cstdio>
 #include <string>
 #include <vector>

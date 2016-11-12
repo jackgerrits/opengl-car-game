@@ -1,6 +1,8 @@
 #ifndef MODEL_H
 #define MODEL_H
 
+#define _USE_MATH_DEFINES
+
 #include "libs/tiny_obj_loader.h"
 
 #include <vector>

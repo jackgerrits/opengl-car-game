@@ -1,6 +1,8 @@
 #ifndef PARTICLE_MANAGER_H
 #define PARTICLE_MANAGER_H
 
+#define _USE_MATH_DEFINES
+
 #include "Particle.h"
 #include "../entities/Camera.h"
 #include "ParticleRenderer.h"

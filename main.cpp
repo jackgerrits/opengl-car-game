@@ -1,4 +1,5 @@
 #define GLFW_INCLUDE_NONE
+#define _USE_MATH_DEFINES
 
 #include "renderers/RenderManager.h"
 

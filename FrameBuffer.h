@@ -1,6 +1,8 @@
 #ifndef FRAME_BUFFER_H
 #define FRAME_BUFFER_H
 
+#define _USE_MATH_DEFINES
+
 #include "entities/Light.h"
 #include "entities/Player.h"
 

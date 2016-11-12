@@ -1,6 +1,8 @@
 #ifndef LOADER_H
 #define LOADER_H
 
+#define _USE_MATH_DEFINES
+
 #include "Model.h"
 #include "libs/stb_image.h"
 #include "libs/tiny_obj_loader.h"

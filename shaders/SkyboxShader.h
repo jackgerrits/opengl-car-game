@@ -1,6 +1,8 @@
 #ifndef SKYBOXSHADER_H
 #define SKYBOXSHADER_H
 
+#define _USE_MATH_DEFINES
+
 #include "../entities/Light.h"
 #include "../entities/Camera.h"
 #include "../Model.h"

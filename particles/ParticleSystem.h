@@ -1,6 +1,8 @@
 #ifndef PARTICLE_SYSTEM_H
 #define PARTICLE_SYSTEM_H
 
+#define _USE_MATH_DEFINES
+
 #include "ParticleManager.h"
 #include "../entities/Camera.h"
 #include "../Model.h"

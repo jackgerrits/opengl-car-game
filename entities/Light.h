@@ -1,12 +1,11 @@
 #ifndef LIGHT_H
 #define LIGHT_H
 
+#define _USE_MATH_DEFINES
 #include <cmath>
 
 #include <GL/glew.h>
 #include <glm/ext.hpp>
-
-#define M_PI 3.14159265
 
 // Lights are a simple struct holding all of the relevant information.
 struct Light {

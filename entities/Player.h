@@ -1,6 +1,8 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
+#define _USE_MATH_DEFINES
+
 #include "Entity.h"
 #include "../Model.h"
 #include "../GameTime.h"
@@ -9,8 +11,10 @@
 #include <assert.h>
 #include <string>
 #include <iostream>
-#include <cmath>
 #include <algorithm>
+
+
+#include <cmath>
 
 #include <GL/glew.h>
 #include <glm/ext.hpp>

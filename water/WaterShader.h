@@ -1,6 +1,8 @@
 #ifndef WATER_SHADER_H
 #define WATER_SHADER_H
 
+#define _USE_MATH_DEFINES
+
 // #include "../entities/Entity.h"
 #include "../entities/Light.h"
 // #include "../entities/Camera.h"

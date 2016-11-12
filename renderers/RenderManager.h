@@ -1,6 +1,8 @@
 #ifndef RENDER_MANAGER_H
 #define RENDER_MANAGER_H
 
+#define _USE_MATH_DEFINES
+
 #include "EntityRenderer.h"
 #include "TerrainRenderer.h"
 #include "SkyboxRenderer.h"

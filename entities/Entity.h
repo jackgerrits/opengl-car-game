@@ -1,6 +1,8 @@
 #ifndef ENTITY_H
 #define ENTITY_H
 
+#define _USE_MATH_DEFINES
+
 #include "../Model.h"
 
 #include <assert.h>

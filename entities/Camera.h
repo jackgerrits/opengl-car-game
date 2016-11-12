@@ -1,13 +1,13 @@
 #ifndef CAMERA_H
 #define CAMERA_H
 
+#define _USE_MATH_DEFINES
+#include <cmath>
+
 #include "../InputState.h"
 #include "Player.h"
 
-#include <cmath>
 #include <glm/glm.hpp>
-
-#define M_PI 3.14159265
 
 class Camera {
 protected:

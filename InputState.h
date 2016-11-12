@@ -8,6 +8,8 @@
 #ifndef _INPUTSTATE_H_
 #define _INPUTSTATE_H_
 
+#define _USE_MATH_DEFINES
+
 struct InputState {    
     InputState(): lMousePressed(false),
                   rMousePressed(false),
