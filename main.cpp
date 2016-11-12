@@ -29,9 +29,15 @@
 #include <glm/glm.hpp>
 #include <glm/ext.hpp>
 #include <glm/gtx/string_cast.hpp>
+#include <cfloat>
+
+// Windows specific headers.
+#ifdef _WIN32
 #include <io.h>
 #include <GL/freeglut.h>
-#include <cfloat>
+#endif
+
+
 
 using namespace std;
 using namespace glm;
