@@ -10,6 +10,8 @@
 #define DEG2RAD(x) ((x)*M_PI/180.0)
 #define RAD2DEG(x) ((x)*180.0/M_PI)
 
+#define M_PI 3.14159265
+
 
 template <typename T>
 T clamp(const T& n, const T& lower, const T& upper) {

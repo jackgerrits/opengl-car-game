@@ -3,6 +3,8 @@
 using namespace std;
 using namespace glm;
 
+#define M_PI 3.14159265
+
 /*
 Car physics calculation has been modified from
     #1 https://github.com/spacejack/carphysics2d

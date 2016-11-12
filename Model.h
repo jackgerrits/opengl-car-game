@@ -11,6 +11,8 @@
 
 #include <GL/glew.h>
 
+void initMaterial(tinyobj::material_t &material);
+
 // Represents a single mesh/shape/vao
 class ModelComponent {
 private:

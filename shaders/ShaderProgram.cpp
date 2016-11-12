@@ -100,12 +100,15 @@ int ShaderProgram::compileShader(const char *ShaderPath, const GLuint ShaderID) 
     glGetShaderiv(ShaderID, GL_INFO_LOG_LENGTH, &InfoLogLength);
     printf("compiled shader %d %d\n", Result, InfoLogLength);
     if ( InfoLogLength > 1 ) {
-        char ShaderErrorMessage[InfoLogLength+1];
+        char* ShaderErrorMessage = new char[InfoLogLength+1];
         glGetShaderInfoLog( ShaderID,
                             InfoLogLength,
                             NULL,
                             &ShaderErrorMessage[0]);
+        
         std::cerr << &ShaderErrorMessage[0] << std::endl;
+
+        delete[] ShaderErrorMessage;
         return 0;
     }
     return 1;

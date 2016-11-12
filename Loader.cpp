@@ -121,7 +121,13 @@ Model Loader::loadModel(std::vector<tinyobj::shape_t> shapes, std::vector<tinyob
 ModelComponent Loader::loadModelComponent(tinyobj::shape_t shape, std::vector<tinyobj::material_t> materials, std::string materialpath){
     GLuint vao = loadVAO(shape);
     int numIndices = shape.mesh.indices.size();
-    tinyobj::material_t material = materials[shape.mesh.material_ids[0]]; // Loads the first material
+
+    // TODO - revisit this. Likely a result of the file not loading on windows requiring this, meaning no textures can load.
+    tinyobj::material_t material;
+    initMaterial(material);
+    if (shape.mesh.material_ids.size() > 0 && shape.mesh.material_ids[0] != -1) {
+        material = materials[shape.mesh.material_ids[0]]; // Loads the first material
+    }
     GLuint textureID = loadTexture(materialpath + material.diffuse_texname);
 
     return ModelComponent(vao, numIndices, textureID, material);

@@ -28,7 +28,8 @@
 #include <glm/glm.hpp>
 #include <glm/ext.hpp>
 #include <glm/gtx/string_cast.hpp>
-#include <unistd.h>
+#include <io.h>
+#include <GL/freeglut.h>
 #include <cfloat>
 
 using namespace std;
