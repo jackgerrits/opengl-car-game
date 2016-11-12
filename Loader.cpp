@@ -87,14 +87,16 @@ Model Loader::loadModel(std::string filepath){
 
     // If the object file is in a different directory, the material file path must be specified.
     // Assumes material file is in the same directory as obj
-    const char* mtlPathChar = NULL;
+    char* mtlPathChar = NULL;
     if(filepath.find("/") != std::string::npos){
-        mtlPathChar = filepath.substr(0, filepath.find_last_of("\\/") + 1).c_str();
+        std::string p = filepath.substr(0, filepath.find_last_of("\\/") + 1);
+        mtlPathChar = new char[p.length() + 1];
+        std::strcpy(mtlPathChar, p.c_str());
     }
 
     std::string mtlPath = "";
     if(mtlPathChar != NULL){
-        mtlPath = mtlPathChar;
+        mtlPath = std::string(mtlPathChar, strnlen(mtlPathChar, 255));
     }
 
     // Load object
@@ -103,8 +105,7 @@ Model Loader::loadModel(std::string filepath){
     if (!err.empty()) std::cerr << err << std::endl;
     if (!ret) exit(1);
 
-
-
+    delete[] mtlPathChar;
     return loadModel(shapes, materials, mtlPath);
 }
 
