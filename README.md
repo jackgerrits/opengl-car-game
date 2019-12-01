@@ -49,4 +49,5 @@ cmake .. -DCMAKE_TOOLCHAIN_FILE="[vcpkg root]\scripts\buildsystems\vcpkg.cmake" 
 ./opengl-car-game basic|physics
 ```
 __basic__ - No intertia, simple turning
+
 __physics__ - uses formula for more realistic driving experience.
