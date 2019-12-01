@@ -11,12 +11,12 @@ Notable features include:
 
 ## Dependencies
 
-### Ubuntu/Debian
+##### Ubuntu/Debian
 ```
 sudo apt-get install freeglut3-dev libglfw3-dev libglew-dev libglm-dev
 ```
 
-### Vcpkg on Windows
+##### Vcpkg on Windows
 ```
 vcpkg install glfw3:x64-windows
 vcpkg install glew:x64-windows
@@ -24,8 +24,9 @@ vcpkg install glm:x64-windows
 vcpkg install freeglut:x64-windows
 ```
 
-## Compilation
+## Build
 
+If dependencies are visible to CMake by default, can build like so:
 ```
 git lfs pull
 mkdir build
@@ -34,7 +35,8 @@ cmake ..
 make
 ```
 
-### CMake using Vcpkg
+Otherwise, you'll need to point CMake to the Vcpkg toolchain file to find the dependencies and specify the triplet. For example on Windows:
+
 ```
 git lfs pull
 cmake .. -DCMAKE_TOOLCHAIN_FILE="[vcpkg root]\scripts\buildsystems\vcpkg.cmake" -DVCPKG_TARGET_TRIPLET=x64-windows
@@ -44,8 +46,7 @@ cmake .. -DCMAKE_TOOLCHAIN_FILE="[vcpkg root]\scripts\buildsystems\vcpkg.cmake" 
 ## Usage
 
 ```
-USAGE: ./driver basic|physics
+./opengl-car-game basic|physics
 ```
 __basic__ - No intertia, simple turning
-
 __physics__ - uses formula for more realistic driving experience.
