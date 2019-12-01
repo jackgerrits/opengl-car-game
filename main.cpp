@@ -123,7 +123,7 @@ GLFWwindow* initialise(){
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
     // Create the window and OpenGL context
-    window = glfwCreateWindow(winX, winY, "CG Assignment 4", NULL, NULL);
+    window = glfwCreateWindow(winX, winY, "OpenGL Car Game", NULL, NULL);
     if (!window) {
         glfwTerminate();
         exit(1);
