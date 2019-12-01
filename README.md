@@ -9,14 +9,14 @@ Notable features include:
 - Water with dynamic reflection and refraction
 - Dynamic particle system
 
-### Dependencies
+## Dependencies
 
-#### Ubuntu/Debian
+### Ubuntu/Debian
 ```
 sudo apt-get install freeglut3-dev libglfw3-dev libglew-dev libglm-dev
 ```
 
-#### Vcpkg on Windows
+### Vcpkg on Windows
 ```
 vcpkg install glfw3:x64-windows
 vcpkg install glew:x64-windows
