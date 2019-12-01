@@ -2,7 +2,7 @@
 
 ![](http://i.imgur.com/GGQdqUS.png)
 
-Simple car game written in c++, using OpenGL 3.3.
+Simple car game written in C++, using OpenGL 3.3.
 
 Notable features include:
 - Shadow mapping
@@ -11,12 +11,12 @@ Notable features include:
 
 ### Dependencies
 
-- OpenGL 3.3
-- GLM
-- GLFW
-- GLEW
+#### Ubuntu/Debian
+```
+sudo apt-get install freeglut3-dev libglfw3-dev libglew-dev libglm-dev
+```
 
-#### Install using Vcpkg on Windows
+#### Vcpkg on Windows
 ```
 vcpkg install glfw3:x64-windows
 vcpkg install glew:x64-windows
@@ -26,15 +26,19 @@ vcpkg install freeglut:x64-windows
 
 ## Compilation
 
-### CMake using Vcpkg
 ```
-cmake .. -DCMAKE_TOOLCHAIN_FILE="[vcpkg root]\scripts\buildsystems\vcpkg.cmake" -DVCPKG_TARGET_TRIPLET=x64-windows
-.\opengl-car-game.sln
+git lfs pull
+mkdir build
+cd build
+cmake ..
+make
 ```
 
-### Make only
+### CMake using Vcpkg
 ```
-make
+git lfs pull
+cmake .. -DCMAKE_TOOLCHAIN_FILE="[vcpkg root]\scripts\buildsystems\vcpkg.cmake" -DVCPKG_TARGET_TRIPLET=x64-windows
+.\opengl-car-game.sln
 ```
 
 ## Usage
