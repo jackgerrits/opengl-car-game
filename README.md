@@ -18,7 +18,7 @@ sudo apt-get install freeglut3-dev libglfw3-dev libglew-dev libglm-dev
 
 ##### Vcpkg on Windows
 ```
-vcpkg --triplet x64-windows glfw3 glew glm freeglut
+vcpkg install --triplet x64-windows glfw3 glew glm freeglut
 ```
 
 ## Build
