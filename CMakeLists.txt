@@ -2,6 +2,14 @@ cmake_minimum_required(VERSION 3.8)
 
 project(opengl-car-game LANGUAGES CXX)
 
+add_library(tiny_obj_loader EXCLUDE_FROM_ALL)
+target_sources(tiny_obj_loader PRIVATE libs/tiny_obj_loader.cpp libs/tiny_obj_loader.h)
+target_include_directories(tiny_obj_loader PUBLIC ${CMAKE_CURRENT_LIST_DIR}/libs)
+
+add_library(stb_image EXCLUDE_FROM_ALL)
+target_sources(stb_image PRIVATE libs/stb_image.cpp libs/stb_image.h)
+target_include_directories(stb_image PUBLIC ${CMAKE_CURRENT_LIST_DIR}/libs)
+
 set(all_headers
   entities/Camera.h
   entities/Entity.h
@@ -11,8 +19,6 @@ set(all_headers
   FrameBuffer.h
   GameTime.h
   InputState.h
-  libs/stb_image.h
-  libs/tiny_obj_loader.h
   Loader.h
   Model.h
   particles/Particle.h
@@ -40,8 +46,6 @@ set(all_sources
   entities/Terrain.cpp
   FrameBuffer.cpp
   GameTime.cpp
-  libs/stb_image.cpp
-  libs/tiny_obj_loader.cpp
   Loader.cpp
   main.cpp
   Model.cpp
@@ -70,7 +74,7 @@ find_package(glm REQUIRED)
 find_package(GLUT REQUIRED)
 
 add_executable(opengl-car-game ${all_sources} ${all_headers})
-target_link_libraries(opengl-car-game PRIVATE GLUT::GLUT OpenGL::GL glfw GLEW::GLEW glm)
+target_link_libraries(opengl-car-game PRIVATE GLUT::GLUT OpenGL::GL glfw GLEW::GLEW glm stb_image tiny_obj_loader)
 
 # Copy assets
 add_custom_command(TARGET opengl-car-game POST_BUILD

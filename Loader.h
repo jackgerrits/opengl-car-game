@@ -4,8 +4,8 @@
 #define _USE_MATH_DEFINES
 
 #include "Model.h"
-#include "libs/stb_image.h"
-#include "libs/tiny_obj_loader.h"
+#include <stb_image.h>
+#include <tiny_obj_loader.h>
 
 #include <sys/stat.h>
 #include <GL/glew.h>

@@ -3,7 +3,7 @@
 
 #define _USE_MATH_DEFINES
 
-#include "libs/tiny_obj_loader.h"
+#include <tiny_obj_loader.h>
 
 #include <vector>
 #include <cfloat>
