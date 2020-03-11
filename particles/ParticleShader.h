@@ -15,7 +15,9 @@
 #include <fstream>
 
 #include <glm/glm.hpp>
+#pragma warning(push, 0)
 #include <glm/ext.hpp>
+#pragma warning(pop)
 #include <GL/glew.h>
 
 const std::string PARTICLE_VERTEX_SHADER = "particles/particle.vert";
@@ -36,4 +38,3 @@ public:
 };
 
 #endif //PARTICLE_SHADER_H
-

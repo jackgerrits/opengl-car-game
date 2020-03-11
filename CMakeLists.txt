@@ -4,11 +4,19 @@ project(opengl-car-game LANGUAGES CXX)
 
 add_library(tiny_obj_loader EXCLUDE_FROM_ALL)
 target_sources(tiny_obj_loader PRIVATE libs/tiny_obj_loader.cpp libs/tiny_obj_loader.h)
-target_include_directories(tiny_obj_loader PUBLIC ${CMAKE_CURRENT_LIST_DIR}/libs)
+target_include_directories(tiny_obj_loader PRIVATE ${CMAKE_CURRENT_LIST_DIR}/libs SYSTEM INTERFACE ${CMAKE_CURRENT_LIST_DIR}/libs)
 
 add_library(stb_image EXCLUDE_FROM_ALL)
 target_sources(stb_image PRIVATE libs/stb_image.cpp libs/stb_image.h)
-target_include_directories(stb_image PUBLIC ${CMAKE_CURRENT_LIST_DIR}/libs)
+target_include_directories(stb_image PRIVATE ${CMAKE_CURRENT_LIST_DIR}/libs SYSTEM INTERFACE ${CMAKE_CURRENT_LIST_DIR}/libs)
+
+if(MSVC)
+  target_compile_options(stb_image PRIVATE /w)
+  target_compile_options(tiny_obj_loader PRIVATE /w)
+else(MSVC)
+  target_compile_options(stb_image PRIVATE -w)
+  target_compile_options(tiny_obj_loader PRIVATE -w)
+endif(MSVC)
 
 set(all_headers
   entities/Camera.h
@@ -75,6 +83,13 @@ find_package(GLUT REQUIRED)
 
 add_executable(opengl-car-game ${all_sources} ${all_headers})
 target_link_libraries(opengl-car-game PRIVATE GLUT::GLUT OpenGL::GL glfw GLEW::GLEW glm stb_image tiny_obj_loader)
+
+# Turn on more warnings
+if(MSVC)
+  target_compile_options(opengl-car-game PRIVATE /W4)
+else(MSVC)
+  target_compile_options(opengl-car-game PRIVATE -Wall -Wextra -Wpedantic)
+endif(MSVC)
 
 # Copy assets
 add_custom_command(TARGET opengl-car-game POST_BUILD

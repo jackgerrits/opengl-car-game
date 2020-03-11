@@ -15,7 +15,9 @@
 #include <fstream>
 
 #include <glm/glm.hpp>
+#pragma warning(push, 0)
 #include <glm/ext.hpp>
+#pragma warning(pop)
 #include <GL/glew.h>
 
 class ParticleRenderer {
@@ -29,4 +31,3 @@ public:
 };
 
 #endif //PARTICLE_RENDERER_H
-

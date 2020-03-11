@@ -16,7 +16,9 @@
 #include <fstream>
 
 #include <glm/glm.hpp>
+#pragma warning(push, 0)
 #include <glm/ext.hpp>
+#pragma warning(pop)
 #include <GL/glew.h>
 
 const std::string ENTITY_VERTEX_SHADER = "shaders/entity.vert";
@@ -61,4 +63,3 @@ public:
 };
 
 #endif //ENTITYSHADER_H
-

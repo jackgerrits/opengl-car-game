@@ -5,11 +5,13 @@
 #include <cmath>
 
 #include <GL/glew.h>
+#pragma warning(push, 0)
 #include <glm/ext.hpp>
+#pragma warning(pop)
 
 // Lights are a simple struct holding all of the relevant information.
 struct Light {
-    Light(): 
+    Light():
         position(glm::vec4(0.0f)),
         specular(glm::vec3(0.0f)),
         diffuse(glm::vec3(0.0f)),

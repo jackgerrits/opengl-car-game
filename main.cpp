@@ -27,7 +27,9 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
+#pragma warning(push, 0)
 #include <glm/ext.hpp>
+#pragma warning(pop)
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/string_cast.hpp>
 #include <cfloat>
@@ -35,7 +37,9 @@
 // Windows specific headers.
 #ifdef _WIN32
 #include <io.h>
+#pragma warning(push, 0)
 #include <GL/freeglut.h>
+#pragma warning(pop)
 #endif
 
 

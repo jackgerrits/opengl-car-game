@@ -13,13 +13,15 @@
 #include <iostream>
 
 #include <glm/glm.hpp>
+#pragma warning(push, 0)
 #include <glm/ext.hpp>
+#pragma warning(pop)
 #include <GL/glew.h>
 
 /*
 https://www.youtube.com/playlist?list=PLRIWtICgwaX23jiqVByUs0bqhnalNTNZh
 
-This tutorial was used to implement water. 
+This tutorial was used to implement water.
 Therefore, there are similarities to the code presented there, however I did try and implement it with my own spin and differences.
 But especially in the shaders it isn't THAT different, so I am referencing because it is the work of another, but it only makes up a small bit of the overall project.
 */
@@ -42,4 +44,3 @@ public:
 };
 
 #endif //WATER_RENDERER_H
-

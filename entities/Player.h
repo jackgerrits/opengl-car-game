@@ -17,7 +17,9 @@
 #include <cmath>
 
 #include <GL/glew.h>
+#pragma warning(push, 0)
 #include <glm/ext.hpp>
+#pragma warning(pop)
 #include <GLFW/glfw3.h>
 
 class Player : public Entity {
@@ -30,7 +32,7 @@ class Player : public Entity {
         glm::vec2 velocity_c;
         glm::vec2 accel;
         glm::vec2 accel_c;
-        
+
         float yawRate;
 
         // Input parameters

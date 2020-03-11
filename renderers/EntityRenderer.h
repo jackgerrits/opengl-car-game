@@ -15,7 +15,9 @@
 #include <fstream>
 
 #include <glm/glm.hpp>
+#pragma warning(push, 0)
 #include <glm/ext.hpp>
+#pragma warning(pop)
 #include <GL/glew.h>
 
 class EntityRenderer {
@@ -30,4 +32,3 @@ public:
 };
 
 #endif //ENTITY_RENDERER_H
-
