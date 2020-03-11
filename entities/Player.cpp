@@ -50,6 +50,10 @@ Player::Player(Model* model, Terrain* terrain, bool basic_controls): Entity(mode
     this->brake_input = 0.0f;
     this->ebrake_input = 0.0f;
     this->basic_controls = basic_controls;
+    this->velocity = { 0.f, 0.f };
+    this->velocity_c  = { 0.f, 0.f };
+    this->accel = { 0.f, 0.f };
+    this->accel_c = { 0.f, 0.f };
     if(basic_controls){
         ROTATION_SPEED = (float)M_PI;
     } else {
