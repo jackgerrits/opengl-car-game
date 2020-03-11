@@ -140,7 +140,8 @@ GLFWwindow* initialise(){
     glfwSwapInterval(1);
     // Initialize GLEW
     glewExperimental = true; // Needed for core profile
-    assert(glewInit() == GLEW_OK);
+    auto init_value = glewInit();
+    assert(init_value  == GLEW_OK);
     glfwGetFramebufferSize(window, &winX, &winY);
 
     // Sets the (background) colour for each time the frame-buffer
