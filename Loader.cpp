@@ -42,7 +42,7 @@ glm::vec3 getVertex(const std::vector<float>& vertices, int index){
             vertices[pos+2]);
 }
 
-std::vector<float> Loader::generateNormals(std::vector<float> vertices, std::vector<unsigned int> indices){
+std::vector<float> Loader::generateNormals(const std::vector<float>& vertices, const std::vector<unsigned int>& indices){
     std::vector<float> resultNormals(vertices.size(), 0.0f);
 
     // Iterate over each triangle as defined in indices
@@ -82,7 +82,7 @@ inline bool Loader::fileExists(const std::string& name) {
     return (stat (name.c_str(), &buffer) == 0);
 }
 
-Model Loader::loadModel(std::string filepath){
+Model Loader::loadModel(const std::string& filepath){
     // Declare containers for object values
     std::vector<tinyobj::shape_t> shapes;
     std::vector<tinyobj::material_t> materials;
@@ -111,7 +111,7 @@ Model Loader::loadModel(std::string filepath){
     return loadModel(shapes, materials, mtlPath);
 }
 
-Model Loader::loadModel(std::vector<tinyobj::shape_t> shapes, std::vector<tinyobj::material_t> materials, std::string materialpath){
+Model Loader::loadModel(const std::vector<tinyobj::shape_t>& shapes, const std::vector<tinyobj::material_t>& materials, const std::string& materialpath){
     Model model;
     for(size_t i = 0; i < shapes.size(); i++){
         ModelComponent component = loadModelComponent(shapes[i], materials, materialpath);
@@ -121,7 +121,7 @@ Model Loader::loadModel(std::vector<tinyobj::shape_t> shapes, std::vector<tinyob
     return model;
 }
 
-ModelComponent Loader::loadModelComponent(tinyobj::shape_t shape, std::vector<tinyobj::material_t> materials, std::string materialpath){
+ModelComponent Loader::loadModelComponent(const tinyobj::shape_t& shape, const std::vector<tinyobj::material_t>& materials, const std::string& materialpath){
     GLuint vao = loadVAO(shape);
     int numIndices = shape.mesh.indices.size();
 
@@ -136,7 +136,7 @@ ModelComponent Loader::loadModelComponent(tinyobj::shape_t shape, std::vector<ti
     return ModelComponent(vao, numIndices, textureID, material);
 }
 
-ModelComponent Loader::loadModelComponent(std::vector<float> vertices, std::vector<unsigned int> indices, std::vector<float> texCoords){
+ModelComponent Loader::loadModelComponent(const std::vector<float>& vertices, const std::vector<unsigned int>& indices, const std::vector<float>& texCoords){
     GLuint vao = loadVAO(vertices, indices, texCoords);
     int numIndices = indices.size();
     GLuint textureID = loadDefaultTexture();
@@ -144,7 +144,7 @@ ModelComponent Loader::loadModelComponent(std::vector<float> vertices, std::vect
     return ModelComponent(vao, numIndices, textureID);
 }
 
-ModelComponent Loader::loadModelComponent(std::vector<float> vertices, std::vector<unsigned int> indices, std::vector<float> texCoords, std::vector<float> normals){
+ModelComponent Loader::loadModelComponent(const std::vector<float>& vertices, const std::vector<unsigned int>& indices, const std::vector<float>& texCoords, const std::vector<float>& normals){
     GLuint vao = loadVAO(vertices, indices, texCoords,normals);
     int numIndices = indices.size();
     GLuint textureID = loadDefaultTexture();
@@ -152,7 +152,7 @@ ModelComponent Loader::loadModelComponent(std::vector<float> vertices, std::vect
     return ModelComponent(vao, numIndices, textureID);
 }
 
-ModelComponent Loader::loadModelComponent(std::vector<float> vertices, std::vector<unsigned int> indices, std::vector<float> texCoords, std::string texturepath){
+ModelComponent Loader::loadModelComponent(const std::vector<float>& vertices, const std::vector<unsigned int>& indices, const std::vector<float>& texCoords, const std::string& texturepath){
     GLuint vao = loadVAO(vertices, indices, texCoords);
     int numIndices = indices.size();
     GLuint textureID = loadTexture(texturepath);
@@ -160,7 +160,7 @@ ModelComponent Loader::loadModelComponent(std::vector<float> vertices, std::vect
     return ModelComponent(vao, numIndices, textureID);
 }
 
-ModelComponent Loader::loadModelComponent(std::vector<float> vertices, std::vector<unsigned int> indices, std::vector<float> texCoords, std::vector<float> normals, std::string texturepath){
+ModelComponent Loader::loadModelComponent(const std::vector<float>& vertices, const std::vector<unsigned int>& indices, const std::vector<float>& texCoords, const std::vector<float>& normals, const std::string& texturepath){
     GLuint vao = loadVAO(vertices, indices, texCoords,normals);
     int numIndices = indices.size();
     GLuint textureID = loadTexture(texturepath);
@@ -168,7 +168,7 @@ ModelComponent Loader::loadModelComponent(std::vector<float> vertices, std::vect
     return ModelComponent(vao, numIndices, textureID);
 }
 
-GLuint Loader::loadVAO(std::vector<float> vertices, std::vector<unsigned int> indices, std::vector<float> texCoords){
+GLuint Loader::loadVAO(const std::vector<float>& vertices, const std::vector<unsigned int>& indices, const std::vector<float>& texCoords){
     GLuint vaoHandle;
     glGenVertexArrays(1, &vaoHandle);
     glBindVertexArray(vaoHandle);
@@ -185,7 +185,7 @@ GLuint Loader::loadVAO(std::vector<float> vertices, std::vector<unsigned int> in
     return vaoHandle;
 }
 
-GLuint Loader::loadVAO(std::vector<float> vertices, std::vector<unsigned int> indices){
+GLuint Loader::loadVAO(const std::vector<float>& vertices, const std::vector<unsigned int>& indices){
     GLuint vaoHandle;
     glGenVertexArrays(1, &vaoHandle);
     glBindVertexArray(vaoHandle);
@@ -201,7 +201,7 @@ GLuint Loader::loadVAO(std::vector<float> vertices, std::vector<unsigned int> in
     return vaoHandle;
 }
 
-GLuint Loader::loadVAO(std::vector<float> vertices, std::vector<unsigned int> indices, std::vector<float> texCoords, std::vector<float> normals){
+GLuint Loader::loadVAO(const std::vector<float>& vertices, const std::vector<unsigned int>& indices, const std::vector<float>& texCoords, const std::vector<float>& normals){
     GLuint vaoHandle;
     glGenVertexArrays(1, &vaoHandle);
     glBindVertexArray(vaoHandle);
@@ -219,7 +219,7 @@ GLuint Loader::loadVAO(std::vector<float> vertices, std::vector<unsigned int> in
     return vaoHandle;
 }
 
-GLuint Loader::setupBuffer(unsigned int buffer, std::vector<float> values, int attributeIndex, int dataDimension){
+GLuint Loader::setupBuffer(unsigned int buffer, const std::vector<float>& values, int attributeIndex, int dataDimension){
     glBindBuffer(GL_ARRAY_BUFFER, buffer);
     glBufferData(GL_ARRAY_BUFFER,
                  sizeof(float) * values.size(),
@@ -230,7 +230,7 @@ GLuint Loader::setupBuffer(unsigned int buffer, std::vector<float> values, int a
     return buffer;
 }
 
-GLuint Loader::setupIndicesBuffer(unsigned int buffer, std::vector<unsigned int> values){
+GLuint Loader::setupIndicesBuffer(unsigned int buffer, const std::vector<unsigned int>& values){
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffer);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER,
                  sizeof(unsigned int) * values.size(),
@@ -239,15 +239,18 @@ GLuint Loader::setupIndicesBuffer(unsigned int buffer, std::vector<unsigned int>
     return buffer;
 }
 
-GLuint Loader::loadVAO(tinyobj::shape_t shape){
+GLuint Loader::loadVAO(const tinyobj::shape_t& shape){
     // If texcoords is null, set it to some dummy values
     if (shape.mesh.texcoords.size() == 0) {
+        auto shapeCopy = shape;
         std::vector<float> texVec;
-        for(size_t i = 0; i < shape.mesh.positions.size(); i+=3){
+        for(size_t i = 0; i < shapeCopy.mesh.positions.size(); i+=3){
             texVec.push_back(0.0f);
             texVec.push_back(0.0f);
         }
-        shape.mesh.texcoords = texVec;
+        shapeCopy.mesh.texcoords = texVec;
+        // Call this function again with a shape that has textcoords.
+        return loadVAO(shapeCopy);
     }
 
     return loadVAO(shape.mesh.positions,
@@ -256,7 +259,7 @@ GLuint Loader::loadVAO(tinyobj::shape_t shape){
         shape.mesh.normals);
 }
 
-Image Loader::loadImage(std::string filepath){
+Image Loader::loadImage(const std::string& filepath){
     int x, y, n;
     unsigned char *data = stbi_load(
         filepath.c_str(),   // char* filepath
@@ -269,7 +272,7 @@ Image Loader::loadImage(std::string filepath){
     return Image(data, x,y,n);
 }
 
-GLuint Loader::loadCubemapTexture(std::vector<std::string> filenames){
+GLuint Loader::loadCubemapTexture(const std::vector<std::string>& filenames){
     if(filenames.size() != 6){
         std::cerr << "[Loader][Error] Cubemap requires 6 texture files." << std::endl;
         exit(1);
@@ -305,7 +308,7 @@ GLuint Loader::loadCubemapTexture(std::vector<std::string> filenames){
     return textureID;
 }
 
-GLuint Loader::loadTexture(std::string filepath){
+GLuint Loader::loadTexture(const std::string& filepath){
     if (loadedTextures.count(filepath)){
         std::cout << "[Loader] '" << filepath << "' already loaded, using cached texture." << std::endl;
         return loadedTextures[filepath];
@@ -330,7 +333,7 @@ GLuint Loader::loadTexture(std::string filepath){
     return textureID;
 }
 
-GLuint Loader::loadTextureData(GLubyte *data, int x, int y, int n, GLenum textureUnit){
+GLuint Loader::loadTextureData(GLubyte* data, int x, int y, int n, GLenum textureUnit){
     GLuint textureID;
 
     glActiveTexture(textureUnit);
