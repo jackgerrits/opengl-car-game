@@ -1,5 +1,7 @@
 #include "Player.h"
 
+#include "../constants.h"
+
 using namespace std;
 using namespace glm;
 
@@ -55,7 +57,7 @@ Player::Player(Model* model, Terrain* terrain, bool basic_controls): Entity(mode
     this->accel = { 0.f, 0.f };
     this->accel_c = { 0.f, 0.f };
     if(basic_controls){
-        ROTATION_SPEED = (float)M_PI;
+        ROTATION_SPEED = (float)constants::PI;
     } else {
         ROTATION_SPEED = 0.6f;
     }
@@ -86,10 +88,10 @@ bool Player::update(){
     if(basic_controls){
         rotateY(steerAngle * dt);
 
-        if(yRot > (float)M_PI*2){
-            yRot -= M_PI*2;
-        } else if (yRot < (float)-M_PI*2){
-            yRot += M_PI*2;
+        if(yRot > (float)constants::PI*2){
+            yRot -= constants::PI*2;
+        } else if (yRot < (float)-constants::PI*2){
+            yRot += constants::PI*2;
         }
 
         float distance = (throttle_input - brake_input) *  MOVE_SPEED * dt;
@@ -122,8 +124,8 @@ bool Player::update(){
         float tireGripFront = tireGrip;
         float tireGripRear = tireGrip * (1.0 - ebrake_input * (1.0 - lockGrip)); // reduce rear grip when ebrake is on
 
-        float frictionForceFront_cy = clamp(-cornerStiffnessFront * slipAngleFront, -tireGripFront, tireGripFront) * axleWeightFront;
-        float frictionForceRear_cy = clamp(-cornerStiffnessRear * slipAngleRear, -tireGripRear, tireGripRear) * axleWeightRear;
+        float frictionForceFront_cy = std::clamp(-cornerStiffnessFront * slipAngleFront, -tireGripFront, tireGripFront) * axleWeightFront;
+        float frictionForceRear_cy = std::clamp(-cornerStiffnessRear * slipAngleRear, -tireGripRear, tireGripRear) * axleWeightRear;
 
         //  Get amount of brake/throttle from our inputs
         float brake = std::min(brake_input * brakeForce + ebrake_input * eBrakeForce, brakeForce);
@@ -182,10 +184,10 @@ bool Player::update(){
     }
 
     // Wrap rotation around once it reaches 2*pi
-    if(yRot > (float)M_PI*2){
-        yRot -= M_PI*2;
-    } else if (yRot < (float)-M_PI*2){
-        yRot += M_PI*2;
+    if(yRot > (float)constants::PI*2){
+        yRot -= constants::PI*2;
+    } else if (yRot < (float)-constants::PI*2){
+        yRot += constants::PI*2;
     }
 
     // Assumes constant scale
@@ -211,7 +213,7 @@ float Player::smoothSteering(float inputAngle){
     float CHANGE_MODIFIER = 12.0f;
 
     if(abs(inputAngle) > 0.001 ){
-        smoothedAngle = clamp((float)(steerAngle + inputAngle * dt * CHANGE_MODIFIER), -ROTATION_SPEED, ROTATION_SPEED);
+        smoothedAngle = std::clamp((float)(steerAngle + inputAngle * dt * CHANGE_MODIFIER), -ROTATION_SPEED, ROTATION_SPEED);
     } else {
         //  No steer input - move toward centre (0)
         if( steerAngle > 0 ) {

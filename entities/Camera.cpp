@@ -3,16 +3,12 @@
 #include <stdio.h>
 #include <iostream>
 #include <algorithm>
+#include "../constants.h"
 
-#include "glm/gtc/matrix_transform.hpp"
+#include <glm/gtc/matrix_transform.hpp>
 
-#define DEG2RAD(x) ((x)*M_PI/180.0)
-#define RAD2DEG(x) ((x)*180.0/M_PI)
-
-template <typename T>
-T clamp(const T& n, const T& lower, const T& upper) {
-  return std::max(lower, std::min(n, upper));
-}
+#define DEG2RAD(x) ((x)*constants::PI/180.0)
+#define RAD2DEG(x) ((x)*180.0/constants::PI)
 
 Camera::Camera()
     : position(glm::vec3(0.0f))
@@ -27,10 +23,10 @@ const glm::mat4 Camera::getViewMtx() const {
 glm::vec3 Camera::getPosition(){
     return position;
 }
-void Camera::setPosition(glm::vec3 position){
-    this->position = position;
+void Camera::setPosition(glm::vec3 pos){
+    this->position = pos;
 }
-void Camera::update(InputState &input){
+void Camera::update(InputState& /*input*/){
     // Input has no effect in the base object.
 }
 
@@ -61,25 +57,25 @@ glm::mat4 Camera::getInverted(float WATER_HEIGHT){
 PlayerCamera::PlayerCamera(Player* player) : Camera(){
     this->player = player;
     this->distance = 5.0f;
-    this->pitch = (float)M_PI/8;
+    this->pitch = (float)constants::PI/8;
     this->angleAround = 0.0f;
 }
 
 void PlayerCamera::update(InputState &input){
     distance -= input.scrollDeltaY;
-    distance = clamp(distance, 2.5f, 20.0f);
+    distance = std::clamp(distance, 2.5f, 20.0f);
 
     if(input.lMousePressed){
         pitch -= input.deltaY / 50;
-        pitch = clamp(pitch, 0.1f, (float)M_PI/2 - 0.0001f);
+        pitch = std::clamp(pitch, 0.1f, constants::PI/2 - 0.0001f);
 
         angleAround -= input.deltaX / 50.0f;
 
-        if(angleAround > (float)2*M_PI){
-            angleAround -= (float)2*M_PI;
+        if(angleAround > 2*constants::PI){
+            angleAround -= 2*constants::PI;
         }
-        if(angleAround < (float)-2*M_PI){
-            angleAround += (float)2*M_PI;
+        if(angleAround < -2*constants::PI){
+            angleAround += 2*constants::PI;
         }
     }
     input.scrollDeltaY = 0.0;

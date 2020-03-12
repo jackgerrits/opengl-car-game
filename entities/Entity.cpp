@@ -1,5 +1,9 @@
 #include "Entity.h"
 
+#pragma warning(push, 0)
+#include <glm/ext.hpp>
+#pragma warning(pop)
+
 using namespace std;
 
 // Constructor accepts a model defining vertex, colour and index data for this entity.

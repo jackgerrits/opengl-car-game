@@ -9,9 +9,7 @@
 #include <string>
 #include <iostream>
 #include <GL/glew.h>
-#pragma warning(push, 0)
-#include <glm/ext.hpp>
-#pragma warning(pop)
+#include <glm/glm.hpp>
 
 class Entity {
 protected:

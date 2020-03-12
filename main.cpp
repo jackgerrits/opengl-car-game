@@ -14,6 +14,7 @@
 #include "InputState.h"
 #include "GameTime.h"
 #include "FrameBuffer.h"
+#include "constants.h"
 
 #include "particles/ParticleManager.h"
 #include "particles/ParticleSystem.h"
@@ -37,9 +38,9 @@
 // Windows specific headers.
 #ifdef _WIN32
 #include <io.h>
-#pragma warning(push, 0)
-#include <GL/freeglut.h>
-#pragma warning(pop)
+//#pragma warning(push, 0)
+//#include <GL/freeglut.h>
+//#pragma warning(pop)
 #endif
 
 
@@ -60,7 +61,7 @@ Player* player;
 
 
 // Error callback for GLFW. Simply prints error message to stderr.
-void error_callback(int error, const char* description) {
+void error_callback(int /*error*/, const char* description) {
     fputs(description, stderr);
 }
 
@@ -75,17 +76,17 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
     player->handleKeyboardEvents(window, key, scancode, action, mods);
 }
 
-void mouse_pos_callback(GLFWwindow* window, double x, double y) {
+void mouse_pos_callback(GLFWwindow* /*window*/, double x, double y) {
     // Use a global data structure to store mouse info
     // We can then use it however we want
     input.update((float)x, (float)y);
 }
 
-void scroll_callback(GLFWwindow* window, double xoffset, double yoffset){
+void scroll_callback(GLFWwindow* /*window*/, double xoffset, double yoffset){
     input.updateScroll((float)xoffset, (float)yoffset);
 }
 
-void mouse_button_callback(GLFWwindow* window, int button, int action, int mods) {
+void mouse_button_callback(GLFWwindow* /*window*/, int button, int action, int /*mods*/) {
     if (button == GLFW_MOUSE_BUTTON_RIGHT && action == GLFW_PRESS) {
         input.rMousePressed = true;
     }
@@ -100,14 +101,14 @@ void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
     }
 }
 
-void setProjection(int winX, int winY) {
+void setProjection(int inputWinX, int inputWinY) {
     // float aspect = (float) winX / winY;
     // FOV angle is in radians
-    projection = glm::perspective(M_PI/4.0, double(winX) / double(winY), 1.0, 800.0);
+    projection = glm::perspective(constants::PI/4.0, double(inputWinX) / double(inputWinY), 1.0, 800.0);
 }
 
 // Called when the window is resized.
-void reshape_callback(GLFWwindow *window, int x, int y ) {
+void reshape_callback(GLFWwindow* /*window*/, int x, int y ) {
     winX = x;
     winY = y;
 
@@ -180,7 +181,7 @@ int main(int argc, char **argv) {
         cout << "Controls: \n\tw - throttle\n\ts - brake\n\ta/d - steer left/right\n\tspace - handbrake" << endl;
     }
 
-    srand(time(NULL));
+    srand(static_cast<unsigned int>(time(NULL)));
 
     // Define skybox textures
     // The current skybox is unfortunately quite low res and has compression issues.
@@ -225,7 +226,7 @@ int main(int argc, char **argv) {
     player = new Player(&playerModel, terrain, basic_controls);
     player->setScale(vec3(0.4f, 0.4f, 0.4f));
     player->setPosition(terrain->getPositionFromPixel(555, 751));
-    player->setRotationY((float)5*M_PI/8);
+    player->setRotationY((float)5.f*constants::PI/8.f);
     entities.push_back(player);
 
     // Initialisation of camera, projection matrix
@@ -245,7 +246,7 @@ int main(int argc, char **argv) {
     headlight->specular =vec3(0.8f, 0.8f, 0.4f);
     headlight->diffuse = vec3(0.8f, 0.8f, 0.4f);
     headlight->coneDirection = vec3(0.0f, -1.0f, 0.0f);
-    headlight->coneAngle = M_PI/4;
+    headlight->coneAngle = constants::PI/4.f;
     headlight->radius = 10.0f;
     lights.push_back(headlight);
 
@@ -262,6 +263,8 @@ int main(int argc, char **argv) {
                 ent = new Entity(&stumpModel);
                 ent->setScale(glm::vec3(0.5, 0.5, 0.5));
                 break;
+            default:
+                throw std::runtime_error("Unreachable statement");
         }
 
         ent->setPosition(terrain->getPositionFromPixel(rand() % 1024, rand() % 1024));
@@ -302,12 +305,12 @@ int main(int argc, char **argv) {
     for(float z = -Terrain::TERRAIN_SIZE/2; z < Terrain::TERRAIN_SIZE/2; z += fenceSize){
         Entity* fence = new Entity(&fenceModel);
         fence->setPosition(vec3(Terrain::TERRAIN_SIZE/2 - 1.0f, 0.0f, z));
-        fence->rotateY((float)-M_PI/2);
+        fence->rotateY((float)-constants::PI/2);
         entities.push_back(fence);
 
         fence = new Entity(&fenceModel);
         fence->setPosition(vec3(-Terrain::TERRAIN_SIZE/2 + 1.0f, 0.0f, z));
-        fence->rotateY((float)-M_PI/2);
+        fence->rotateY((float)-constants::PI/2);
         entities.push_back(fence);
     }
 

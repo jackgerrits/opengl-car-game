@@ -1,5 +1,7 @@
 #include "Loader.h"
 
+#include <stb_image.h>
+
 #define VALS_PER_VERT 3
 #define VALS_PER_NORMAL 3
 #define VALS_PER_TEX 2
@@ -21,12 +23,12 @@ glm::vec3 Image::getPixel(int x, int y){
 }
 
 // Initialise Loader singleton
-Loader* Loader::loader = NULL;
+Loader* Loader::loader = nullptr;
 
 Loader::Loader(){}
 
 Loader* Loader::getLoader(){
-    if(loader == NULL){
+    if(loader == nullptr){
         loader = new Loader();
     }
 

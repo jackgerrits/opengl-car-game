@@ -4,7 +4,6 @@
 #define _USE_MATH_DEFINES
 
 #include "Model.h"
-#include <stb_image.h>
 #include <tiny_obj_loader.h>
 
 #include <sys/stat.h>

@@ -1,10 +1,8 @@
 #ifndef LIGHT_H
 #define LIGHT_H
 
-#define _USE_MATH_DEFINES
-#include <cmath>
+#include "../constants.h"
 
-#include <GL/glew.h>
 #pragma warning(push, 0)
 #include <glm/ext.hpp>
 #pragma warning(pop)
@@ -17,7 +15,7 @@ struct Light {
         diffuse(glm::vec3(0.0f)),
         ambient(glm::vec3(0.0f)),
         radius(0.0f),
-        coneAngle((float)M_PI),
+        coneAngle((float)constants::PI),
         coneDirection(glm::vec3(0.0f)){
     }
 

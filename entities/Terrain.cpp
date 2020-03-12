@@ -1,14 +1,16 @@
 #include "Terrain.h"
 
+#include "../constants.h"
+
 using namespace std;
 
 const float Terrain::TERRAIN_SIZE = 301.43f;    // Set so that the fences fit better
 const float Terrain::TERRAIN_MAX_HEIGHT = 10.0f;
 
 // Constructor accepts a model defining vertex, colour and index data for this Terrain.
-Terrain::Terrain(Model* model, std::vector<GLuint> textures, Image heightMap) : 
-    Entity(model), 
-    textures(textures), 
+Terrain::Terrain(Model* model, std::vector<GLuint> textures, Image heightMap) :
+    Entity(model),
+    textures(textures),
     heightMap(heightMap) {
 }
 
@@ -133,7 +135,7 @@ float Terrain::getAngleX(float x, float y, float rotation){
 }
 
 float Terrain::getAngleZ(float x, float y, float rotation){
-    return getAngle(x,y,rotation, (float)M_PI/2);
+    return getAngle(x,y,rotation, (float)constants::PI/2);
 }
 
 // Returns the angle that should be applied for the car given its direction and heading to conform to terrain.
@@ -143,27 +145,27 @@ float Terrain::getAngle(float x, float z, float rotation, float offset){
 
     int x_nxt = 0;
     int z_nxt = 0;
-    rotation += (float)M_PI/8; // apply small rotation to offset
+    rotation += (float)constants::PI/8; // apply small rotation to offset
     rotation -= offset; // Allows to test both front and next to car
-    if(rotation < 0) rotation += (float)M_PI *2;
-    if(rotation > 0 && rotation <= (float)M_PI/4){ // North
+    if(rotation < 0) rotation += (float)constants::PI *2;
+    if(rotation > 0 && rotation <= (float)constants::PI/4){ // North
         z_nxt = -1;
-    } else if(rotation > (float)M_PI/4 && rotation <= (float)M_PI/2){ // North west
+    } else if(rotation > (float)constants::PI/4 && rotation <= (float)constants::PI/2){ // North west
         x_nxt = -1;
         z_nxt = -1;
-    }else if(rotation > (float)M_PI/2 && rotation <= (float)3*M_PI/4){ // West
+    }else if(rotation > (float)constants::PI/2 && rotation <= (float)3*constants::PI/4){ // West
         x_nxt = -1;
-    }else if(rotation > (float)3*M_PI/4 && rotation <= (float)M_PI){    // South west
+    }else if(rotation > (float)3*constants::PI/4 && rotation <= (float)constants::PI){    // South west
         x_nxt = -1;
         z_nxt = +1;
-    }else if(rotation > (float)M_PI && rotation <= (float)5*M_PI/4){    // South
+    }else if(rotation > (float)constants::PI && rotation <= (float)5*constants::PI/4){    // South
         z_nxt = +1;
-    }else if(rotation > (float)5*M_PI/4 && rotation <= (float)3*M_PI/2){ // South east
+    }else if(rotation > (float)5*constants::PI/4 && rotation <= (float)3*constants::PI/2){ // South east
         x_nxt = +1;
         z_nxt = +1;
-    }else if(rotation > (float)3*M_PI/2 && rotation <= (float)7*M_PI/4){    // East
+    }else if(rotation > (float)3*constants::PI/2 && rotation <= (float)7*constants::PI/4){    // East
         x_nxt = +1;
-    }else if(rotation > (float)7*M_PI/4 && rotation <= (float)2*M_PI){  // North East
+    }else if(rotation > (float)7*constants::PI/4 && rotation <= (float)2*constants::PI){  // North East
         x_nxt = +1;
         z_nxt = -1;
     }
@@ -171,7 +173,7 @@ float Terrain::getAngle(float x, float z, float rotation, float offset){
     float h_cur = getHeight(x_cur, z_cur);
     // Looks 5 units ahead for a next height
     float h_nxt = getHeight(x_cur + x_nxt*5, z_cur+ z_nxt*5);
-        
+
     // However, if that is negative (meaning off map), it tightens until either 0 or a good reading is received
     const int LOOK_AHEAD = 5;
     for (int i = LOOK_AHEAD; i > 0 ; --i){
@@ -181,8 +183,3 @@ float Terrain::getAngle(float x, float z, float rotation, float offset){
 
     return glm::atan((h_nxt - h_cur)/((float)LOOK_AHEAD * TERRAIN_SIZE / heightMap.width));
 }
-
-
-
-
-

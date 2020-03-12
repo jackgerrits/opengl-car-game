@@ -1,8 +1,8 @@
 #ifndef CAMERA_H
 #define CAMERA_H
 
-#define _USE_MATH_DEFINES
-#include <cmath>
+#include "../constants.h"
+
 
 #include "../InputState.h"
 #include "Player.h"
@@ -38,7 +38,7 @@ private:
     float pitch;
     float angleAround;
 
-    float RESET_SPEED = (float)M_PI/2;
+    float RESET_SPEED = (float)constants::PI/2;
 public:
     PlayerCamera(Player* player);
 

@@ -1,12 +1,15 @@
-cmake_minimum_required(VERSION 3.8)
+cmake_minimum_required(VERSION 3.13)
 
 project(opengl-car-game LANGUAGES CXX)
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
 
-add_library(tiny_obj_loader EXCLUDE_FROM_ALL)
+add_library(tiny_obj_loader OBJECT EXCLUDE_FROM_ALL)
 target_sources(tiny_obj_loader PRIVATE libs/tiny_obj_loader.cpp libs/tiny_obj_loader.h)
 target_include_directories(tiny_obj_loader PRIVATE ${CMAKE_CURRENT_LIST_DIR}/libs SYSTEM INTERFACE ${CMAKE_CURRENT_LIST_DIR}/libs)
 
-add_library(stb_image EXCLUDE_FROM_ALL)
+add_library(stb_image OBJECT EXCLUDE_FROM_ALL)
 target_sources(stb_image PRIVATE libs/stb_image.cpp libs/stb_image.h)
 target_include_directories(stb_image PRIVATE ${CMAKE_CURRENT_LIST_DIR}/libs SYSTEM INTERFACE ${CMAKE_CURRENT_LIST_DIR}/libs)
 
@@ -19,6 +22,7 @@ else(MSVC)
 endif(MSVC)
 
 set(all_headers
+  constants.h
   entities/Camera.h
   entities/Entity.h
   entities/Light.h
@@ -90,6 +94,10 @@ if(MSVC)
 else(MSVC)
   target_compile_options(opengl-car-game PRIVATE -Wall -Wextra -Wpedantic)
 endif(MSVC)
+
+set_target_properties(opengl-car-game PROPERTIES VS_GLOBAL_RunCodeAnalysis "false")
+set_target_properties(opengl-car-game PROPERTIES VS_GLOBAL_EnableClangTidyCodeAnalysis "true")
+set_target_properties(opengl-car-game PROPERTIES VS_GLOBAL_ClangTidyChecks "-*,clang-analyzer-*,-clang-analyzer-cplusplus*,modernize-*,performance-*,readability-*,-modernize-use-trailing-return-type")
 
 # Copy assets
 add_custom_command(TARGET opengl-car-game POST_BUILD
