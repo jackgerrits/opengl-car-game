@@ -97,7 +97,7 @@ endif(MSVC)
 
 set_target_properties(opengl-car-game PROPERTIES VS_GLOBAL_RunCodeAnalysis "false")
 set_target_properties(opengl-car-game PROPERTIES VS_GLOBAL_EnableClangTidyCodeAnalysis "true")
-set_target_properties(opengl-car-game PROPERTIES VS_GLOBAL_ClangTidyChecks "-*,clang-analyzer-*,-clang-analyzer-cplusplus*,modernize-*,performance-*,readability-*,-modernize-use-trailing-return-type")
+set_target_properties(opengl-car-game PROPERTIES VS_GLOBAL_ClangTidyChecks "-*,clang-analyzer-*,-clang-analyzer-cplusplus*,modernize-*,performance-*,readability-*,-modernize-use-trailing-return-type,-readability-uppercase-literal-suffix")
 
 # Copy assets
 add_custom_command(TARGET opengl-car-game POST_BUILD
