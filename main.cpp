@@ -215,7 +215,7 @@ int main(int argc, char **argv) {
     // Create Terrain using blend map, height map and all of the remaining texture components.
     std::vector<string> terrainImages = {"res/terrain/blendMap.png", "res/terrain/grass.jpg","res/terrain/road.jpg","res/terrain/dirt.png","res/terrain/mud.jpg"};
     Terrain* terrain = Terrain::loadTerrain(terrainImages, "res/terrain/heightmap.png");
-    // Moves the terrain model to be centered about the origin.
+    // Moves the terrain model to be centered about the origin. 
     terrain->setPosition(vec3(-Terrain::TERRAIN_SIZE/2, 0.0f, -Terrain::TERRAIN_SIZE/2));
 
     // Load dust texture and create particle system.

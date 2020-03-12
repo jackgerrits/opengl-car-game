@@ -3,7 +3,6 @@
 
 #include "../constants.h"
 
-
 #include "../InputState.h"
 #include "Player.h"
 

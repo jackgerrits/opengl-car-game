@@ -227,7 +227,7 @@ float Player::smoothSteering(float inputAngle){
     return smoothedAngle;
 }
 
-void Player::handleKeyboardEvents(GLFWwindow* window, int key, int scancode, int action, int mods){
+void Player::handleKeyboardEvents(GLFWwindow* /*window*/, int key, int /*scancode*/, int action, int /*mods*/){
     if(action == GLFW_PRESS){
         if(key == GLFW_KEY_W || key == GLFW_KEY_UP){
             throttle_input = 1.0f;

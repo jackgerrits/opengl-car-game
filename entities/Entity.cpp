@@ -66,8 +66,8 @@ glm::vec3 Entity::getDirectionVector(){
     return glm::normalize(glm::vec3(glm::sin(yRot), glm::sin(xRot), glm::cos(yRot)));
 }
 
-void Entity::setPosition(glm::vec3 position){
-    this->position = position;
+void Entity::setPosition(glm::vec3 inputPosition){
+    this->position = inputPosition;
 }
 
 void Entity::placeBottomEdge(float surfaceY){
@@ -76,8 +76,8 @@ void Entity::placeBottomEdge(float surfaceY){
     }
 }
 
-void Entity::setScale(glm::vec3 scale){
-    this->scale = scale;
+void Entity::setScale(glm::vec3 inputScale){
+    this->scale = inputScale;
 }
 
 void Entity::setRotationX(float rot){
