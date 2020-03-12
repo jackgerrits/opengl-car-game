@@ -83,10 +83,9 @@ find_package(OpenGL REQUIRED)
 find_package(glfw3 REQUIRED)
 find_package(GLEW REQUIRED)
 find_package(glm REQUIRED)
-find_package(GLUT REQUIRED)
 
 add_executable(opengl-car-game ${all_sources} ${all_headers})
-target_link_libraries(opengl-car-game PRIVATE GLUT::GLUT OpenGL::GL glfw GLEW::GLEW glm stb_image tiny_obj_loader)
+target_link_libraries(opengl-car-game PRIVATE OpenGL::GL glfw GLEW::GLEW glm stb_image tiny_obj_loader)
 
 # Turn on more warnings
 if(MSVC)
