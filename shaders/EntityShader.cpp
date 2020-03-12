@@ -5,10 +5,12 @@ EntityShader::EntityShader(): ShaderProgram(ENTITY_VERTEX_SHADER, ENTITY_FRAGMEN
 }
 
 void EntityShader::bindUniformLocations(){
-    // Setup named attributes
-    glBindAttribLocation(shaderID, 0, "a_vertex");
-    glBindAttribLocation(shaderID, 1, "a_normal");
-    glBindAttribLocation(shaderID, 2, "a_tex_coord");
+    // If named attributes are used the shader MUST be linked again after they are setup!
+    // For now go back to using location based attributes
+    // glBindAttribLocation(shaderID, 0, "a_vertex");
+    // glBindAttribLocation(shaderID, 1, "a_normal");
+    // glBindAttribLocation(shaderID, 2, "a_tex_coord");
+    // glLinkProgram(this->shaderID);
 
     location_texMap = glGetUniformLocation(shaderID, "texMap");
     location_cubeMap = glGetUniformLocation(shaderID, "cubeMap");

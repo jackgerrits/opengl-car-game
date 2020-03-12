@@ -5,17 +5,17 @@
 
 #version 330
 
-uniform mat4 projection;
 uniform mat4 model;
 uniform mat4 view;
+uniform mat4 projection;
 
 uniform mat4 depth_pv;
 uniform vec4 clip_plane;
 
 // using named parameters for a test as defined in EntityShader.cpp
-in vec3 a_vertex;
-in vec3 a_normal;
-in vec2 a_tex_coord;
+layout (location = 0) in vec3 a_vertex;
+layout (location = 1) in vec3 a_normal;
+layout (location = 2) in vec2 a_tex_coord;
 
 out vec4 vertex; // vertex position in world space
 out vec3 normal; // the world space normal
