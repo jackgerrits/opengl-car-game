@@ -8,7 +8,6 @@
 #include "../Loader.h"
 #include "../GameTime.h"
 
-#include <assert.h>
 #include <string>
 #include <iostream>
 #include <GL/glew.h>

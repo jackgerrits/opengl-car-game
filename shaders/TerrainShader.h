@@ -46,7 +46,7 @@ private:
 public:
     TerrainShader();
 
-    virtual void bindUniformLocations();
+    void bindUniformLocations();
 
     void loadTerrain(Terrain* terrain);
 

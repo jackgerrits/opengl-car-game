@@ -1,4 +1,4 @@
-// 
+//
 // Calculates Phong colour at each fragment.
 // Ambient, diffuse and specular terms.
 // Uses interpolated position and normal values passed from vertex shader.
@@ -22,6 +22,9 @@ uniform sampler2DShadow shadowMap;
 uniform mat4 projection;
 uniform mat4 view;
 uniform mat4 model;
+
+
+
 
 #define MAX_LIGHTS 10
 uniform int num_lights;
@@ -118,7 +121,7 @@ void main(void) {
     vec4 mixedColour = backComponent + rComponent + gComponent + bComponent;
     vec4 cameraSpaceVert = view * vertex;
 
-    // 8 pass poisson sampled shadows 
+    // 8 pass poisson sampled shadows
     float visibility = 1.0;
     int num_passes = 8;
     for (int i=0;i<8;i++){
@@ -135,6 +138,6 @@ void main(void) {
     }
     lit_colour = lit_colour * visibility;
     lit_colour = applyFog(lit_colour,-cameraSpaceVert.z);
-    
+
     fragColour = vec4(lit_colour, 1.0);
 }

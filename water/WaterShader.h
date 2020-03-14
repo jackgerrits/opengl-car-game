@@ -41,7 +41,7 @@ private:
 public:
     WaterShader();
 
-    virtual void bindUniformLocations();
+    void bindUniformLocations();
 
     void loadProjection(glm::mat4 projection);
     void loadView(glm::mat4 view);

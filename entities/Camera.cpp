@@ -1,6 +1,6 @@
 #include "Camera.h"
 
-#include <stdio.h>
+#include <cstdio>
 #include <iostream>
 #include <algorithm>
 #include "../constants.h"
@@ -10,72 +10,62 @@
 #define DEG2RAD(x) ((x)*constants::PI/180.0)
 #define RAD2DEG(x) ((x)*180.0/constants::PI)
 
-Camera::Camera()
-    : position(glm::vec3(0.0f))
-    , focalPoint(glm::vec3(0.0f))
-    , viewMtx(glm::mat4(1.0f))
-{ }
-
-const glm::mat4 Camera::getViewMtx() const {
-    return viewMtx;
+const glm::mat4& Camera::getViewMtx() const {
+    return m_view_matrix;
 }
 
-glm::vec3 Camera::getPosition(){
-    return position;
+const glm::vec3& Camera::getPosition() const {
+    return m_position;
 }
-void Camera::setPosition(glm::vec3 pos){
-    this->position = pos;
-}
-void Camera::update(InputState& /*input*/){
-    // Input has no effect in the base object.
+void Camera::setPosition(const glm::vec3& pos) {
+    m_position = pos;
 }
 
-void Camera::look(glm::vec3 at){
+void Camera::look(const glm::vec3& at) {
     glm::vec3 up(0.0f, 1.0f, 0.0f);
-    viewMtx = glm::lookAt(position, at, up);
+    m_view_matrix = glm::lookAt(m_position, at, up);
 }
 
-void Camera::look(glm::vec3 from, glm::vec3 at){
+void Camera::look(const glm::vec3& from, const glm::vec3& at) {
     glm::vec3 up(0.0f, 1.0f, 0.0f);
-    viewMtx = glm::lookAt(from, at, up);
+    m_view_matrix = glm::lookAt(from, at, up);
 }
 
+glm::mat4 Camera::getInverted(float pivotPoint) {
+    glm::vec3 playerPos = m_focal_point;
 
-glm::mat4 Camera::getInverted(float WATER_HEIGHT){
-    glm::vec3 playerPos = this->focalPoint;
+    float offset = fabs(m_position.y - playerPos.y);
+    glm::vec3 camPos = m_position - glm::vec3(0, 2 * offset, 0);
 
-    float offset = fabs(this->position.y - playerPos.y);
-    glm::vec3 camPos = this->position - glm::vec3(0, 2*offset, 0);
-
-    camPos -= glm::vec3(0, playerPos.y - WATER_HEIGHT, 0);
-    playerPos -= glm::vec3(0, playerPos.y - WATER_HEIGHT, 0);
+    camPos -= glm::vec3(0, playerPos.y - pivotPoint, 0);
+    playerPos -= glm::vec3(0, playerPos.y - pivotPoint, 0);
 
     glm::vec3 up(0.0f, 1.0f, 0.0f);
     return glm::lookAt(camPos, playerPos, up);
 }
 
-PlayerCamera::PlayerCamera(Player* player) : Camera(){
-    this->player = player;
-    this->distance = 5.0f;
-    this->pitch = (float)constants::PI/8;
-    this->angleAround = 0.0f;
+PlayerCamera::PlayerCamera(Player* player) {
+    m_player = player;
+    m_distance = 5.0f;
+    m_pitch = constants::PI / 8.f;
+    m_angle_around = 0.0f;
 }
 
-void PlayerCamera::update(InputState &input){
-    distance -= input.scrollDeltaY;
-    distance = std::clamp(distance, 2.5f, 20.0f);
+void PlayerCamera::update(InputState& input) {
+    m_distance -= input.scrollDeltaY;
+    m_distance = std::clamp(m_distance, 2.5f, 20.0f);
 
-    if(input.lMousePressed){
-        pitch -= input.deltaY / 50;
-        pitch = std::clamp(pitch, 0.1f, constants::PI/2 - 0.0001f);
+    if (input.lMousePressed) {
+        m_pitch -= input.deltaY / 50;
+        m_pitch = std::clamp(m_pitch, 0.1f, constants::PI / 2 - 0.0001f);
 
-        angleAround -= input.deltaX / 50.0f;
+        m_angle_around -= input.deltaX / 50.0f;
 
-        if(angleAround > 2*constants::PI){
-            angleAround -= 2*constants::PI;
+        if (m_angle_around > 2 * constants::PI) {
+            m_angle_around -= 2 * constants::PI;
         }
-        if(angleAround < -2*constants::PI){
-            angleAround += 2*constants::PI;
+        if (m_angle_around < -2 * constants::PI) {
+            m_angle_around += 2 * constants::PI;
         }
     }
     input.scrollDeltaY = 0.0;
@@ -84,25 +74,27 @@ void PlayerCamera::update(InputState &input){
 
     float change = RESET_SPEED * GameTime::getGameTime()->getDt();
 
-    if(player->getThrottle() > 0.1f){
-        if(fabs(angleAround) < change){
-            angleAround = 0.0f;
-        }else if(angleAround > 0){
-            angleAround -= change;
-        } else if (angleAround < 0){
-            angleAround += change;
+    if (m_player->getThrottle() > 0.1f) {
+        if (fabs(m_angle_around) < change) {
+            m_angle_around = 0.0f;
+        }
+        else if (m_angle_around > 0) {
+            m_angle_around -= change;
+        }
+        else if (m_angle_around < 0) {
+            m_angle_around += change;
         }
     }
 
-    float angle = angleAround + player->getRotationY();
+    float angle = m_angle_around + m_player->getRotationY();
 
-    float hDist = distance * glm::cos(pitch);
-    float vDist = distance * glm::sin(pitch);
+    float hDist = m_distance * glm::cos(m_pitch);
+    float vDist = m_distance * glm::sin(m_pitch);
     float offsetX = hDist * glm::sin(angle);
     float offsetZ = hDist * glm::cos(angle);
 
-    this->focalPoint = player->getPosition();
-    this->position = glm::vec3(-offsetX, vDist, -offsetZ) + this->focalPoint;
+    m_focal_point = m_player->getPosition();
+    m_position = glm::vec3(-offsetX, vDist, -offsetZ) + m_focal_point;
 
-    look(this->focalPoint);
+    look(m_focal_point);
 }

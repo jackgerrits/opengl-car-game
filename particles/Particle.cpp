@@ -3,7 +3,7 @@
 using namespace std;
 
 Particle::Particle(glm::vec3 position, glm::vec3 velocity, float gravityEffect, float lifeDuration, GLuint texture) {
-    this->position = position;
+    this->m_position = position;
     this->velocity = velocity;
     this->gravityEffect = gravityEffect;
     this->lifeDuration = lifeDuration;
@@ -16,7 +16,7 @@ Particle::Particle(glm::vec3 position, glm::vec3 velocity, float gravityEffect, 
 bool Particle::update(){
     float dt = GameTime::getGameTime()->getDt();
     velocity.y += GRAVITY_ACCELERATION * gravityEffect * dt;
-    position = position + (velocity * dt);
+    m_position = m_position + (velocity * dt);
     elapsedTime += dt;
     return elapsedTime < lifeDuration;
 }

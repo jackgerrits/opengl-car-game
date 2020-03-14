@@ -31,7 +31,7 @@ private:
 public:
     ParticleShader();
 
-    virtual void bindUniformLocations();
+    void bindUniformLocations();
     void loadCamera(glm::mat4 view);
     void loadParticle(Particle* particle, glm::mat4 view);
     void loadProjection(glm::mat4 proj);

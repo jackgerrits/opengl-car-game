@@ -1,14 +1,14 @@
 #include "ParticleManager.h"
 
 // Initialise singleton
-ParticleManager* ParticleManager::particleManager = NULL;
+ParticleManager* ParticleManager::particleManager = nullptr;
 
 ParticleManager::ParticleManager(){
 
 }
 
 ParticleManager* ParticleManager::getParticleManager(){
-    if(particleManager == NULL){
+    if(particleManager == nullptr){
         particleManager = new ParticleManager();
     }
 

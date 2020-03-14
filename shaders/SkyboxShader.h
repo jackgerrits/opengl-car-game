@@ -23,7 +23,7 @@ private:
 public:
     SkyboxShader();
 
-    virtual void bindUniformLocations();
+    void bindUniformLocations();
     void loadMatrices(glm::mat4 camera, glm::mat4 projection);
 };
 

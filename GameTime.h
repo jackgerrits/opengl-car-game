@@ -1,9 +1,4 @@
-#ifndef GAMETIME_H
-#define GAMETIME_H
-
-#define _USE_MATH_DEFINES
-
-#include <GLFW/glfw3.h>
+#pragma once
 
 class GameTime {
 private:
@@ -17,8 +12,6 @@ public:
     static GameTime* getGameTime();
 
     void update();  // Should be called once per frame
-    float getDt();
-    float getFPS();
+    float getDt() const;
+    float getFPS() const;
 };
-
-#endif

@@ -1,5 +1,4 @@
-#ifndef ENTITYSHADER_H
-#define ENTITYSHADER_H
+#pragma once
 
 #define _USE_MATH_DEFINES
 
@@ -23,7 +22,6 @@
 
 const std::string ENTITY_VERTEX_SHADER = "shaders/entity.vert";
 const std::string ENTITY_FRAGMENT_SHADER = "shaders/entity.frag";
-
 
 class EntityShader : public ShaderProgram {
 private:
@@ -50,7 +48,7 @@ private:
 public:
     EntityShader();
 
-    virtual void bindUniformLocations();
+    void bindUniformLocations();
 
     void loadLights(std::vector<Light*> lights);
     void loadLight(Light* light, int i);
@@ -61,5 +59,3 @@ public:
     void loadDepth(glm::mat4 pv);
     void loadClipPlane(glm::vec4 clip);
 };
-
-#endif //ENTITYSHADER_H

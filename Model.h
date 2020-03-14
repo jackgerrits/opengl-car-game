@@ -43,10 +43,10 @@ public:
     Model(std::vector<ModelComponent>);
     Model();
     void addModelComponent(ModelComponent);
-    std::vector<ModelComponent>* getModelComponents();
+    const std::vector<ModelComponent>& getModelComponents() const;
 
     void addRange(std::vector<float> vertices);
-    std::pair<float, float> getRangeInDim(int dim);
+    std::pair<float, float> getRangeInDim(int dim) const;
 };
 
 #endif

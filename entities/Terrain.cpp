@@ -94,11 +94,11 @@ bool Terrain::isOnTerrain(float x, float z){
 
 
 GLuint Terrain::getVaoID(){
-    return model->getModelComponents()->at(0).getVaoID();
+    return m_model->getModelComponents().at(0).getVaoID();
 }
 
 int Terrain::getIndexCount(){
-    return model->getModelComponents()->at(0).getIndexCount();
+    return m_model->getModelComponents().at(0).getIndexCount();
 }
 
 GLuint Terrain::getTextureID(int i){

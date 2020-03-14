@@ -105,26 +105,27 @@ add_custom_command(TARGET opengl-car-game POST_BUILD
     ${PROJECT_BINARY_DIR}/res
     COMMENT "Copy resources to build tree")
 
-function(add_shader target out_dir)
+function(target_add_shader target out_dir)
   foreach(shader_file ${ARGN})
     add_custom_command(
       TARGET ${target} POST_BUILD
       COMMAND ${CMAKE_COMMAND} -E copy ${shader_file} ${out_dir}
       MAIN_DEPENDENCY ${shader_file}
     )
+    target_sources(${target} PRIVATE ${shader_file})
   endforeach()
 endfunction()
 
 # Copy shaders
-add_shader(opengl-car-game ${PROJECT_BINARY_DIR}/water
+target_add_shader(opengl-car-game ${PROJECT_BINARY_DIR}/water
   ${CMAKE_SOURCE_DIR}/water/water.frag
   ${CMAKE_SOURCE_DIR}/water/water.vert
 )
-add_shader(opengl-car-game ${PROJECT_BINARY_DIR}/particles
+target_add_shader(opengl-car-game ${PROJECT_BINARY_DIR}/particles
   ${CMAKE_SOURCE_DIR}/particles/particle.frag
   ${CMAKE_SOURCE_DIR}/particles/particle.vert
 )
-add_shader(opengl-car-game ${PROJECT_BINARY_DIR}/shaders
+target_add_shader(opengl-car-game ${PROJECT_BINARY_DIR}/shaders
   ${CMAKE_SOURCE_DIR}/shaders/entity.frag
   ${CMAKE_SOURCE_DIR}/shaders/entity.vert
   ${CMAKE_SOURCE_DIR}/shaders/skybox.frag

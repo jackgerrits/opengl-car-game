@@ -1,5 +1,4 @@
-#ifndef CAMERA_H
-#define CAMERA_H
+#pragma once
 
 #include "../constants.h"
 
@@ -10,38 +9,34 @@
 
 class Camera {
 protected:
-    glm::vec3 position;
-    glm::vec3 focalPoint;
+    glm::vec3 m_position{ 0.f };
+    glm::vec3 m_focal_point{ 0.f };
+    glm::mat4 m_view_matrix{ 1.f };
 
-    glm::mat4 viewMtx;
 public:
-    Camera();
+    Camera() = default;
 
-    const glm::mat4 getViewMtx() const;
+    [[nodiscard]] const glm::mat4& getViewMtx() const;
+    [[nodiscard]] const glm::vec3& getPosition() const;
+    void setPosition(const glm::vec3& position);
+    [[nodiscard]] glm::mat4 getInverted(float pivotPoint);
 
-    glm::vec3 getPosition();
-    void setPosition(glm::vec3 position);
-    glm::mat4 getInverted(float pivotPoint);
+    virtual void update(InputState& input) = 0;
 
-    virtual void update(InputState &input);
-
-    void look(glm::vec3 at);
-    void look(glm::vec3 from, glm::vec3 at);
+    void look(const glm::vec3& at);
+    void look(const glm::vec3& from, const glm::vec3& at);
 };
 
 
 class PlayerCamera : public Camera {
 private:
-    Player* player;
-    float distance;
-    float pitch;
-    float angleAround;
+    Player* m_player;
+    float m_distance;
+    float m_pitch;
+    float m_angle_around;
 
-    float RESET_SPEED = (float)constants::PI/2;
+    static constexpr float RESET_SPEED = constants::PI / 2.f;
 public:
     PlayerCamera(Player* player);
-
-    virtual void update(InputState &input);
+    void update(InputState& input) override;
 };
-
-#endif

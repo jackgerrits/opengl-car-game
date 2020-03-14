@@ -1,5 +1,4 @@
-#ifndef ENTITY_RENDERER_H
-#define ENTITY_RENDERER_H
+#pragma once
 
 #define _USE_MATH_DEFINES
 
@@ -22,13 +21,9 @@
 
 class EntityRenderer {
 private:
-    EntityShader shader;
+    EntityShader m_shader;
 public:
-    EntityRenderer();
-
-    void render(std::vector<Entity*> entities, std::vector<Light*> lights, glm::mat4 view, glm::mat4 proj,  GLuint reflectionTexture, glm::vec4 clipPlane);
-    void render(std::vector<Entity*> entities, std::vector<Light*> lights, glm::mat4 view, glm::mat4 proj,  GLuint reflectionTexture, glm::mat4 depthView, glm::mat4 depthProj, GLuint shadowMap, glm::vec4 clipPlane);
-    void renderModel(Model* model);
+    void render(const std::vector<Entity*>& entities, const std::vector<Light*>& lights, const glm::mat4& view, const glm::mat4& proj, GLuint reflectionTexture, const glm::vec4& clipPlane);
+    void render(const std::vector<Entity*>& entities, const std::vector<Light*>& lights, const glm::mat4& view, const glm::mat4& proj, GLuint reflectionTexture, const glm::mat4& depthView, const glm::mat4& depthProj, GLuint shadowMap, const glm::vec4& clipPlane);
+    void renderModel(const Model* model);
 };
-
-#endif //ENTITY_RENDERER_H

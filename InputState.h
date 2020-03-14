@@ -10,12 +10,12 @@
 
 #define _USE_MATH_DEFINES
 
-struct InputState {    
-    InputState(): lMousePressed(false),
-                  rMousePressed(false),
-                  prevX(0), prevY(0),
-                  deltaX(0), deltaY(0),
-                  scrollDeltaX(0), scrollDeltaY(0) {}
+struct InputState {
+    InputState() : lMousePressed(false),
+        rMousePressed(false),
+        prevX(0), prevY(0),
+        deltaX(0), deltaY(0),
+        scrollDeltaX(0), scrollDeltaY(0) {}
 
     // Is the mouse button currently being held down?
     bool lMousePressed;
@@ -48,7 +48,7 @@ struct InputState {
     };
 
     // Read off the accumulated motion and reset it
-    void readDeltaAndReset(float *x, float *y) {
+    void readDeltaAndReset(float* x, float* y) {
         *x = deltaX;
         *y = deltaY;
         deltaX = 0;

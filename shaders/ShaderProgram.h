@@ -22,18 +22,16 @@ protected:
     GLuint shaderID;
 
 private:
-    // Taken from previous given shader loader.
-    int compileShader(const char *ShaderPath, const GLuint ShaderID);
-    GLuint loadShaders(const char * vertex_file_path, const char * fragment_file_path);
+    int compileShader(const std::string& ShaderPath, GLuint ShaderID);
+    GLuint loadShaders(const std::string& vertex_file_path, const std::string& fragment_file_path);
 public:
-    ShaderProgram(std::string, std::string);
+    ShaderProgram(const std::string&, const std::string&);
     ShaderProgram(int);
-    virtual void bindUniformLocations()=0;
     virtual void enable();
     virtual void disable();
 
     template <typename T>
-    void loadLightUniform(std::string property, int index,const T& value);
+    void loadLightUniform(const std::string& property, int index, const T& value);
 
     // Uniform loading helpers
     void loadUniformValue(GLuint uniformLocation, int value);
@@ -50,9 +48,9 @@ public:
 };
 
 
-// Should generalise this to take 'lights' as a paramter
+// Should generalise this to take 'lights' as a parameter
 template <typename T>
-void ShaderProgram::loadLightUniform(std::string property, int index, const T& value){
+void ShaderProgram::loadLightUniform(const std::string& property, int index, const T& value) {
     // Lights are passed as an array of structs. However these are essentially bound and send individually.
     // They have special uniform name syntax though. ie uniform_name[i].property -> lights[0].position
     std::ostringstream ss;

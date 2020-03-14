@@ -1,18 +1,18 @@
 #include "ShaderProgram.h"
 
-ShaderProgram::ShaderProgram(std::string vertexShader, std::string fragmentShader){
+ShaderProgram::ShaderProgram(const std::string& vertexShader, const std::string& fragmentShader) {
     this->shaderID = loadShaders(vertexShader.c_str(), fragmentShader.c_str());
 }
 
-ShaderProgram::ShaderProgram(int shaderID){
+ShaderProgram::ShaderProgram(int shaderID) {
     this->shaderID = shaderID;
 }
 
-void ShaderProgram::enable(){
+void ShaderProgram::enable() {
     glUseProgram(shaderID);
 }
 
-void ShaderProgram::disable(){
+void ShaderProgram::disable() {
     glUseProgram(0);
 }
 
@@ -20,92 +20,92 @@ GLuint ShaderProgram::getShaderID() {
     return shaderID;
 }
 
-void ShaderProgram::loadUniformValue(GLuint uniformLocation, int value){
+void ShaderProgram::loadUniformValue(GLuint uniformLocation, int value) {
     glUniform1i(uniformLocation, value);
 }
 
-void ShaderProgram::loadUniformValue(GLuint uniformLocation, float value){
+void ShaderProgram::loadUniformValue(GLuint uniformLocation, float value) {
     glUniform1f(uniformLocation, value);
 }
 
-void ShaderProgram::loadUniformValue(GLuint uniformLocation, glm::vec2 value){
+void ShaderProgram::loadUniformValue(GLuint uniformLocation, glm::vec2 value) {
     glUniform2fv(uniformLocation, 1, &value.x);
 }
 
-void ShaderProgram::loadUniformValue(GLuint uniformLocation, glm::vec3 value){
+void ShaderProgram::loadUniformValue(GLuint uniformLocation, glm::vec3 value) {
     glUniform3fv(uniformLocation, 1, &value.x);
 }
 
-void ShaderProgram::loadUniformValue(GLuint uniformLocation, glm::vec4 value){
+void ShaderProgram::loadUniformValue(GLuint uniformLocation, glm::vec4 value) {
     glUniform4fv(uniformLocation, 1, &value.x);
 }
 
-void ShaderProgram::loadUniformValue(GLuint uniformLocation, glm::mat2 value){
+void ShaderProgram::loadUniformValue(GLuint uniformLocation, glm::mat2 value) {
     glUniformMatrix2fv(uniformLocation, 1, false, glm::value_ptr(value));
 }
 
-void ShaderProgram::loadUniformValue(GLuint uniformLocation, glm::mat3 value){
+void ShaderProgram::loadUniformValue(GLuint uniformLocation, glm::mat3 value) {
     glUniformMatrix3fv(uniformLocation, 1, false, glm::value_ptr(value));
 }
 
-void ShaderProgram::loadUniformValue(GLuint uniformLocation, glm::mat4 value){
+void ShaderProgram::loadUniformValue(GLuint uniformLocation, glm::mat4 value) {
     glUniformMatrix4fv(uniformLocation, 1, false, glm::value_ptr(value));
 }
 
-void ShaderProgram::loadUniformValue(GLuint uniformLocation, float* value, int count){
-    switch(count){
-        case 1:
-            glUniform1f(uniformLocation, *value);
-            break;
-        case 2:
-            glUniform2fv(uniformLocation, 1, value);
-            break;
-        case 3:
-            glUniform3fv(uniformLocation, 1, value);
-            break;
-        case 4:
-            glUniform4fv(uniformLocation, 1, value);
-            break;
-        default:
-            std::cerr << "Cant load uniform with " << count << " dimensions." << std::endl;
+void ShaderProgram::loadUniformValue(GLuint uniformLocation, float* value, int count) {
+    switch (count) {
+    case 1:
+        glUniform1f(uniformLocation, *value);
+        break;
+    case 2:
+        glUniform2fv(uniformLocation, 1, value);
+        break;
+    case 3:
+        glUniform3fv(uniformLocation, 1, value);
+        break;
+    case 4:
+        glUniform4fv(uniformLocation, 1, value);
+        break;
+    default:
+        std::cerr << "Cant load uniform with " << count << " dimensions." << std::endl;
     }
 }
 
-int ShaderProgram::compileShader(const char *ShaderPath, const GLuint ShaderID) {
+int ShaderProgram::compileShader(const std::string& shader_path, GLuint shader_id) {
     // Read shader code from file
-    std::string ShaderCode;
-    std::ifstream ShaderStream (ShaderPath, std::ios::in);
-    if (ShaderStream.is_open()) {
-        std::string Line = "";
-        while (getline(ShaderStream, Line)) {
-            ShaderCode += "\n" + Line;
+    std::string shader_code;
+    std::ifstream shader_file_stream(shader_path, std::ios::in);
+    if (shader_file_stream.is_open()) {
+        std::string line;
+        while (getline(shader_file_stream, line)) {
+            shader_code += "\n" + line;
         }
-        ShaderStream.close();
+        shader_file_stream.close();
     }
     else {
-        std::cerr << "Cannot open " << ShaderPath << ". Are you in the right directory?" << std::endl;
+        std::cerr << "Cannot open " << shader_path << ". Are you in the right directory?" << std::endl;
         return 0;
     }
 
     // Compile Shader
-    char const *SourcePointer = ShaderCode.c_str();
-    glShaderSource(ShaderID, 1, &SourcePointer , NULL);
-    glCompileShader(ShaderID);
+    char const* SourcePointer = shader_code.c_str();
+    glShaderSource(shader_id, 1, &SourcePointer, nullptr);
+    glCompileShader(shader_id);
 
     // Check Shader
-    GLint Result = GL_FALSE;
-    int InfoLogLength;
+    GLint result = GL_FALSE;
+    int info_log_length;
 
-    glGetShaderiv(ShaderID, GL_COMPILE_STATUS, &Result);
-    glGetShaderiv(ShaderID, GL_INFO_LOG_LENGTH, &InfoLogLength);
-    printf("compiled shader %d %d\n", Result, InfoLogLength);
-    if ( InfoLogLength > 1 ) {
-        char* ShaderErrorMessage = new char[InfoLogLength+1];
-        glGetShaderInfoLog( ShaderID,
-                            InfoLogLength,
-                            NULL,
-                            &ShaderErrorMessage[0]);
-        
+    glGetShaderiv(shader_id, GL_COMPILE_STATUS, &result);
+    glGetShaderiv(shader_id, GL_INFO_LOG_LENGTH, &info_log_length);
+    printf("compiled shader %d %d\n", result, info_log_length);
+    if (info_log_length > 1) {
+        char* ShaderErrorMessage = new char[info_log_length + 1];
+        glGetShaderInfoLog(shader_id,
+            info_log_length,
+            nullptr,
+            &ShaderErrorMessage[0]);
+
         std::cerr << &ShaderErrorMessage[0] << std::endl;
 
         delete[] ShaderErrorMessage;
@@ -114,37 +114,38 @@ int ShaderProgram::compileShader(const char *ShaderPath, const GLuint ShaderID) 
     return 1;
 }
 
-GLuint ShaderProgram::loadShaders(const char * vertex_file_path, const char * fragment_file_path ) {
+GLuint ShaderProgram::loadShaders(const std::string& vertex_file_path, const std::string& fragment_file_path) {
     // Create the shaders
-    GLuint VertexShaderID = glCreateShader(GL_VERTEX_SHADER);
-    GLuint FragmentShaderID = glCreateShader(GL_FRAGMENT_SHADER);
+    GLuint vertex_shader_id = glCreateShader(GL_VERTEX_SHADER);
+    GLuint fragment_shader_id = glCreateShader(GL_FRAGMENT_SHADER);
 
     // Compile both shaders. Exit if compile errors.
-    if ( !compileShader(vertex_file_path, VertexShaderID)
-         || !compileShader(fragment_file_path, FragmentShaderID) ) {
+    if (!compileShader(vertex_file_path, vertex_shader_id)
+        || !compileShader(fragment_file_path, fragment_shader_id)) {
         return 0;
     }
 
     // Link the program
-    GLuint ProgramID = glCreateProgram();
-    glAttachShader(ProgramID, VertexShaderID);
-    glAttachShader(ProgramID, FragmentShaderID);
-    glLinkProgram(ProgramID);
+    GLuint program_id = glCreateProgram();
+    glAttachShader(program_id, vertex_shader_id);
+    glAttachShader(program_id, vertex_shader_id);
+    glAttachShader(program_id, fragment_shader_id);
+    glLinkProgram(program_id);
 
     // Check the program
-    GLint Result = GL_FALSE;
-    int InfoLogLength;
-    
-    glGetProgramiv(ProgramID, GL_LINK_STATUS, &Result);
-    glGetProgramiv(ProgramID, GL_INFO_LOG_LENGTH, &InfoLogLength);
-    if ( InfoLogLength > 0 ) {
-        std::vector<char> ProgramErrorMessage(InfoLogLength+1);
-        glGetProgramInfoLog(ProgramID, InfoLogLength, NULL, &ProgramErrorMessage[0]);
-        std::cerr << &ProgramErrorMessage[0] << std::endl;
+    GLint result = GL_FALSE;
+    int info_log_length;
+
+    glGetProgramiv(program_id, GL_LINK_STATUS, &result);
+    glGetProgramiv(program_id, GL_INFO_LOG_LENGTH, &info_log_length);
+    if (info_log_length > 0) {
+        std::vector<char> program_error_message(info_log_length + 1);
+        glGetProgramInfoLog(program_id, info_log_length, NULL, &program_error_message[0]);
+        std::cerr << &program_error_message[0] << std::endl;
     }
 
-    glDeleteShader(VertexShaderID);
-    glDeleteShader(FragmentShaderID);
+    glDeleteShader(vertex_shader_id);
+    glDeleteShader(fragment_shader_id);
 
-    return ProgramID;
+    return program_id;
 }

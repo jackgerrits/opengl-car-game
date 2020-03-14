@@ -88,21 +88,21 @@ bool Player::update(){
     if(basic_controls){
         rotateY(steerAngle * dt);
 
-        if(yRot > (float)constants::PI*2){
-            yRot -= constants::PI*2;
-        } else if (yRot < (float)-constants::PI*2){
-            yRot += constants::PI*2;
+        if(m_y_rot > (float)constants::PI*2){
+            m_y_rot -= constants::PI*2;
+        } else if (m_y_rot < (float)-constants::PI*2){
+            m_y_rot += constants::PI*2;
         }
 
         float distance = (throttle_input - brake_input) *  MOVE_SPEED * dt;
 
-        dx = distance * glm::sin(yRot);
-        dz = distance * glm::cos(yRot);
+        dx = distance * glm::sin(m_y_rot);
+        dz = distance * glm::cos(m_y_rot);
     } else {
         /* Following is code from #1 and adapted to this program */
         // Pre-calc heading vector
-        float sn = sin(yRot);
-        float cs = cos(yRot);
+        float sn = sin(m_y_rot);
+        float cs = cos(m_y_rot);
 
         // Get velocity in local car coordinates
         velocity_c.y = cs * velocity.y + sn * velocity.x;
@@ -175,7 +175,7 @@ bool Player::update(){
             yawRate = 0.0f;
         } else {
             yawRate += angularAccel * dt;
-            yRot += yawRate * dt;
+            m_y_rot += yawRate * dt;
 
             dx = velocity.x * dt;
             dz = velocity.y * dt;
@@ -184,20 +184,20 @@ bool Player::update(){
     }
 
     // Wrap rotation around once it reaches 2*pi
-    if(yRot > (float)constants::PI*2){
-        yRot -= constants::PI*2;
-    } else if (yRot < (float)-constants::PI*2){
-        yRot += constants::PI*2;
+    if(m_y_rot > (float)constants::PI*2){
+        m_y_rot -= constants::PI*2;
+    } else if (m_y_rot < (float)-constants::PI*2){
+        m_y_rot += constants::PI*2;
     }
 
     // Assumes constant scale
-    float player_length = (abs(model->getRangeInDim(2).second - model->getRangeInDim(2).first))/2.0f * scale.x;
-    float player_length_x = player_length * glm::sin(yRot);
-    float player_length_z = player_length * glm::cos(yRot);
+    float player_length = (abs(m_model->getRangeInDim(2).second - m_model->getRangeInDim(2).first))/2.0f * m_scale.x;
+    float player_length_x = player_length * glm::sin(m_y_rot);
+    float player_length_z = player_length * glm::cos(m_y_rot);
 
     // Currently, acceleration and velocity are maintained on collision with edge.
     // TODO zero velocity and acceleration on FIRST collision in incident, so as to allow escaping the wall
-    if(terrain->isOnTerrain(position.x + dx + player_length_x, position.z + dz + player_length_z)){
+    if(terrain->isOnTerrain(m_position.x + dx + player_length_x, m_position.z + dz + player_length_z)){
         move(glm::vec3(dx, 0, dz));
         placeBottomEdge(terrain->getHeight(getPosition().x, getPosition().z));
         setRotationX(terrain->getAngleX(getPosition().x, getPosition().z, getRotationY()));

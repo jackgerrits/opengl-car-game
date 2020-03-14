@@ -216,7 +216,7 @@ int main(int argc, char **argv) {
     terrain->setPosition(vec3(-Terrain::TERRAIN_SIZE/2, 0.0f, -Terrain::TERRAIN_SIZE/2));
 
     // Load dust texture and create particle system.
-    GLuint dust_texture = Loader::getLoader()->loadTexture( "./res/dust_single.png");\
+    GLuint dust_texture = Loader::getLoader()->loadTexture( "./res/dust_single.png");
     ParticleSystem particleSystem(30.0f, 3.0f, 0.5f, 0.5f, dust_texture);
 
     // Create the player object, scaling for the model, and setting its position in the world to somewhere interesting.

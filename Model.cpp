@@ -1,7 +1,7 @@
 #include "Model.h"
 
 // Taken from tiny_obj_loader.h as its hidden in a different namespace in the implementation.
-void initMaterial(tinyobj::material_t &material) {
+void initMaterial(tinyobj::material_t& material) {
     material.name = "";
     material.ambient_texname = "";
     material.diffuse_texname = "";
@@ -24,13 +24,13 @@ void initMaterial(tinyobj::material_t &material) {
     material.unknown_parameter.clear();
 }
 
-ModelComponent::ModelComponent(GLuint vaoID, int indexCount, GLuint textureID, tinyobj::material_t material){
+ModelComponent::ModelComponent(GLuint vaoID, int indexCount, GLuint textureID, tinyobj::material_t material) {
     this->vaoID = vaoID;
     this->indexCount = indexCount;
     this->textureID = textureID;
     this->material = material;
 }
-ModelComponent::ModelComponent(GLuint vaoID, int indexCount, GLuint textureID){
+ModelComponent::ModelComponent(GLuint vaoID, int indexCount, GLuint textureID) {
     this->vaoID = vaoID;
     this->indexCount = indexCount;
     this->textureID = textureID;
@@ -39,18 +39,18 @@ ModelComponent::ModelComponent(GLuint vaoID, int indexCount, GLuint textureID){
     this->material.specular[2] = 1.0f;
     initMaterial(this->material);
 }
-ModelComponent::ModelComponent(){
+ModelComponent::ModelComponent() {
     this->vaoID = -1;
     this->indexCount = -1;
     this->textureID = -1;
     initMaterial(this->material);
 }
 
-int ModelComponent::getIndexCount() const{
+int ModelComponent::getIndexCount() const {
     return indexCount;
 }
 
-GLuint ModelComponent::getVaoID() const{
+GLuint ModelComponent::getVaoID() const {
     return vaoID;
 }
 
@@ -58,43 +58,43 @@ GLuint ModelComponent::getTextureID() const {
     return textureID;
 }
 
-tinyobj::material_t ModelComponent::getMaterial() const{
+tinyobj::material_t ModelComponent::getMaterial() const {
     return material;
 }
 
-Model::Model(std::vector<ModelComponent> components){
+Model::Model(std::vector<ModelComponent> components) {
     this->components = components;
-    for(int i = 0; i < 3; ++i){
+    for (int i = 0; i < 3; ++i) {
         maxRanges.push_back(FLT_MAX);
         maxRanges.push_back(-FLT_MAX);
     }
 }
 
 // Adds the vertices into the range stored for this model.
-void Model::addRange(std::vector<float> vertices){
-    for(int dim = 0; dim < 3; ++dim){
-        for(size_t j = dim; j < vertices.size(); j += 3){
+void Model::addRange(std::vector<float> vertices) {
+    for (int dim = 0; dim < 3; ++dim) {
+        for (size_t j = dim; j < vertices.size(); j += 3) {
             maxRanges[2 * dim] = std::min(vertices[j], maxRanges[2 * dim]);
             maxRanges[2 * dim + 1] = std::max(vertices[j], maxRanges[2 * dim + 1]);
         }
     }
 }
 
-std::pair<float, float> Model::getRangeInDim(int dim){
-    return std::pair<float, float>( maxRanges[2 * dim],  maxRanges[2 * dim + 1]);
+std::pair<float, float> Model::getRangeInDim(int dim) const {
+    return std::make_pair(maxRanges[2 * dim], maxRanges[2 * dim + 1]);
 }
 
-Model::Model(){
-    for(int i = 0; i < 3; ++i){
+Model::Model() {
+    for (int i = 0; i < 3; ++i) {
         maxRanges.push_back(FLT_MAX);
         maxRanges.push_back(-FLT_MAX);
     }
 }
 
-void Model::addModelComponent(ModelComponent component){
+void Model::addModelComponent(ModelComponent component) {
     components.push_back(component);
 }
 
-std::vector<ModelComponent>* Model::getModelComponents(){
-    return &components;
+const std::vector<ModelComponent>& Model::getModelComponents() const {
+    return components;
 }
