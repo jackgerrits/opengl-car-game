@@ -1,5 +1,4 @@
-#ifndef PARTICLE_MANAGER_H
-#define PARTICLE_MANAGER_H
+#pragma once
 
 #define _USE_MATH_DEFINES
 
@@ -12,19 +11,17 @@
 class ParticleManager {
 private:
     static ParticleManager* particleManager;
-    ParticleManager();
-    
+    ParticleManager() = default;
+
     ParticleRenderer renderer;
     std::vector<Particle*> particles;
 
 public:
     static ParticleManager* getParticleManager();
 
-    void update();  // Should be called once per frame
+    // Should be called once per frame
+    void update();
 
-	void addParticle(Particle*);
-	void render(glm::mat4 view, glm::mat4 proj);
-
+    void addParticle(Particle*);
+    void render(const glm::mat4& view, const glm::mat4& proj);
 };
-
-#endif

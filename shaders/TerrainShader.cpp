@@ -30,7 +30,7 @@ void TerrainShader::loadLights(std::vector<Light*> lights){
     }
 }
 
-void TerrainShader::loadLight(Light* light, int i){
+void TerrainShader::loadLight(Light* light, size_t i){
     loadLightUniform("position", i, light->position);
     loadLightUniform("specular", i, light->specular);
     loadLightUniform("diffuse", i, light->diffuse);
@@ -56,7 +56,7 @@ void TerrainShader::loadTerrain(Terrain* terrain){
 	loadUniformValue(location_gMap, 3);
     loadUniformValue(location_bMap, 4);
 
-    glm::mat4 model = terrain->getModelMatrix();
+    glm::mat4 model = terrain->calculateModelMatrix();
     loadUniformValue(location_model, model);
 }
 

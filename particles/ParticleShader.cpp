@@ -15,7 +15,7 @@ void ParticleShader::loadCamera(glm::mat4 view){
 }
 
 void ParticleShader::loadParticle(Particle* particle, glm::mat4 viewmtx){
-    glm::mat4 modelmtx =  particle->getModelMatrix();
+    glm::mat4 modelmtx =  particle->calculateModelMatrix();
 
     // Apply transpose of view matrix to make sure the particle always faces the camera.
     // TODO - test if glm::transpose can be used here

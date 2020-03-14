@@ -122,7 +122,7 @@ bool Player::update(){
         float slipAngleRear  = atan2(velocity_c.x + yawSpeedRear,  abs(velocity_c.y));
 
         float tireGripFront = tireGrip;
-        float tireGripRear = tireGrip * (1.0 - ebrake_input * (1.0 - lockGrip)); // reduce rear grip when ebrake is on
+        float tireGripRear = tireGrip * (1.f - ebrake_input * (1.f - lockGrip)); // reduce rear grip when ebrake is on
 
         float frictionForceFront_cy = std::clamp(-cornerStiffnessFront * slipAngleFront, -tireGripFront, tireGripFront) * axleWeightFront;
         float frictionForceRear_cy = std::clamp(-cornerStiffnessRear * slipAngleRear, -tireGripRear, tireGripRear) * axleWeightRear;

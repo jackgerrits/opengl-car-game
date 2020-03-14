@@ -46,11 +46,11 @@ void WaterRenderer::render(Entity* water, glm::mat4 view, glm::mat4 projection, 
     glActiveTexture(GL_TEXTURE2);
     glBindTexture(GL_TEXTURE_2D, dudvMap);
 
-    shader.loadModel(water->getModelMatrix());
+    shader.loadModel(water->calculateModelMatrix());
     glBindVertexArray(vao);
     glEnableVertexAttribArray(0);
     
-    glDrawElements(GL_TRIANGLES, indexCount, GL_UNSIGNED_INT, (void*)0);
+    glDrawElements(GL_TRIANGLES, static_cast<GLsizei>(indexCount), GL_UNSIGNED_INT, (void*)0);
     
     glDisableVertexAttribArray(0);
     glBindVertexArray(0);

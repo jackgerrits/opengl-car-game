@@ -45,7 +45,7 @@ void ParticleRenderer::render(std::vector<Particle*> particles, glm::mat4 view, 
     for(size_t i = 0; i < particles.size(); i++){
         shader.loadParticle(particles[i], view);
         glBindTexture(GL_TEXTURE_2D, particles[i]->getTextureID());
-        glDrawElements(GL_TRIANGLES, quad.getIndexCount(), GL_UNSIGNED_INT, (void*)0);
+        glDrawElements(GL_TRIANGLES, static_cast<GLsizei>(quad.getIndexCount()), GL_UNSIGNED_INT, (void*)0);
     }
     
     glDepthMask(GL_TRUE);

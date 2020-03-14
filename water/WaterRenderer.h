@@ -32,7 +32,7 @@ class WaterRenderer {
 private:
     WaterShader shader;
     GLuint vao;
-    int indexCount;
+    size_t indexCount;
 
     GLuint dudvMap;
 

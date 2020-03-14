@@ -51,7 +51,7 @@ public:
     void loadTerrain(Terrain* terrain);
 
     void loadLights(std::vector<Light*> lights);
-    void loadLight(Light* light, int i);
+    void loadLight(Light* light, size_t i);
     void loadView(glm::mat4 view);
     void loadDepth(glm::mat4 pv);
     void loadClipPlane(glm::vec4 clip);

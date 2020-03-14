@@ -1,9 +1,10 @@
 #include "FrameBuffer.h"
 
-FrameBuffer::FrameBuffer(int width, int height)
-    : depthTexture(-1),
-    depthBuffer(-1),
-    colourTexture(-1),
+
+FrameBuffer::FrameBuffer(uint32_t width, uint32_t height)
+    : depthTexture(0),
+    depthBuffer(0),
+    colourTexture(0),
     width(width),
     height(height) {
     glGenFramebuffers(1, &framebufferID);
@@ -40,7 +41,6 @@ void FrameBuffer::addDepthTexture(){
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_MODE, GL_COMPARE_R_TO_TEXTURE);
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, depthTexture, 0);
-
 
     unbind();
 }

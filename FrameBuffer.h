@@ -1,18 +1,7 @@
-#ifndef FRAME_BUFFER_H
-#define FRAME_BUFFER_H
-
-#define _USE_MATH_DEFINES
-
-#include "entities/Light.h"
-#include "entities/Player.h"
+#pragma once
 
 #include <GL/glew.h>
-#include <glm/glm.hpp>
-#include <vector>
-#include <cfloat>
-#include <utility>
-#include <algorithm>
-#include <iostream>
+#include <cstdint>
 
 class FrameBuffer {
 private:
@@ -25,7 +14,7 @@ private:
     GLuint width;
     GLuint height;
 public:
-    FrameBuffer(int width, int height);
+    FrameBuffer(uint32_t width, uint32_t height);
     void addColourTexture();
     void addDepthTexture();
     void addDepthBuffer();
@@ -41,5 +30,3 @@ public:
     virtual void bind();
     virtual void unbind();
 };
-
-#endif

@@ -1,31 +1,19 @@
-#ifndef LIGHT_H
-#define LIGHT_H
+#pragma once
 
 #include "../constants.h"
-
-#pragma warning(push, 0)
-#include <glm/ext.hpp>
-#pragma warning(pop)
+#include <glm/glm.hpp>
 
 // Lights are a simple struct holding all of the relevant information.
 struct Light {
-    Light():
-        position(glm::vec4(0.0f)),
-        specular(glm::vec3(0.0f)),
-        diffuse(glm::vec3(0.0f)),
-        ambient(glm::vec3(0.0f)),
-        radius(0.0f),
-        coneAngle((float)constants::PI),
-        coneDirection(glm::vec3(0.0f)){
-    }
-
-    glm::vec4 position; // Position of the camera in world coordinates. w value of 0 indicates directional light, 1 indicates positional/point light
-    glm::vec3 specular; // Colour intensities of each light component
-    glm::vec3 diffuse;
-    glm::vec3 ambient;
-    float radius;           // Radius used for attenuation
-    float coneAngle;        // Angle and direction of cone for spotlights
-    glm::vec3 coneDirection;
+    // Position of the camera in world coordinates. w value of 0 indicates directional light, 1 indicates positional/point light
+    glm::vec4 position = glm::vec4(0.0f);
+    // Colour intensities of each light component
+    glm::vec3 specular = glm::vec3(0.0f);
+    glm::vec3 diffuse = glm::vec3(0.0f);
+    glm::vec3 ambient = glm::vec3(0.0f);
+    // Radius used for attenuation
+    float radius = 0.f;
+    // Angle and direction of cone for spotlights
+    float coneAngle = constants::PI;
+    glm::vec3 coneDirection = glm::vec3(0.0f);
 };
-
-#endif

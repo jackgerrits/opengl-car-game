@@ -26,7 +26,7 @@ private:
     SkyboxShader shader;
     GLuint vao;
     GLuint texture;
-    int indexCount;
+    size_t indexCount;
 public:
     /*
     Images should be in order:

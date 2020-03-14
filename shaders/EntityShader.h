@@ -4,20 +4,14 @@
 
 #include "../entities/Entity.h"
 #include "../entities/Light.h"
-#include "../entities/Camera.h"
 #include "../Model.h"
 #include "ShaderProgram.h"
 
 #include <cstdio>
 #include <string>
 #include <vector>
-#include <iostream>
-#include <fstream>
 
 #include <glm/glm.hpp>
-#pragma warning(push, 0)
-#include <glm/ext.hpp>
-#pragma warning(pop)
 #include <GL/glew.h>
 
 const std::string ENTITY_VERTEX_SHADER = "shaders/entity.vert";
@@ -50,12 +44,12 @@ public:
 
     void bindUniformLocations();
 
-    void loadLights(std::vector<Light*> lights);
-    void loadLight(Light* light, int i);
-    void loadView(glm::mat4 view);
+    void loadLights(const std::vector<Light*>& lights);
+    void loadLight(Light* light, size_t i);
+    void loadView(const glm::mat4& view);
     void loadEntity(Entity* entity);
     void loadModelComponent(const ModelComponent& component);
-    void loadProjection(glm::mat4 proj);
-    void loadDepth(glm::mat4 pv);
-    void loadClipPlane(glm::vec4 clip);
+    void loadProjection(const glm::mat4& proj);
+    void loadDepth(const glm::mat4& pv);
+    void loadClipPlane(const glm::vec4& clip);
 };

@@ -1,7 +1,15 @@
 #include "ShaderProgram.h"
 
+#include <fstream>
+#include <iostream>
+#include <vector>
+
+#pragma warning(push, 0)
+#include <glm/ext.hpp>
+#pragma warning(pop)
+
 ShaderProgram::ShaderProgram(const std::string& vertexShader, const std::string& fragmentShader) {
-    this->shaderID = loadShaders(vertexShader.c_str(), fragmentShader.c_str());
+    this->shaderID = loadShaders(vertexShader, fragmentShader);
 }
 
 ShaderProgram::ShaderProgram(int shaderID) {

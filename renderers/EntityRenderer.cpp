@@ -67,7 +67,7 @@ void EntityRenderer::renderModel(const Model* model) {
         glEnableVertexAttribArray(1);
         glEnableVertexAttribArray(2);
 
-        glDrawElements(GL_TRIANGLES, component.getIndexCount(), GL_UNSIGNED_INT, (void*)0);
+        glDrawElements(GL_TRIANGLES, static_cast<GLsizei>(component.getIndexCount()), GL_UNSIGNED_INT, (void*)0);
 
         glDisableVertexAttribArray(0);
         glDisableVertexAttribArray(1);

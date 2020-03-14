@@ -97,7 +97,7 @@ GLuint Terrain::getVaoID(){
     return m_model->getModelComponents().at(0).getVaoID();
 }
 
-int Terrain::getIndexCount(){
+size_t Terrain::getIndexCount(){
     return m_model->getModelComponents().at(0).getIndexCount();
 }
 

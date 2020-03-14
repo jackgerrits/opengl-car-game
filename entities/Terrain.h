@@ -31,7 +31,7 @@ public:
     static Model* generateTerrainModel(Image heightMap);
 
     GLuint getVaoID();
-    int getIndexCount();
+    size_t getIndexCount();
     GLuint getTextureID(int);
     bool isOnTerrain(float x, float z);
     float getHeight(float x, float z);

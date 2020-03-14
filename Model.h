@@ -13,22 +13,22 @@
 
 #include <GL/glew.h>
 
-void initMaterial(tinyobj::material_t &material);
+void initMaterial(tinyobj::material_t& material);
 
 // Represents a single mesh/shape/vao
 class ModelComponent {
 private:
     GLuint vaoID;
-    int indexCount;
+    size_t indexCount;
     tinyobj::material_t material;
 
 public:
     GLuint textureID;
-    ModelComponent(GLuint, int, GLuint, tinyobj::material_t);
-    ModelComponent(GLuint, int, GLuint);
+    ModelComponent(GLuint, size_t, GLuint, const tinyobj::material_t&);
+    ModelComponent(GLuint, size_t, GLuint);
     ModelComponent();
 
-    int getIndexCount() const;
+    size_t getIndexCount() const;
     GLuint getVaoID() const;
     GLuint getTextureID() const;
     tinyobj::material_t getMaterial() const;
@@ -40,12 +40,12 @@ private:
     std::vector<ModelComponent> components;
     std::vector<float> maxRanges;   // Essentially forms a bounding box for the model. Format: [xMin, xMax, yMin, yMax, zMin, zMax]
 public:
-    Model(std::vector<ModelComponent>);
+    Model(const std::vector<ModelComponent>&);
     Model();
-    void addModelComponent(ModelComponent);
+    void addModelComponent(const ModelComponent&);
     const std::vector<ModelComponent>& getModelComponents() const;
 
-    void addRange(std::vector<float> vertices);
+    void addRange(const std::vector<float>& vertices);
     std::pair<float, float> getRangeInDim(int dim) const;
 };
 

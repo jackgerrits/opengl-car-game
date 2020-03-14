@@ -1,10 +1,10 @@
 #include "EntityShader.h"
 
-EntityShader::EntityShader(): ShaderProgram(ENTITY_VERTEX_SHADER, ENTITY_FRAGMENT_SHADER) {
+EntityShader::EntityShader() : ShaderProgram(ENTITY_VERTEX_SHADER, ENTITY_FRAGMENT_SHADER) {
     bindUniformLocations();
 }
 
-void EntityShader::bindUniformLocations(){
+void EntityShader::bindUniformLocations() {
     // If named attributes are used the shader MUST be linked again after they are setup!
     // For now go back to using location based attributes
     // glBindAttribLocation(shaderID, 0, "a_vertex");
@@ -33,14 +33,14 @@ void EntityShader::bindUniformLocations(){
     location_render_shadows = glGetUniformLocation(shaderID, "render_shadows");
 }
 
-void EntityShader::loadLights(std::vector<Light*> lights){
-    loadUniformValue(location_num_lights, int(lights.size()));
-    for(size_t i = 0; i < lights.size(); i++){
+void EntityShader::loadLights(const std::vector<Light*>& lights) {
+    loadUniformValue(location_num_lights, static_cast<int>(lights.size()));
+    for (size_t i = 0; i < lights.size(); i++) {
         loadLight(lights[i], i);
     }
 }
 
-void EntityShader::loadLight(Light* light, int i){
+void EntityShader::loadLight(Light* light, size_t i) {
     loadLightUniform("position", i, light->position);
     loadLightUniform("specular", i, light->specular);
     loadLightUniform("diffuse", i, light->diffuse);
@@ -50,20 +50,20 @@ void EntityShader::loadLight(Light* light, int i){
     loadLightUniform("coneDirection", i, light->coneDirection);
 }
 
-void EntityShader::loadView(glm::mat4 view){
+void EntityShader::loadView(const glm::mat4& view) {
     loadUniformValue(location_view, view);
     loadUniformValue(location_inv_view, glm::inverse(view));
 }
 
-void EntityShader::loadEntity(Entity* entity){
+void EntityShader::loadEntity(Entity* entity) {
     loadUniformValue(location_texMap, 0);
     loadUniformValue(location_cubeMap, 1);
-    glm::mat4 model = entity->getModelMatrix();
+    glm::mat4 model = entity->calculateModelMatrix();
 
     loadUniformValue(location_model, model);
 }
 
-void EntityShader::loadModelComponent(const ModelComponent& component){
+void EntityShader::loadModelComponent(const ModelComponent& component) {
     loadUniformValue(location_mtl_ambient, component.getMaterial().ambient, 3);
     loadUniformValue(location_mtl_diffuse, component.getMaterial().diffuse, 3);
     loadUniformValue(location_mtl_specular, component.getMaterial().specular, 3);
@@ -71,15 +71,15 @@ void EntityShader::loadModelComponent(const ModelComponent& component){
     loadUniformValue(location_shininess, component.getMaterial().shininess);
 }
 
-void EntityShader::loadProjection(glm::mat4 proj){
+void EntityShader::loadProjection(const glm::mat4& proj) {
     loadUniformValue(location_projection, proj);
     loadUniformValue(location_render_shadows, 0);
 }
-void EntityShader::loadClipPlane(glm::vec4 clip){
+void EntityShader::loadClipPlane(const glm::vec4& clip) {
     loadUniformValue(location_clip_plane, clip);
 }
 
-void EntityShader::loadDepth(glm::mat4 pv){
+void EntityShader::loadDepth(const glm::mat4& pv) {
     loadUniformValue(location_shadowMap, 2);
     loadUniformValue(location_depth_pv, pv);
     loadUniformValue(location_render_shadows, 1);

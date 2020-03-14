@@ -11,7 +11,7 @@ SkyboxRenderer::SkyboxRenderer(std::vector<std::string> images, const float SIZE
         -SIZE, -SIZE, -SIZE,
         SIZE, -SIZE, -SIZE,
         SIZE, SIZE, -SIZE,
-        -SIZE, SIZE, -SIZE 
+        -SIZE, SIZE, -SIZE
     };
 
     std::vector<unsigned int> indices = {
@@ -38,8 +38,8 @@ void SkyboxRenderer::render(glm::mat4 view, glm::mat4 projection){
 
     shader.loadMatrices(view, projection);
 
-    glDrawElements(GL_TRIANGLES, indexCount, GL_UNSIGNED_INT, (void*)0);
-    
+    glDrawElements(GL_TRIANGLES, static_cast<GLsizei>(indexCount), GL_UNSIGNED_INT, (void*)0);
+
     glDisableVertexAttribArray(0);
     glBindVertexArray(0);
     shader.disable();

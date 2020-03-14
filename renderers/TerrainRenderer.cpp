@@ -29,9 +29,9 @@ void TerrainRenderer::render(Terrain* terrain, std::vector<Light*> lights, glm::
     glEnableVertexAttribArray(0);
     glEnableVertexAttribArray(1);
     glEnableVertexAttribArray(2);
-    
-    glDrawElements(GL_TRIANGLES, terrain->getIndexCount(), GL_UNSIGNED_INT, (void*)0);
-    
+
+    glDrawElements(GL_TRIANGLES, static_cast<GLsizei>(terrain->getIndexCount()), GL_UNSIGNED_INT, (void*)0);
+
     glDisableVertexAttribArray(0);
     glDisableVertexAttribArray(1);
     glDisableVertexAttribArray(2);
@@ -48,7 +48,6 @@ void TerrainRenderer::render(Terrain* terrain, std::vector<Light*> lights, glm::
 
     shader.loadTerrain(terrain);
     shader.loadClipPlane(clipPlane);
-    
 
     glm::mat4 biasMatrix(
         0.5, 0.0, 0.0, 0.0,
@@ -56,7 +55,7 @@ void TerrainRenderer::render(Terrain* terrain, std::vector<Light*> lights, glm::
         0.0, 0.0, 0.5, 0.0,
         0.5, 0.5, 0.5, 1.0
     );
-    
+
     glm::mat4 depthBiasPV = biasMatrix * depthProj * depthView;
     shader.loadDepth(depthBiasPV);
 
@@ -78,9 +77,9 @@ void TerrainRenderer::render(Terrain* terrain, std::vector<Light*> lights, glm::
     glEnableVertexAttribArray(0);
     glEnableVertexAttribArray(1);
     glEnableVertexAttribArray(2);
-    
-    glDrawElements(GL_TRIANGLES, terrain->getIndexCount(), GL_UNSIGNED_INT, (void*)0);
-    
+
+    glDrawElements(GL_TRIANGLES, static_cast<GLsizei>(terrain->getIndexCount()), GL_UNSIGNED_INT, (void*)0);
+
     glDisableVertexAttribArray(0);
     glDisableVertexAttribArray(1);
     glDisableVertexAttribArray(2);

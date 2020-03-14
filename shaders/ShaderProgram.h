@@ -1,19 +1,9 @@
-#ifndef SHADERPROGRAM_H
-#define SHADERPROGRAM_H
+#pragma once
 
-#define _USE_MATH_DEFINES
-
-#include <cstdio>
 #include <string>
-#include <vector>
-#include <iostream>
-#include <fstream>
 #include <sstream>
 
 #include <glm/glm.hpp>
-#pragma warning(push, 0)
-#include <glm/ext.hpp>
-#pragma warning(pop)
 #include <GL/glew.h>
 
 // Abstract shader program class, holds all uniforms,
@@ -31,7 +21,7 @@ public:
     virtual void disable();
 
     template <typename T>
-    void loadLightUniform(const std::string& property, int index, const T& value);
+    void loadLightUniform(const std::string& property, size_t index, const T& value);
 
     // Uniform loading helpers
     void loadUniformValue(GLuint uniformLocation, int value);
@@ -50,7 +40,7 @@ public:
 
 // Should generalise this to take 'lights' as a parameter
 template <typename T>
-void ShaderProgram::loadLightUniform(const std::string& property, int index, const T& value) {
+void ShaderProgram::loadLightUniform(const std::string& property, size_t index, const T& value) {
     // Lights are passed as an array of structs. However these are essentially bound and send individually.
     // They have special uniform name syntax though. ie uniform_name[i].property -> lights[0].position
     std::ostringstream ss;
@@ -60,5 +50,3 @@ void ShaderProgram::loadLightUniform(const std::string& property, int index, con
     GLuint uniform_location = glGetUniformLocation(shaderID, uniformName.c_str());
     loadUniformValue(uniform_location, value);
 }
-
-#endif //SHADERPROGRAM_H

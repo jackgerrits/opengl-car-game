@@ -24,13 +24,13 @@ void initMaterial(tinyobj::material_t& material) {
     material.unknown_parameter.clear();
 }
 
-ModelComponent::ModelComponent(GLuint vaoID, int indexCount, GLuint textureID, tinyobj::material_t material) {
+ModelComponent::ModelComponent(GLuint vaoID, size_t indexCount, GLuint textureID, const tinyobj::material_t& material) {
     this->vaoID = vaoID;
     this->indexCount = indexCount;
     this->textureID = textureID;
     this->material = material;
 }
-ModelComponent::ModelComponent(GLuint vaoID, int indexCount, GLuint textureID) {
+ModelComponent::ModelComponent(GLuint vaoID, size_t indexCount, GLuint textureID) {
     this->vaoID = vaoID;
     this->indexCount = indexCount;
     this->textureID = textureID;
@@ -40,13 +40,13 @@ ModelComponent::ModelComponent(GLuint vaoID, int indexCount, GLuint textureID) {
     initMaterial(this->material);
 }
 ModelComponent::ModelComponent() {
-    this->vaoID = -1;
-    this->indexCount = -1;
-    this->textureID = -1;
+    this->vaoID = 0;
+    this->indexCount = 0;
+    this->textureID = 0;
     initMaterial(this->material);
 }
 
-int ModelComponent::getIndexCount() const {
+size_t ModelComponent::getIndexCount() const {
     return indexCount;
 }
 
@@ -62,7 +62,7 @@ tinyobj::material_t ModelComponent::getMaterial() const {
     return material;
 }
 
-Model::Model(std::vector<ModelComponent> components) {
+Model::Model(const std::vector<ModelComponent>& components) {
     this->components = components;
     for (int i = 0; i < 3; ++i) {
         maxRanges.push_back(FLT_MAX);
@@ -71,7 +71,7 @@ Model::Model(std::vector<ModelComponent> components) {
 }
 
 // Adds the vertices into the range stored for this model.
-void Model::addRange(std::vector<float> vertices) {
+void Model::addRange(const std::vector<float>& vertices) {
     for (int dim = 0; dim < 3; ++dim) {
         for (size_t j = dim; j < vertices.size(); j += 3) {
             maxRanges[2 * dim] = std::min(vertices[j], maxRanges[2 * dim]);
@@ -91,7 +91,7 @@ Model::Model() {
     }
 }
 
-void Model::addModelComponent(ModelComponent component) {
+void Model::addModelComponent(const ModelComponent& component) {
     components.push_back(component);
 }
 

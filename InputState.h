@@ -1,12 +1,4 @@
-/**
-    A set of variables that records mouse activity.
-    You can update the variables yourself or use the functions.
-
-    This code is reused from the example.
-*/
-
-#ifndef _INPUTSTATE_H_
-#define _INPUTSTATE_H_
+#pragma once
 
 #define _USE_MATH_DEFINES
 
@@ -55,5 +47,3 @@ struct InputState {
         deltaY = 0;
     };
 };
-
-#endif // _INPUTSTATE_H_
