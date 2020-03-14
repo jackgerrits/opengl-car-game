@@ -1,8 +1,10 @@
 #include "ParticleRenderer.h"
 
-ParticleRenderer::ParticleRenderer(){
-    this->shader = ParticleShader();
+#include "../Loader.h"
 
+#include <GL/glew.h>
+
+ParticleRenderer::ParticleRenderer(){
     // Create a square mesh encompassing the viewport
     std::vector<float> vertices = {
         -0.5f, 0.5f, 0.0f,

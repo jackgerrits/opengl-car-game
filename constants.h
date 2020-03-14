@@ -1,9 +1,6 @@
 #pragma once
 
-#define _USE_MATH_DEFINES
-#include <cmath>
-
 namespace constants
 {
-    inline constexpr float PI = static_cast<float>(M_PI);
+    inline constexpr float PI = 3.14159265358979323846f;
 }

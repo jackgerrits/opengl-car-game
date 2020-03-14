@@ -1,8 +1,7 @@
 #include "SkyboxRenderer.h"
+#include "../Loader.h"
 
-SkyboxRenderer::SkyboxRenderer(std::vector<std::string> images, const float SIZE){
-    this->shader = SkyboxShader();
-
+SkyboxRenderer::SkyboxRenderer(const std::vector<std::string>& images, const float SIZE) {
     std::vector<float> vertices = {
         -SIZE, -SIZE, SIZE,
         SIZE, -SIZE, SIZE,
@@ -28,7 +27,7 @@ SkyboxRenderer::SkyboxRenderer(std::vector<std::string> images, const float SIZE
     texture = Loader::getLoader()->loadCubemapTexture(images);
 }
 
-void SkyboxRenderer::render(glm::mat4 view, glm::mat4 projection){
+void SkyboxRenderer::render(const glm::mat4& view, const glm::mat4& projection) {
     glDisable(GL_CULL_FACE);
     shader.enable();
     glActiveTexture(GL_TEXTURE0);
@@ -46,6 +45,6 @@ void SkyboxRenderer::render(glm::mat4 view, glm::mat4 projection){
     glEnable(GL_CULL_FACE);
 }
 
-GLuint SkyboxRenderer::getSkyboxTexture(){
+GLuint SkyboxRenderer::getSkyboxTexture() const {
     return texture;
 }

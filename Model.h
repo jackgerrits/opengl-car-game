@@ -1,17 +1,9 @@
-#ifndef MODEL_H
-#define MODEL_H
-
-#define _USE_MATH_DEFINES
+#pragma once
 
 #include <tiny_obj_loader.h>
-
-#include <vector>
-#include <cfloat>
-#include <utility>
-#include <algorithm>
-#include <iostream>
-
 #include <GL/glew.h>
+
+#include <utility>
 
 void initMaterial(tinyobj::material_t& material);
 
@@ -38,7 +30,8 @@ public:
 class Model {
 private:
     std::vector<ModelComponent> components;
-    std::vector<float> maxRanges;   // Essentially forms a bounding box for the model. Format: [xMin, xMax, yMin, yMax, zMin, zMax]
+    // Essentially forms a bounding box for the model. Format: [xMin, xMax, yMin, yMax, zMin, zMax]
+    std::vector<float> maxRanges;
 public:
     Model(const std::vector<ModelComponent>&);
     Model();
@@ -46,7 +39,6 @@ public:
     const std::vector<ModelComponent>& getModelComponents() const;
 
     void addRange(const std::vector<float>& vertices);
+    void setRange(const std::tuple<float, float, float>& minXYZ, const std::tuple<float, float, float>& maxXYZ);
     std::pair<float, float> getRangeInDim(int dim) const;
 };
-
-#endif

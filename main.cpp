@@ -1,8 +1,8 @@
 #define GLFW_INCLUDE_NONE
 #define _USE_MATH_DEFINES
 
+#include "constants.h"
 #include "renderers/RenderManager.h"
-
 #include "Loader.h"
 #include "Model.h"
 #include "ShadowMap.h"
@@ -14,7 +14,6 @@
 #include "InputState.h"
 #include "GameTime.h"
 #include "FrameBuffer.h"
-#include "constants.h"
 
 #include "particles/ParticleManager.h"
 #include "particles/ParticleSystem.h"
@@ -188,12 +187,12 @@ int main(int argc, char **argv) {
     // The current skybox is unfortunately quite low res and has compression issues.
     // However, I wanted a skybox that had no terrain AND a visible sun which was surprisingly hard to find.
     std::vector<std::string> skyboxTextures = {
-        "res/sky/sky_right.tga",
-        "res/sky/sky_left.tga",
-        "res/sky/sky_top.tga",
-        "res/sky/sky_bottom.tga",
-        "res/sky/sky_back.tga",
-        "res/sky/sky_front.tga"
+         "res/sky/sky_right.tga",
+         "res/sky/sky_left.tga",
+         "res/sky/sky_top.tga",
+         "res/sky/sky_bottom.tga",
+         "res/sky/sky_back.tga",
+         "res/sky/sky_front.tga"
     };
 
     // Load all of the requires models from disk.

@@ -1,24 +1,14 @@
-#ifndef TERRAINSHADER_H
-#define TERRAINSHADER_H
-
-#define _USE_MATH_DEFINES
+#pragma once
 
 #include "../entities/Terrain.h"
 #include "../entities/Light.h"
-#include "../entities/Camera.h"
-#include "../Model.h"
 #include "ShaderProgram.h"
 
-#include <cstdio>
 #include <string>
 #include <vector>
-#include <iostream>
-#include <fstream>
+
 
 #include <glm/glm.hpp>
-#pragma warning(push, 0)
-#include <glm/ext.hpp>
-#pragma warning(pop)
 #include <GL/glew.h>
 
 const std::string TERRAIN_VERTEX_SHADER = "shaders/terrain.vert";
@@ -48,14 +38,12 @@ public:
 
     void bindUniformLocations();
 
-    void loadTerrain(Terrain* terrain);
+    void loadTerrain(const Terrain* terrain);
 
-    void loadLights(std::vector<Light*> lights);
+    void loadLights(const std::vector<Light*>& lights);
     void loadLight(Light* light, size_t i);
-    void loadView(glm::mat4 view);
-    void loadDepth(glm::mat4 pv);
-    void loadClipPlane(glm::vec4 clip);
-    void loadProjection(glm::mat4 proj);
+    void loadView(const glm::mat4& view);
+    void loadDepth(const glm::mat4& pv);
+    void loadClipPlane(const glm::vec4& clip);
+    void loadProjection(const glm::mat4& proj);
 };
-
-#endif //TERRAINSHADER_H

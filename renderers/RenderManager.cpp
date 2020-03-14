@@ -1,5 +1,12 @@
 #include "RenderManager.h"
 
+#include <GL/glew.h>
+#include "../particles/Particle.h"
+#include "../particles/ParticleManager.h"
+#include "../particles/ParticleSystem.h"
+
+const float WATER_PLANE_HEIGHT = 0.398918f;
+
 RenderManager::RenderManager() : reflectionBuffer(640, 320), refractionBuffer(1280, 720) {
     reflectionBuffer.addColourTexture();
     reflectionBuffer.addDepthBuffer();
@@ -8,7 +15,7 @@ RenderManager::RenderManager() : reflectionBuffer(640, 320), refractionBuffer(12
     refractionBuffer.addDepthTexture();
 }
 
-void RenderManager::render(const std::vector<Entity*>& entities, const std::vector<Light*>& lights, Terrain* terrain, Entity* water, SkyboxRenderer& skybox, ShadowMap shadowMap, Camera* cam, const glm::mat4& projection, const int winX, const int winY){
+void RenderManager::render(const std::vector<Entity*>& entities, const std::vector<Light*>& lights, Terrain* terrain, Entity* water, SkyboxRenderer& skybox, ShadowMap& shadowMap, Camera* cam, const glm::mat4& projection, const int winX, const int winY){
     // SHADOW PASS
     glDisable(GL_CLIP_DISTANCE0);
     shadowMap.bind();

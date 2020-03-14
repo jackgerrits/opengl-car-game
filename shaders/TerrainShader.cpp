@@ -23,7 +23,7 @@ void TerrainShader::bindUniformLocations(){
     location_num_lights = glGetUniformLocation(shaderID, "num_lights");
 }
 
-void TerrainShader::loadLights(std::vector<Light*> lights){
+void TerrainShader::loadLights(const std::vector<Light*>& lights){
     loadUniformValue(location_num_lights, int(lights.size()));
     for(size_t i = 0; i < lights.size(); i++){
         loadLight(lights[i], i);
@@ -40,16 +40,16 @@ void TerrainShader::loadLight(Light* light, size_t i){
     loadLightUniform("coneDirection", i, light->coneDirection);
 }
 
-void TerrainShader::loadView(glm::mat4 view){
+void TerrainShader::loadView(const glm::mat4& view){
     loadUniformValue(location_view, view);
 }
 
-void TerrainShader::loadDepth(glm::mat4 pv){
+void TerrainShader::loadDepth(const glm::mat4& pv){
     loadUniformValue(location_depth_pv, pv);
     loadUniformValue(location_shadowMap, 5);
 }
 
-void TerrainShader::loadTerrain(Terrain* terrain){
+void TerrainShader::loadTerrain(const Terrain* terrain){
 	loadUniformValue(location_blendMap, 0);
 	loadUniformValue(location_backMap, 1);
 	loadUniformValue(location_rMap, 2);
@@ -60,10 +60,10 @@ void TerrainShader::loadTerrain(Terrain* terrain){
     loadUniformValue(location_model, model);
 }
 
-void TerrainShader::loadClipPlane(glm::vec4 clip){
+void TerrainShader::loadClipPlane(const glm::vec4& clip){
     loadUniformValue(location_clip_plane, clip);
 }
 
-void TerrainShader::loadProjection(glm::mat4 proj){
+void TerrainShader::loadProjection(const glm::mat4& proj){
     loadUniformValue(location_projection, proj);
 }

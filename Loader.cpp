@@ -7,14 +7,14 @@
 #define VALS_PER_TEX 2
 
 Image::Image()
-    : data(NULL), width(-1), height(-1), channels(-1) {
+    : data(nullptr), width(-1), height(-1), channels(-1) {
 }
 
 Image::Image(unsigned char* data, int width, int height, int channels)
     : data(data), width(width), height(height), channels(channels) {
 }
 
-glm::vec3 Image::getPixel(int x, int y) {
+glm::vec3 Image::getPixel(int x, int y) const {
     if (x < 0 || x >= width || y < 0 || y >= height) {
         return glm::vec3(-1.0f, -1.0f, -1.0f);    // Returns a vector of -1 to indicate the image does not contain a pixel at that location.
     }
@@ -24,8 +24,6 @@ glm::vec3 Image::getPixel(int x, int y) {
 
 // Initialise Loader singleton
 Loader* Loader::loader = nullptr;
-
-Loader::Loader() {}
 
 Loader* Loader::getLoader() {
     if (loader == nullptr) {

@@ -35,7 +35,7 @@ const Model* Entity::getModel() const {
     return m_model;
 }
 
-glm::mat4 Entity::calculateModelMatrix(){
+glm::mat4 Entity::calculateModelMatrix() const {
     glm::mat4 rotation = calculateRotationMatrix(m_x_rot, m_y_rot, m_z_rot);
     return calculateModelMatrix(m_position, rotation, m_scale);
 }

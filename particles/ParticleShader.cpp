@@ -10,12 +10,12 @@ void ParticleShader::bindUniformLocations(){
     location_view = glGetUniformLocation(shaderID, "view");
 }
 
-void ParticleShader::loadCamera(glm::mat4 view){
+void ParticleShader::loadCamera(const glm::mat4& view){
     loadUniformValue(location_view, view);
 }
 
-void ParticleShader::loadParticle(Particle* particle, glm::mat4 viewmtx){
-    glm::mat4 modelmtx =  particle->calculateModelMatrix();
+void ParticleShader::loadParticle(Particle* particle, const glm::mat4& viewmtx){
+    auto modelmtx =  particle->calculateModelMatrix();
 
     // Apply transpose of view matrix to make sure the particle always faces the camera.
     // TODO - test if glm::transpose can be used here
@@ -32,6 +32,6 @@ void ParticleShader::loadParticle(Particle* particle, glm::mat4 viewmtx){
     loadUniformValue(location_model, modelmtx);
 }
 
-void ParticleShader::loadProjection(glm::mat4 proj){
+void ParticleShader::loadProjection(const glm::mat4& proj){
     loadUniformValue(location_projection, proj);
 }

@@ -1,7 +1,4 @@
-#ifndef LOADER_H
-#define LOADER_H
-
-#define _USE_MATH_DEFINES
+#pragma once 
 
 #include "Model.h"
 #include <tiny_obj_loader.h>
@@ -15,24 +12,24 @@
 #include <glm/glm.hpp>
 
 struct Image {
-    unsigned char *data;
+    unsigned char* data;
     int width;
     int height;
     int channels;
 
     Image();
     Image(unsigned char* data, int width, int height, int channels);
-    glm::vec3 getPixel(int x, int y);
+    glm::vec3 getPixel(int x, int y) const;
 };
 
 class Loader {
 private:
     static Loader* loader;
-    Loader();
+    Loader() = default;
 
     // Stores the file/id mapping for each loaded texture to use for caching.
     std::map<std::string, GLuint> loadedTextures;
-    GLuint loadTextureData(GLubyte *data, int x, int y, int n, GLenum textureUnit);
+    GLuint loadTextureData(GLubyte* data, int x, int y, int n, GLenum textureUnit);
     GLuint setupBuffer(unsigned int buffer, const std::vector<float>& values, int attributeIndex, int dataDimension);
     GLuint setupIndicesBuffer(unsigned int buffer, const std::vector<unsigned int>& values);
 public:
@@ -59,5 +56,3 @@ public:
     GLuint loadTexture(const std::string& filepath);
     GLuint loadDefaultTexture();
 };
-
-#endif

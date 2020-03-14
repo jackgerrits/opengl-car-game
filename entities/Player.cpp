@@ -1,6 +1,11 @@
 #include "Player.h"
 
 #include "../constants.h"
+#include "../GameTime.h"
+#include "Terrain.h"
+
+#include <algorithm>
+#include <cmath>
 
 using namespace std;
 using namespace glm;
@@ -42,7 +47,7 @@ float axleWeightRatioFront = cgToRearAxle / wheelBase;  // % car weight on the f
 float axleWeightRatioRear = cgToFrontAxle / wheelBase;  // % car weight on the rear axle
 
 
-Player::Player(Model* model, Terrain* terrain, bool basic_controls): Entity(model){
+Player::Player(Model* model, Terrain* terrain, bool basic_controls) : Entity(model) {
     this->terrain = terrain;
     this->absVel = 0.0f;
     this->yawRate = 0.0f;
@@ -53,52 +58,55 @@ Player::Player(Model* model, Terrain* terrain, bool basic_controls): Entity(mode
     this->ebrake_input = 0.0f;
     this->basic_controls = basic_controls;
     this->velocity = { 0.f, 0.f };
-    this->velocity_c  = { 0.f, 0.f };
+    this->velocity_c = { 0.f, 0.f };
     this->accel = { 0.f, 0.f };
     this->accel_c = { 0.f, 0.f };
-    if(basic_controls){
-        ROTATION_SPEED = (float)constants::PI;
-    } else {
+    if (basic_controls) {
+        ROTATION_SPEED = constants::PI;
+    }
+    else {
         ROTATION_SPEED = 0.6f;
     }
 }
 
 template <typename T> int sgn(T val) {
-return (T(0) < val) - (val < T(0));
+    return (T(0) < val) - (val < T(0));
 }
 
-float Player::getThrottle(){
+float Player::getThrottle() {
     return throttle_input;
 }
 
-float Player::getBrake(){
+float Player::getBrake() {
     return brake_input;
 }
 
-float Player::getSteer(){
+float Player::getSteer() {
     return steerAngle;
 }
 
-bool Player::update(){
+bool Player::update() {
     steerAngle = smoothSteering(steerChange);
     float dt = GameTime::getGameTime()->getDt();
     float dx = 0.0f;
     float dz = 0.0f;
 
-    if(basic_controls){
+    if (basic_controls) {
         rotateY(steerAngle * dt);
 
-        if(m_y_rot > (float)constants::PI*2){
-            m_y_rot -= constants::PI*2;
-        } else if (m_y_rot < (float)-constants::PI*2){
-            m_y_rot += constants::PI*2;
+        if (m_y_rot > (float)constants::PI * 2) {
+            m_y_rot -= constants::PI * 2;
+        }
+        else if (m_y_rot < (float)-constants::PI * 2) {
+            m_y_rot += constants::PI * 2;
         }
 
-        float distance = (throttle_input - brake_input) *  MOVE_SPEED * dt;
+        float distance = (throttle_input - brake_input) * MOVE_SPEED * dt;
 
         dx = distance * glm::sin(m_y_rot);
         dz = distance * glm::cos(m_y_rot);
-    } else {
+    }
+    else {
         /* Following is code from #1 and adapted to this program */
         // Pre-calc heading vector
         float sn = sin(m_y_rot);
@@ -119,7 +127,7 @@ bool Player::update(){
 
         // Calculate slip angles for front and rear wheels (a.k.a. alpha)
         float slipAngleFront = atan2(velocity_c.x + yawSpeedFront, abs(velocity_c.y)) - sgn(velocity_c.y) * steerAngle;
-        float slipAngleRear  = atan2(velocity_c.x + yawSpeedRear,  abs(velocity_c.y));
+        float slipAngleRear = atan2(velocity_c.x + yawSpeedRear, abs(velocity_c.y));
 
         float tireGripFront = tireGrip;
         float tireGripRear = tireGrip * (1.f - ebrake_input * (1.f - lockGrip)); // reduce rear grip when ebrake is on
@@ -158,7 +166,7 @@ bool Player::update(){
         absVel = length(velocity);
 
         // Slow the car down when no throttle, the overall equation doesn't seem to do this very well.
-        if(throttle < 0.5f){
+        if (throttle < 0.5f) {
             velocity = velocity - (velocity * 0.5f * dt);
         }
 
@@ -168,12 +176,13 @@ bool Player::update(){
         float angularAccel = angularTorque / inertia;
 
         //  Sim gets unstable at very slow speeds, so just stop the car
-        if(abs(absVel) < 2.0f && throttle < 0.5f) {
+        if (abs(absVel) < 2.0f && throttle < 0.5f) {
             velocity.y = 0.0f;
             velocity.x = 0.0f;
             absVel = 0.0f;
             yawRate = 0.0f;
-        } else {
+        }
+        else {
             yawRate += angularAccel * dt;
             m_y_rot += yawRate * dt;
 
@@ -184,20 +193,21 @@ bool Player::update(){
     }
 
     // Wrap rotation around once it reaches 2*pi
-    if(m_y_rot > (float)constants::PI*2){
-        m_y_rot -= constants::PI*2;
-    } else if (m_y_rot < (float)-constants::PI*2){
-        m_y_rot += constants::PI*2;
+    if (m_y_rot > (float)constants::PI * 2) {
+        m_y_rot -= constants::PI * 2;
+    }
+    else if (m_y_rot < (float)-constants::PI * 2) {
+        m_y_rot += constants::PI * 2;
     }
 
     // Assumes constant scale
-    float player_length = (abs(m_model->getRangeInDim(2).second - m_model->getRangeInDim(2).first))/2.0f * m_scale.x;
+    float player_length = (abs(m_model->getRangeInDim(2).second - m_model->getRangeInDim(2).first)) / 2.0f * m_scale.x;
     float player_length_x = player_length * glm::sin(m_y_rot);
     float player_length_z = player_length * glm::cos(m_y_rot);
 
     // Currently, acceleration and velocity are maintained on collision with edge.
     // TODO zero velocity and acceleration on FIRST collision in incident, so as to allow escaping the wall
-    if(terrain->isOnTerrain(m_position.x + dx + player_length_x, m_position.z + dz + player_length_z)){
+    if (terrain->isOnTerrain(m_position.x + dx + player_length_x, m_position.z + dz + player_length_z)) {
         move(glm::vec3(dx, 0, dz));
         placeBottomEdge(terrain->getHeight(getPosition().x, getPosition().z));
         setRotationX(terrain->getAngleX(getPosition().x, getPosition().z, getRotationY()));
@@ -207,19 +217,20 @@ bool Player::update(){
     return false;
 }
 
-float Player::smoothSteering(float inputAngle){
+float Player::smoothSteering(float inputAngle) {
     float smoothedAngle = 0;
     float dt = GameTime::getGameTime()->getDt();
     float CHANGE_MODIFIER = 12.0f;
 
-    if(abs(inputAngle) > 0.001 ){
+    if (abs(inputAngle) > 0.001) {
         smoothedAngle = std::clamp((float)(steerAngle + inputAngle * dt * CHANGE_MODIFIER), -ROTATION_SPEED, ROTATION_SPEED);
-    } else {
+    }
+    else {
         //  No steer input - move toward centre (0)
-        if( steerAngle > 0 ) {
+        if (steerAngle > 0) {
             smoothedAngle = std::max(steerAngle - dt * CHANGE_MODIFIER, 0.0f);
         }
-        else if( steerAngle < 0 ){
+        else if (steerAngle < 0) {
             smoothedAngle = std::min(steerAngle + dt * CHANGE_MODIFIER, 0.0f);
         }
     }
@@ -227,41 +238,42 @@ float Player::smoothSteering(float inputAngle){
     return smoothedAngle;
 }
 
-void Player::handleKeyboardEvents(GLFWwindow* /*window*/, int key, int /*scancode*/, int action, int /*mods*/){
-    if(action == GLFW_PRESS){
-        if(key == GLFW_KEY_W || key == GLFW_KEY_UP){
+void Player::handleKeyboardEvents(GLFWwindow* /*window*/, int key, int /*scancode*/, int action, int /*mods*/) {
+    if (action == GLFW_PRESS) {
+        if (key == GLFW_KEY_W || key == GLFW_KEY_UP) {
             throttle_input = 1.0f;
         }
-        if(key == GLFW_KEY_S || key == GLFW_KEY_DOWN){
+        if (key == GLFW_KEY_S || key == GLFW_KEY_DOWN) {
             brake_input = 1.0f;
         }
-        if(key == GLFW_KEY_SPACE){
+        if (key == GLFW_KEY_SPACE) {
             ebrake_input = 1.0f;
         }
-        if(key == GLFW_KEY_A || key == GLFW_KEY_LEFT){
+        if (key == GLFW_KEY_A || key == GLFW_KEY_LEFT) {
             steerChange = ROTATION_SPEED;
-        } else if(key == GLFW_KEY_D || key == GLFW_KEY_RIGHT){
+        }
+        else if (key == GLFW_KEY_D || key == GLFW_KEY_RIGHT) {
             steerChange = -ROTATION_SPEED;
         }
     }
 
-    if(action == GLFW_RELEASE){
-        if(key == GLFW_KEY_W || key == GLFW_KEY_UP){
+    if (action == GLFW_RELEASE) {
+        if (key == GLFW_KEY_W || key == GLFW_KEY_UP) {
             throttle_input = 0.0f;
         }
-        if(key == GLFW_KEY_S || key == GLFW_KEY_DOWN){
+        if (key == GLFW_KEY_S || key == GLFW_KEY_DOWN) {
             brake_input = 0.0f;
         }
-        if(key == GLFW_KEY_SPACE){
+        if (key == GLFW_KEY_SPACE) {
             ebrake_input = 0.0f;
         }
 
-        if((key == GLFW_KEY_A || key == GLFW_KEY_LEFT) && steerAngle > 0.0f){
-           steerChange = 0.0f;
-       }
+        if ((key == GLFW_KEY_A || key == GLFW_KEY_LEFT) && steerAngle > 0.0f) {
+            steerChange = 0.0f;
+        }
 
-       if((key == GLFW_KEY_D || key == GLFW_KEY_RIGHT) && steerAngle < 0.0f){
-           steerChange = 0.0f;
-       }
-   }
+        if ((key == GLFW_KEY_D || key == GLFW_KEY_RIGHT) && steerAngle < 0.0f) {
+            steerChange = 0.0f;
+        }
+    }
 }

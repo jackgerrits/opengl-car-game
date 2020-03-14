@@ -1,13 +1,8 @@
-#ifndef SHADOW_MAP_H
-#define SHADOW_MAP_H
-
-#define _USE_MATH_DEFINES
+#pragma once
 
 #include "entities/Light.h"
 #include "entities/Player.h"
 #include "FrameBuffer.h"
-
-#include <iostream>
 
 #include <GL/glew.h>
 #include <glm/glm.hpp>
@@ -34,5 +29,3 @@ public:
     // Unbind is unchanged
     virtual void bind();
 };
-
-#endif

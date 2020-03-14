@@ -9,12 +9,13 @@ void SkyboxShader::bindUniformLocations(){
     location_view = glGetUniformLocation(shaderID, "view");
 }
 
-void SkyboxShader::loadMatrices(glm::mat4 camera, glm::mat4 projection){
+void SkyboxShader::loadMatrices(const glm::mat4& camera, const glm::mat4& projection){
+    auto camera_copy = camera;
     // Remove translation of camera matrix, just keep rotation
-    camera[3][0] = 0.0f;
-    camera[3][1] = 0.0f;
-    camera[3][2] = 0.0f;
+    camera_copy[3][0] = 0.0f;
+    camera_copy[3][1] = 0.0f;
+    camera_copy[3][2] = 0.0f;
 
-    loadUniformValue(location_view, camera);
+    loadUniformValue(location_view, camera_copy);
     loadUniformValue(location_projection, projection);
 }

@@ -1,5 +1,9 @@
 #include "ShadowMap.h"
 
+#pragma warning(push, 0)
+#include <glm/ext.hpp>
+#pragma warning(pop)
+
 ShadowMap::ShadowMap(Player* player, Light* light, GLuint textureSize) :
     FrameBuffer(textureSize, textureSize),
     player(player),

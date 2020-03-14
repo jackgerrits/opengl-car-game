@@ -1,24 +1,9 @@
-#ifndef SKYBOX_RENDERER_H
-#define SKYBOX_RENDERER_H
-
-#define _USE_MATH_DEFINES
+#pragma once
 
 #include "../shaders/SkyboxShader.h"
-#include "../entities/Light.h"
-#include "../entities/Camera.h"
-#include "../Model.h"
-#include "../Loader.h"
 
-#include <cstdio>
-#include <string>
 #include <vector>
-#include <iostream>
-#include <fstream>
-
 #include <glm/glm.hpp>
-#pragma warning(push, 0)
-#include <glm/ext.hpp>
-#pragma warning(pop)
 #include <GL/glew.h>
 
 class SkyboxRenderer {
@@ -37,9 +22,7 @@ public:
         PosZFilename,
         NegZFilename
     */
-    SkyboxRenderer(std::vector<std::string> images, const float SIZE);
-    GLuint getSkyboxTexture();
-    void render(glm::mat4 view, glm::mat4);
+    SkyboxRenderer(const std::vector<std::string>& images, const float SIZE);
+    GLuint getSkyboxTexture() const;
+    void render(const glm::mat4& view, const glm::mat4&);
 };
-
-#endif //SKYBOX_RENDERER_H

@@ -1,8 +1,9 @@
 #include "WaterRenderer.h"
 
-WaterRenderer::WaterRenderer(){
-    this->shader = WaterShader();
+#include "../Loader.h"
+#include "../GameTime.h"
 
+WaterRenderer::WaterRenderer() {
     std::vector<float> vertices = {
         -1.0f, 0.0f, 1.0f,
         -1.0f, 0.0f, -1.0f,
@@ -23,7 +24,7 @@ WaterRenderer::WaterRenderer(){
 }
 
 // Only works for one set of water, update to reflect
-void WaterRenderer::render(Entity* water, glm::mat4 view, glm::mat4 projection, GLuint refract, GLuint reflect, glm::vec3 cameraPosition, Light* light){
+void WaterRenderer::render(const Entity* water, const glm::mat4& view, const glm::mat4& projection, GLuint refract, GLuint reflect, const glm::vec3& cameraPosition, const Light* light) {
     shader.enable();
     glDisable(GL_CULL_FACE);
 
@@ -35,7 +36,7 @@ void WaterRenderer::render(Entity* water, glm::mat4 view, glm::mat4 projection, 
     shader.loadLight(light);
 
     movement += WATER_MOVE_SPEED * GameTime::getGameTime()->getDt();
-    if(movement > 1.0f){
+    if (movement > 1.0f) {
         movement -= 1.0f;
     }
 
@@ -49,9 +50,9 @@ void WaterRenderer::render(Entity* water, glm::mat4 view, glm::mat4 projection, 
     shader.loadModel(water->calculateModelMatrix());
     glBindVertexArray(vao);
     glEnableVertexAttribArray(0);
-    
+
     glDrawElements(GL_TRIANGLES, static_cast<GLsizei>(indexCount), GL_UNSIGNED_INT, (void*)0);
-    
+
     glDisableVertexAttribArray(0);
     glBindVertexArray(0);
 

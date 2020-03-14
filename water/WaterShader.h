@@ -1,24 +1,11 @@
-#ifndef WATER_SHADER_H
-#define WATER_SHADER_H
+#pragma once
 
-#define _USE_MATH_DEFINES
-
-// #include "../entities/Entity.h"
 #include "../entities/Light.h"
-// #include "../entities/Camera.h"
-#include "../Model.h"
 #include "../shaders/ShaderProgram.h"
 
-#include <cstdio>
 #include <string>
-#include <vector>
-#include <iostream>
-#include <fstream>
 
 #include <glm/glm.hpp>
-#pragma warning(push, 0)
-#include <glm/ext.hpp>
-#pragma warning(pop)
 #include <GL/glew.h>
 
 const std::string WATER_VERTEX_SHADER = "water/water.vert";
@@ -43,13 +30,11 @@ public:
 
     void bindUniformLocations();
 
-    void loadProjection(glm::mat4 projection);
-    void loadView(glm::mat4 view);
-    void loadModel(glm::mat4 model);
+    void loadProjection(const glm::mat4& projection);
+    void loadView(const glm::mat4& view);
+    void loadModel(const glm::mat4& model);
     void loadMovement(float movement);
-    void loadLight(Light* light);
-    void loadCameraPosition(glm::vec3 position);
+    void loadLight(const Light* light);
+    void loadCameraPosition(const glm::vec3& position);
     void loadTextures();
 };
-
-#endif //WATER_SHADER_H

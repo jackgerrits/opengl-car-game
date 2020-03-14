@@ -1,11 +1,5 @@
-#ifndef SKYBOXSHADER_H
-#define SKYBOXSHADER_H
+#pragma once
 
-#define _USE_MATH_DEFINES
-
-#include "../entities/Light.h"
-#include "../entities/Camera.h"
-#include "../Model.h"
 #include "ShaderProgram.h"
 
 #include <string>
@@ -24,7 +18,5 @@ public:
     SkyboxShader();
 
     void bindUniformLocations();
-    void loadMatrices(glm::mat4 camera, glm::mat4 projection);
+    void loadMatrices(const glm::mat4& camera, const glm::mat4& projection);
 };
-
-#endif //SKYBOXSHADER_H

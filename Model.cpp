@@ -1,5 +1,7 @@
 #include "Model.h"
 
+#include <algorithm>
+
 // Taken from tiny_obj_loader.h as its hidden in a different namespace in the implementation.
 void initMaterial(tinyobj::material_t& material) {
     material.name = "";
@@ -78,6 +80,12 @@ void Model::addRange(const std::vector<float>& vertices) {
             maxRanges[2 * dim + 1] = std::max(vertices[j], maxRanges[2 * dim + 1]);
         }
     }
+}
+
+// [xMin, xMax, yMin, yMax, zMin, zMax]
+void Model::setRange(const std::tuple<float, float, float>& minXYZ, const std::tuple<float, float, float>& maxXYZ)
+{
+    maxRanges = { std::get<0>(minXYZ), };
 }
 
 std::pair<float, float> Model::getRangeInDim(int dim) const {

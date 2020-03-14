@@ -27,7 +27,7 @@ public:
     virtual bool update();
 
     [[nodiscard]] const Model* getModel() const;
-    [[nodiscard]] glm::mat4 calculateModelMatrix();
+    [[nodiscard]] glm::mat4 calculateModelMatrix() const;
     [[nodiscard]] const glm::vec3& getPosition() const;
     [[nodiscard]] const glm::vec3& getScale() const;
     [[nodiscard]] float getRotationX() const;

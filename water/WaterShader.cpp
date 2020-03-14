@@ -19,15 +19,15 @@ void WaterShader::bindUniformLocations(){
     location_lightPosition = glGetUniformLocation(shaderID, "lightPosition");
 }
 
-void WaterShader::loadProjection(glm::mat4 proj){
+void WaterShader::loadProjection(const glm::mat4& proj){
     loadUniformValue(location_projection, proj);
 }
 
-void WaterShader::loadView(glm::mat4 view){
+void WaterShader::loadView(const glm::mat4& view){
     loadUniformValue(location_view, view);
 }
 
-void WaterShader::loadModel(glm::mat4 model){
+void WaterShader::loadModel(const glm::mat4& model){
     loadUniformValue(location_model, model);
 }
 
@@ -35,11 +35,11 @@ void WaterShader::loadMovement(float movement){
     loadUniformValue(location_movement, movement);
 }
 
-void WaterShader::loadCameraPosition(glm::vec3 position){
+void WaterShader::loadCameraPosition(const glm::vec3& position){
     loadUniformValue(location_camera_position, position);
 }
 
-void WaterShader::loadLight(Light* light){
+void WaterShader::loadLight(const Light* light){
     loadUniformValue(location_lightColour, light->specular);
     loadUniformValue(location_lightPosition, glm::vec3(light->position));
 }

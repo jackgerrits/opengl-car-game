@@ -1,21 +1,12 @@
-#ifndef WATER_RENDERER_H
-#define WATER_RENDERER_H
-
-#define _USE_MATH_DEFINES
+#pragma once
 
 #include "WaterShader.h"
 #include "../entities/Entity.h"
-#include "../Loader.h"
-#include "../GameTime.h"
 
 #include <string>
 #include <vector>
-#include <iostream>
 
 #include <glm/glm.hpp>
-#pragma warning(push, 0)
-#include <glm/ext.hpp>
-#pragma warning(pop)
 #include <GL/glew.h>
 
 /*
@@ -40,7 +31,5 @@ private:
 public:
     WaterRenderer();
 
-    void render(Entity* water, glm::mat4 view, glm::mat4 projection, GLuint refract, GLuint reflect, glm::vec3 cameraPosition, Light* light);
+    void render(const Entity* water, const glm::mat4& view, const glm::mat4& projection, GLuint refract, GLuint reflect, const glm::vec3& cameraPosition, const Light* light);
 };
-
-#endif //WATER_RENDERER_H

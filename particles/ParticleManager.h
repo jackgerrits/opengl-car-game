@@ -1,11 +1,8 @@
 #pragma once
 
-#define _USE_MATH_DEFINES
-
 #include "Particle.h"
-#include "../entities/Camera.h"
 #include "ParticleRenderer.h"
-#include <GLFW/glfw3.h>
+#include <glm/glm.hpp>
 #include <vector>
 
 class ParticleManager {
