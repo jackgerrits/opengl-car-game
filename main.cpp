@@ -24,7 +24,7 @@
 #include <cmath>
 #include <ctime>
 #include <algorithm>
-#include <GL/glew.h>
+//#include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
 #pragma warning(push, 0)
@@ -33,6 +33,8 @@
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/string_cast.hpp>
 #include <cfloat>
+
+#include <glad/glad.h>
 
 // Windows specific headers.
 #ifdef _WIN32
@@ -139,14 +141,22 @@ GLFWwindow* initialise(){
 
     glfwMakeContextCurrent(window);
     glfwSwapInterval(1);
-    // Initialize GLEW
-    glewExperimental = GL_TRUE; // Needed for core profile
-    if (glewInit() != GLEW_OK)
-    {
-        std::cerr << "glewInit() failed" << std::endl;
+
+    if (!gladLoadGL()) {
+        printf("Something went wrong!\n");
         glfwTerminate();
-        exit(1);
+        exit(-1);
     }
+    printf("OpenGL %d.%d\n", GLVersion.major, GLVersion.minor);
+
+    //// Initialize GLEW
+    //glewExperimental = GL_TRUE; // Needed for core profile
+    //if (glewInit() != GLEW_OK)
+    //{
+    //    std::cerr << "glewInit() failed" << std::endl;
+    //
+    //    exit(1);
+    //}
     glfwGetFramebufferSize(window, &winX, &winY);
 
     // Sets the (background) colour for each time the frame-buffer

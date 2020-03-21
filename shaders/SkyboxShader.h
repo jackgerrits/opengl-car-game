@@ -4,7 +4,7 @@
 
 #include <string>
 #include <glm/glm.hpp>
-#include <GL/glew.h>
+#include <glad/glad.h>
 
 const std::string SKYBOX_VERTEX_SHADER = "shaders/skybox.vert";
 const std::string SKYBOX_FRAGMENT_SHADER = "shaders/skybox.frag";

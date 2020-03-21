@@ -13,12 +13,12 @@ Notable features include:
 
 ##### Ubuntu/Debian
 ```
-sudo apt-get install libglfw3-dev libglew-dev libglm-dev
+sudo apt-get install libglfw3-dev libglm-dev
 ```
 
 ##### Vcpkg on Windows
 ```
-vcpkg install --triplet x64-windows glfw3 glew glm
+vcpkg install --triplet x64-windows glfw3 glm
 ```
 
 ## Build

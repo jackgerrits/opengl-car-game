@@ -4,7 +4,7 @@
 #include "entities/Player.h"
 #include "FrameBuffer.h"
 
-#include <GL/glew.h>
+#include <glad/glad.h>
 #include <glm/glm.hpp>
 
 class ShadowMap : public FrameBuffer {

@@ -1,7 +1,7 @@
 #pragma once
 
 #include <tiny_obj_loader.h>
-#include <GL/glew.h>
+#include <glad/glad.h>
 
 #include <utility>
 

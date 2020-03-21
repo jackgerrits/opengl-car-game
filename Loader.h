@@ -1,10 +1,10 @@
-#pragma once 
+#pragma once
 
 #include "Model.h"
 #include <tiny_obj_loader.h>
 
 #include <sys/stat.h>
-#include <GL/glew.h>
+#include <glad/glad.h>
 #include <string>
 #include <vector>
 #include <map>

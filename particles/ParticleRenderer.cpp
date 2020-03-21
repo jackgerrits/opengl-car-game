@@ -2,7 +2,7 @@
 
 #include "../Loader.h"
 
-#include <GL/glew.h>
+#include <glad/glad.h>
 
 ParticleRenderer::ParticleRenderer(){
     // Create a square mesh encompassing the viewport
@@ -49,7 +49,7 @@ void ParticleRenderer::render(std::vector<Particle*> particles, glm::mat4 view, 
         glBindTexture(GL_TEXTURE_2D, particles[i]->getTextureID());
         glDrawElements(GL_TRIANGLES, static_cast<GLsizei>(quad.getIndexCount()), GL_UNSIGNED_INT, (void*)0);
     }
-    
+
     glDepthMask(GL_TRUE);
     glDisable(GL_BLEND);
     glDisableVertexAttribArray(0);

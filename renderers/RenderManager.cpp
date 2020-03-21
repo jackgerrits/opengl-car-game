@@ -1,6 +1,6 @@
 #include "RenderManager.h"
 
-#include <GL/glew.h>
+#include <glad/glad.h>
 #include "../particles/Particle.h"
 #include "../particles/ParticleManager.h"
 #include "../particles/ParticleSystem.h"

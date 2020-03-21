@@ -12,7 +12,7 @@
 #include <vector>
 
 #include <glm/glm.hpp>
-#include <GL/glew.h>
+#include <glad/glad.h>
 
 const std::string ENTITY_VERTEX_SHADER = "shaders/entity.vert";
 const std::string ENTITY_FRAGMENT_SHADER = "shaders/entity.frag";

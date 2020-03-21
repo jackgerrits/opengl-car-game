@@ -17,7 +17,7 @@
 #pragma warning(push, 0)
 #include <glm/ext.hpp>
 #pragma warning(pop)
-#include <GL/glew.h>
+#include <glad/glad.h>
 
 class EntityRenderer {
 private:

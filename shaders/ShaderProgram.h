@@ -4,7 +4,7 @@
 #include <sstream>
 
 #include <glm/glm.hpp>
-#include <GL/glew.h>
+#include <glad/glad.h>
 
 // Abstract shader program class, holds all uniforms,
 class ShaderProgram {

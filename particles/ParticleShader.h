@@ -9,7 +9,7 @@
 #include <vector>
 
 #include <glm/glm.hpp>
-#include <GL/glew.h>
+#include <glad/glad.h>
 
 const std::string PARTICLE_VERTEX_SHADER = "particles/particle.vert";
 const std::string PARTICLE_FRAGMENT_SHADER = "particles/particle.frag";

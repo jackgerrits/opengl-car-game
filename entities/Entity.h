@@ -7,7 +7,7 @@
 #include <cassert>
 #include <string>
 #include <iostream>
-#include <GL/glew.h>
+#include <glad/glad.h>
 #include <glm/glm.hpp>
 
 class Entity {

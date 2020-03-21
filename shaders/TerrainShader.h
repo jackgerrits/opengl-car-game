@@ -9,7 +9,7 @@
 
 
 #include <glm/glm.hpp>
-#include <GL/glew.h>
+#include <glad/glad.h>
 
 const std::string TERRAIN_VERTEX_SHADER = "shaders/terrain.vert";
 const std::string TERRAIN_FRAGMENT_SHADER = "shaders/terrain.frag";

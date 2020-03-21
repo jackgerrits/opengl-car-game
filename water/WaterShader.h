@@ -6,7 +6,7 @@
 #include <string>
 
 #include <glm/glm.hpp>
-#include <GL/glew.h>
+#include <glad/glad.h>
 
 const std::string WATER_VERTEX_SHADER = "water/water.vert";
 const std::string WATER_FRAGMENT_SHADER = "water/water.frag";

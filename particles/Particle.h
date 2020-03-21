@@ -1,8 +1,8 @@
-#pragma once 
+#pragma once
 
 #include "../entities/Entity.h"
 
-#include <GL/glew.h>
+#include <glad/glad.h>
 #include <glm/glm.hpp>
 
 class Particle : public Entity {
