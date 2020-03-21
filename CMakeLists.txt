@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.13)
+cmake_minimum_required(VERSION 3.14)
 
 project(opengl-car-game LANGUAGES C CXX)
 set(CMAKE_CXX_STANDARD 17)
@@ -92,15 +92,13 @@ add_custom_command(TARGET opengl-car-game POST_BUILD
     COMMENT "Copy resources to build tree")
 
 function(target_add_shader target out_dir)
-  foreach(shader_file ${ARGN})
-    add_custom_command(
-      TARGET ${target} POST_BUILD
-      COMMAND ${CMAKE_COMMAND} -E make_directory ${out_dir}
-      COMMAND ${CMAKE_COMMAND} -E copy ${shader_file} ${out_dir}
-      MAIN_DEPENDENCY ${shader_file}
-      DEPENDS ${shader_file}
-    )
-    target_sources(${target} PRIVATE ${shader_file})
+  foreach(source_shader_file ${ARGN})
+    get_filename_component(shader_file_name ${source_shader_file} NAME)
+    set(out_shader_file "${out_dir}${shader_file_name}")
+    file(MAKE_DIRECTORY ${out_dir})
+    file(TOUCH ${out_shader_file})
+    file(CREATE_LINK ${source_shader_file} ${out_shader_file})
+    target_sources(${target} PRIVATE ${source_shader_file})
   endforeach()
 endfunction()
 
