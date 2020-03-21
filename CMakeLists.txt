@@ -98,7 +98,6 @@ function(target_add_shader target out_dir)
     file(MAKE_DIRECTORY ${out_dir})
     file(TOUCH ${out_shader_file})
     file(CREATE_LINK ${source_shader_file} ${out_shader_file})
-    target_sources(${target} PRIVATE ${source_shader_file})
   endforeach()
 endfunction()
 
