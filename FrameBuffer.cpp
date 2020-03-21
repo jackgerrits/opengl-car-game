@@ -1,16 +1,11 @@
 #include "FrameBuffer.h"
 
-
 FrameBuffer::FrameBuffer(uint32_t width, uint32_t height)
-    : depthTexture(0),
-    depthBuffer(0),
-    colourTexture(0),
-    width(width),
-    height(height) {
+    : depthTexture(0), depthBuffer(0), colourTexture(0), width(width), height(height) {
     glGenFramebuffers(1, &framebufferID);
 }
 
-void FrameBuffer::addColourTexture(){
+void FrameBuffer::addColourTexture() {
     bind();
     glGenTextures(1, &colourTexture);
 
@@ -29,7 +24,7 @@ void FrameBuffer::addColourTexture(){
     unbind();
 }
 
-void FrameBuffer::addDepthTexture(){
+void FrameBuffer::addDepthTexture() {
     bind();
     glGenTextures(1, &depthTexture);
 
@@ -45,7 +40,7 @@ void FrameBuffer::addDepthTexture(){
     unbind();
 }
 
-void FrameBuffer::addDepthBuffer(){
+void FrameBuffer::addDepthBuffer() {
     bind();
     glGenRenderbuffers(1, &depthBuffer);
     glBindRenderbuffer(GL_RENDERBUFFER, depthBuffer);
@@ -54,43 +49,42 @@ void FrameBuffer::addDepthBuffer(){
     unbind();
 }
 
-bool FrameBuffer::isOkay(){
+bool FrameBuffer::isOkay() {
     bind();
     bool result = true;
-    if(glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
+    if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
         result = false;
     }
     unbind();
     return result;
 }
 
-
-GLuint FrameBuffer::getColourTexture(){
+GLuint FrameBuffer::getColourTexture() {
     return colourTexture;
 }
 
-GLuint FrameBuffer::getDepthTexture(){
+GLuint FrameBuffer::getDepthTexture() {
     return depthTexture;
 }
 
-GLuint FrameBuffer::getDepthBuffer(){
+GLuint FrameBuffer::getDepthBuffer() {
     return depthBuffer;
 }
 
-int FrameBuffer::getWidth(){
+int FrameBuffer::getWidth() {
     return width;
 }
 
-int FrameBuffer::getHeight(){
+int FrameBuffer::getHeight() {
     return height;
 }
 
-void FrameBuffer::bind(){
+void FrameBuffer::bind() {
     glBindFramebuffer(GL_FRAMEBUFFER, framebufferID);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glViewport(0, 0, width, height);
 }
 
-void FrameBuffer::unbind(){
+void FrameBuffer::unbind() {
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }

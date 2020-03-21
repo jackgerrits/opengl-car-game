@@ -10,11 +10,11 @@ const std::string SKYBOX_VERTEX_SHADER = "shaders/skybox.vert";
 const std::string SKYBOX_FRAGMENT_SHADER = "shaders/skybox.frag";
 
 class SkyboxShader : public ShaderProgram {
-private:
+  private:
     GLuint location_projection;
     GLuint location_view;
 
-public:
+  public:
     SkyboxShader();
 
     void bindUniformLocations();

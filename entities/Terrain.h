@@ -10,11 +10,11 @@
 #include <glm/glm.hpp>
 
 class Terrain : public Entity {
-protected:
+  protected:
     std::vector<GLuint> textures;
     Image heightMap;
 
-public:
+  public:
     static const float TERRAIN_SIZE;
     static const float TERRAIN_MAX_HEIGHT;
 

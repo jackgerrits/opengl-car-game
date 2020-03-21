@@ -4,6 +4,7 @@
 #include "../GameTime.h"
 
 WaterRenderer::WaterRenderer() {
+    // clang-format off
     std::vector<float> vertices = {
         -1.0f, 0.0f, 1.0f,
         -1.0f, 0.0f, -1.0f,
@@ -15,7 +16,7 @@ WaterRenderer::WaterRenderer() {
         0, 3, 2,
         2, 1, 0
     };
-
+    // clang-format on
     indexCount = indices.size();
     vao = Loader::getLoader()->loadVAO(vertices, indices);
     movement = 0.0f;
@@ -24,7 +25,8 @@ WaterRenderer::WaterRenderer() {
 }
 
 // Only works for one set of water, update to reflect
-void WaterRenderer::render(const Entity* water, const glm::mat4& view, const glm::mat4& projection, GLuint refract, GLuint reflect, const glm::vec3& cameraPosition, const Light* light) {
+void WaterRenderer::render(const Entity* water, const glm::mat4& view, const glm::mat4& projection, GLuint refract,
+    GLuint reflect, const glm::vec3& cameraPosition, const Light* light) {
     shader.enable();
     glDisable(GL_CULL_FACE);
 

@@ -18,7 +18,7 @@ const std::string ENTITY_VERTEX_SHADER = "shaders/entity.vert";
 const std::string ENTITY_FRAGMENT_SHADER = "shaders/entity.frag";
 
 class EntityShader : public ShaderProgram {
-private:
+  private:
     GLuint location_texMap;
     GLuint location_cubeMap;
     GLuint location_shadowMap;
@@ -39,7 +39,8 @@ private:
 
     GLuint location_depth_pv;
     GLuint location_render_shadows;
-public:
+
+  public:
     EntityShader();
 
     void bindUniformLocations();

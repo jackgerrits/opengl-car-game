@@ -5,7 +5,8 @@
 
 // Lights are a simple struct holding all of the relevant information.
 struct Light {
-    // Position of the camera in world coordinates. w value of 0 indicates directional light, 1 indicates positional/point light
+    // Position of the camera in world coordinates. w value of 0 indicates directional light, 1 indicates
+    // positional/point light
     glm::vec4 position = glm::vec4(0.0f);
     // Colour intensities of each light component
     glm::vec3 specular = glm::vec3(0.0f);

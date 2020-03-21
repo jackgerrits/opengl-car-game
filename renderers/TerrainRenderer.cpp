@@ -1,6 +1,7 @@
 #include "TerrainRenderer.h"
 
-void TerrainRenderer::render(const Terrain* terrain, const std::vector<Light*>& lights, const glm::mat4& view, const glm::mat4& proj, const glm::vec4& clipPlane) {
+void TerrainRenderer::render(const Terrain* terrain, const std::vector<Light*>& lights, const glm::mat4& view,
+    const glm::mat4& proj, const glm::vec4& clipPlane) {
     shader.enable();
     shader.loadProjection(proj);
     shader.loadLights(lights);
@@ -36,7 +37,9 @@ void TerrainRenderer::render(const Terrain* terrain, const std::vector<Light*>& 
     shader.disable();
 }
 
-void TerrainRenderer::render(const Terrain* terrain, const std::vector<Light*>& lights, const glm::mat4& view, const glm::mat4& proj, const glm::mat4& depthView, const glm::mat4& depthProj, GLuint shadowMap, const glm::vec4& clipPlane) {
+void TerrainRenderer::render(const Terrain* terrain, const std::vector<Light*>& lights, const glm::mat4& view,
+    const glm::mat4& proj, const glm::mat4& depthView, const glm::mat4& depthProj, GLuint shadowMap,
+    const glm::vec4& clipPlane) {
     shader.enable();
     shader.loadProjection(proj);
     shader.loadLights(lights);
@@ -44,14 +47,14 @@ void TerrainRenderer::render(const Terrain* terrain, const std::vector<Light*>& 
 
     shader.loadTerrain(terrain);
     shader.loadClipPlane(clipPlane);
-
+    // clang-format off
     glm::mat4 biasMatrix(
         0.5, 0.0, 0.0, 0.0,
         0.0, 0.5, 0.0, 0.0,
         0.0, 0.0, 0.5, 0.0,
         0.5, 0.5, 0.5, 1.0
     );
-
+    // clang-format on
     glm::mat4 depthBiasPV = biasMatrix * depthProj * depthView;
     shader.loadDepth(depthBiasPV);
 

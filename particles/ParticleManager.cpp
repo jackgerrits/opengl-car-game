@@ -13,17 +13,15 @@ ParticleManager* ParticleManager::getParticleManager() {
 
 void ParticleManager::update() {
     // Update and kill particles
-    for (auto particles_it = particles.begin(); particles_it != particles.end(); particles_it++)
-    {
-        if (!(*particles_it)->update())
-        {
-            delete* particles_it;
+    for (auto particles_it = particles.begin(); particles_it != particles.end(); particles_it++) {
+        if (!(*particles_it)->update()) {
+            delete *particles_it;
             // TODO make particles a linked list so this erase is less costly.
             particles_it = particles.erase(particles_it);
 
-            // If we just erased the last item in the vector we need to break out instead of iterating to the next element.
-            if (particles_it == particles.end())
-            {
+            // If we just erased the last item in the vector we need to break out instead of iterating to the next
+            // element.
+            if (particles_it == particles.end()) {
                 break;
             }
         }

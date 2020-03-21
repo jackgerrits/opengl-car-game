@@ -7,7 +7,6 @@
 #include <string>
 #include <vector>
 
-
 #include <glm/glm.hpp>
 #include <glad/glad.h>
 
@@ -15,7 +14,7 @@ const std::string TERRAIN_VERTEX_SHADER = "shaders/terrain.vert";
 const std::string TERRAIN_FRAGMENT_SHADER = "shaders/terrain.frag";
 
 class TerrainShader : public ShaderProgram {
-private:
+  private:
     GLuint location_blendMap;
     GLuint location_backMap;
     GLuint location_rMap;
@@ -33,7 +32,8 @@ private:
 
     GLuint location_num_lights;
     GLuint location_shininess;
-public:
+
+  public:
     TerrainShader();
 
     void bindUniformLocations();

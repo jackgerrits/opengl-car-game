@@ -62,20 +62,20 @@ void ShaderProgram::loadUniformValue(GLuint uniformLocation, glm::mat4 value) {
 
 void ShaderProgram::loadUniformValue(GLuint uniformLocation, float* value, int count) {
     switch (count) {
-    case 1:
-        glUniform1f(uniformLocation, *value);
-        break;
-    case 2:
-        glUniform2fv(uniformLocation, 1, value);
-        break;
-    case 3:
-        glUniform3fv(uniformLocation, 1, value);
-        break;
-    case 4:
-        glUniform4fv(uniformLocation, 1, value);
-        break;
-    default:
-        std::cerr << "Cant load uniform with " << count << " dimensions." << std::endl;
+        case 1:
+            glUniform1f(uniformLocation, *value);
+            break;
+        case 2:
+            glUniform2fv(uniformLocation, 1, value);
+            break;
+        case 3:
+            glUniform3fv(uniformLocation, 1, value);
+            break;
+        case 4:
+            glUniform4fv(uniformLocation, 1, value);
+            break;
+        default:
+            std::cerr << "Cant load uniform with " << count << " dimensions." << std::endl;
     }
 }
 
@@ -89,8 +89,7 @@ int ShaderProgram::compileShader(const std::string& shader_path, GLuint shader_i
             shader_code += "\n" + line;
         }
         shader_file_stream.close();
-    }
-    else {
+    } else {
         std::cerr << "Cannot open " << shader_path << ". Are you in the right directory?" << std::endl;
         return 0;
     }
@@ -109,10 +108,7 @@ int ShaderProgram::compileShader(const std::string& shader_path, GLuint shader_i
     printf("compiled shader %d %d\n", result, info_log_length);
     if (info_log_length > 1) {
         std::vector<char> shader_error_message(info_log_length + 1);
-        glGetShaderInfoLog(shader_id,
-            info_log_length,
-            nullptr,
-            shader_error_message.data());
+        glGetShaderInfoLog(shader_id, info_log_length, nullptr, shader_error_message.data());
 
         std::cerr << shader_error_message.data() << std::endl;
         return 0;
@@ -126,8 +122,7 @@ GLuint ShaderProgram::loadShaders(const std::string& vertex_file_path, const std
     GLuint fragment_shader_id = glCreateShader(GL_FRAGMENT_SHADER);
 
     // Compile both shaders. Exit if compile errors.
-    if (!compileShader(vertex_file_path, vertex_shader_id)
-        || !compileShader(fragment_file_path, fragment_shader_id)) {
+    if (!compileShader(vertex_file_path, vertex_shader_id) || !compileShader(fragment_file_path, fragment_shader_id)) {
         return 0;
     }
 

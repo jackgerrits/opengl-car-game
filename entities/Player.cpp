@@ -19,33 +19,32 @@ I didnt make many changes since it is a complete equation, but I did add code to
 */
 
 // Static variables used for car physics
-float gravity = 9.81f;           // m/s^2
-float mass = 2000.0f;            // kg
-float inertiaScale = 1.0f;       // Multiply by mass for inertia
-float halfWidth = 0.8f;          // Centre to side of chassis (metres)
-float cgToFront = 1.5f;          // Centre of gravity to front of chassis (metres)
-float cgToRear = 1.5f;           // Centre of gravity to rear of chassis
-float cgToFrontAxle = 1.25f;     // Centre gravity to front axle
-float cgToRearAxle = 1.25f;      // Centre gravity to rear axle
-float cgHeight = 0.55f;          // Centre gravity height
-float wheelRadius = 0.3f;        // Includes tire (also represents height of axle)
-float wheelWidth = 0.2f;         // Used for render only
-float tireGrip = 3.0f;           // How much grip tires have
-float lockGrip = 0.8f;           // % of grip available when wheel is locked
+float gravity = 9.81f;        // m/s^2
+float mass = 2000.0f;         // kg
+float inertiaScale = 1.0f;    // Multiply by mass for inertia
+float halfWidth = 0.8f;       // Centre to side of chassis (metres)
+float cgToFront = 1.5f;       // Centre of gravity to front of chassis (metres)
+float cgToRear = 1.5f;        // Centre of gravity to rear of chassis
+float cgToFrontAxle = 1.25f;  // Centre gravity to front axle
+float cgToRearAxle = 1.25f;   // Centre gravity to rear axle
+float cgHeight = 0.55f;       // Centre gravity height
+float wheelRadius = 0.3f;     // Includes tire (also represents height of axle)
+float wheelWidth = 0.2f;      // Used for render only
+float tireGrip = 3.0f;        // How much grip tires have
+float lockGrip = 0.8f;        // % of grip available when wheel is locked
 float engineForce = 8000.0f;
 float brakeForce = 12000.0f;
 float eBrakeForce = brakeForce / 2.5f;
-float weightTransfer = 0.2f;             // How much weight is transferred during acceleration/braking
-float maxSteer = 0.6f;                   // Maximum steering angle in radians
+float weightTransfer = 0.2f;  // How much weight is transferred during acceleration/braking
+float maxSteer = 0.6f;        // Maximum steering angle in radians
 float cornerStiffnessFront = 5.0f;
 float cornerStiffnessRear = 5.2f;
-float airResist = 3.0f;                    // air resistance (* vel)
+float airResist = 3.0f;  // air resistance (* vel)
 float rollResist = 5.0f;
-float inertia = mass * inertiaScale;    // will be = mass
+float inertia = mass * inertiaScale;                    // will be = mass
 float wheelBase = cgToFrontAxle + cgToRearAxle;         // set from axle to CG lengths
 float axleWeightRatioFront = cgToRearAxle / wheelBase;  // % car weight on the front axle
 float axleWeightRatioRear = cgToFrontAxle / wheelBase;  // % car weight on the rear axle
-
 
 Player::Player(Model* model, Terrain* terrain, bool basic_controls) : Entity(model) {
     this->terrain = terrain;
@@ -57,19 +56,19 @@ Player::Player(Model* model, Terrain* terrain, bool basic_controls) : Entity(mod
     this->brake_input = 0.0f;
     this->ebrake_input = 0.0f;
     this->basic_controls = basic_controls;
-    this->velocity = { 0.f, 0.f };
-    this->velocity_c = { 0.f, 0.f };
-    this->accel = { 0.f, 0.f };
-    this->accel_c = { 0.f, 0.f };
+    this->velocity = {0.f, 0.f};
+    this->velocity_c = {0.f, 0.f};
+    this->accel = {0.f, 0.f};
+    this->accel_c = {0.f, 0.f};
     if (basic_controls) {
         ROTATION_SPEED = constants::PI;
-    }
-    else {
+    } else {
         ROTATION_SPEED = 0.6f;
     }
 }
 
-template <typename T> int sgn(T val) {
+template <typename T>
+int sgn(T val) {
     return (T(0) < val) - (val < T(0));
 }
 
@@ -96,8 +95,7 @@ bool Player::update() {
 
         if (m_y_rot > (float)constants::PI * 2) {
             m_y_rot -= constants::PI * 2;
-        }
-        else if (m_y_rot < (float)-constants::PI * 2) {
+        } else if (m_y_rot < (float)-constants::PI * 2) {
             m_y_rot += constants::PI * 2;
         }
 
@@ -105,8 +103,7 @@ bool Player::update() {
 
         dx = distance * glm::sin(m_y_rot);
         dz = distance * glm::cos(m_y_rot);
-    }
-    else {
+    } else {
         /* Following is code from #1 and adapted to this program */
         // Pre-calc heading vector
         float sn = sin(m_y_rot);
@@ -117,8 +114,10 @@ bool Player::update() {
         velocity_c.x = cs * velocity.x - sn * velocity.y;
 
         // Weight on axles based on centre of gravity and weight shift due to forward/reverse acceleration
-        float axleWeightFront = mass * (axleWeightRatioFront * gravity - weightTransfer * accel_c.y * cgHeight / wheelBase);
-        float axleWeightRear = mass * (axleWeightRatioRear * gravity + weightTransfer * accel_c.y * cgHeight / wheelBase);
+        float axleWeightFront =
+            mass * (axleWeightRatioFront * gravity - weightTransfer * accel_c.y * cgHeight / wheelBase);
+        float axleWeightRear =
+            mass * (axleWeightRatioRear * gravity + weightTransfer * accel_c.y * cgHeight / wheelBase);
 
         // Resulting velocity of the wheels as result of the yaw rate of the car body.
         // v = yawrate * r where r is distance from axle to CG and yawRate (angular velocity) in rad/s.
@@ -130,10 +129,12 @@ bool Player::update() {
         float slipAngleRear = atan2(velocity_c.x + yawSpeedRear, abs(velocity_c.y));
 
         float tireGripFront = tireGrip;
-        float tireGripRear = tireGrip * (1.f - ebrake_input * (1.f - lockGrip)); // reduce rear grip when ebrake is on
+        float tireGripRear = tireGrip * (1.f - ebrake_input * (1.f - lockGrip));  // reduce rear grip when ebrake is on
 
-        float frictionForceFront_cy = std::clamp(-cornerStiffnessFront * slipAngleFront, -tireGripFront, tireGripFront) * axleWeightFront;
-        float frictionForceRear_cy = std::clamp(-cornerStiffnessRear * slipAngleRear, -tireGripRear, tireGripRear) * axleWeightRear;
+        float frictionForceFront_cy =
+            std::clamp(-cornerStiffnessFront * slipAngleFront, -tireGripFront, tireGripFront) * axleWeightFront;
+        float frictionForceRear_cy =
+            std::clamp(-cornerStiffnessRear * slipAngleRear, -tireGripRear, tireGripRear) * axleWeightRear;
 
         //  Get amount of brake/throttle from our inputs
         float brake = std::min(brake_input * brakeForce + ebrake_input * eBrakeForce, brakeForce);
@@ -149,7 +150,8 @@ bool Player::update() {
 
         // total force in car coordinates
         float totalForce_cx = dragForce_cx + tractionForce_cx;
-        float totalForce_cy = dragForce_cy + tractionForce_cy + cos(steerAngle) * frictionForceFront_cy + frictionForceRear_cy;
+        float totalForce_cy =
+            dragForce_cy + tractionForce_cy + cos(steerAngle) * frictionForceFront_cy + frictionForceRear_cy;
 
         // acceleration along car axes
         accel_c.y = totalForce_cx / mass;  // forward/reverse accel
@@ -171,7 +173,8 @@ bool Player::update() {
         }
 
         // calculate rotational forces
-        float angularTorque = (frictionForceFront_cy + tractionForce_cy) * cgToFrontAxle - frictionForceRear_cy * cgToRearAxle;
+        float angularTorque =
+            (frictionForceFront_cy + tractionForce_cy) * cgToFrontAxle - frictionForceRear_cy * cgToRearAxle;
 
         float angularAccel = angularTorque / inertia;
 
@@ -181,8 +184,7 @@ bool Player::update() {
             velocity.x = 0.0f;
             absVel = 0.0f;
             yawRate = 0.0f;
-        }
-        else {
+        } else {
             yawRate += angularAccel * dt;
             m_y_rot += yawRate * dt;
 
@@ -195,8 +197,7 @@ bool Player::update() {
     // Wrap rotation around once it reaches 2*pi
     if (m_y_rot > (float)constants::PI * 2) {
         m_y_rot -= constants::PI * 2;
-    }
-    else if (m_y_rot < (float)-constants::PI * 2) {
+    } else if (m_y_rot < (float)-constants::PI * 2) {
         m_y_rot += constants::PI * 2;
     }
 
@@ -223,14 +224,13 @@ float Player::smoothSteering(float inputAngle) {
     float CHANGE_MODIFIER = 12.0f;
 
     if (abs(inputAngle) > 0.001) {
-        smoothedAngle = std::clamp((float)(steerAngle + inputAngle * dt * CHANGE_MODIFIER), -ROTATION_SPEED, ROTATION_SPEED);
-    }
-    else {
+        smoothedAngle =
+            std::clamp((float)(steerAngle + inputAngle * dt * CHANGE_MODIFIER), -ROTATION_SPEED, ROTATION_SPEED);
+    } else {
         //  No steer input - move toward centre (0)
         if (steerAngle > 0) {
             smoothedAngle = std::max(steerAngle - dt * CHANGE_MODIFIER, 0.0f);
-        }
-        else if (steerAngle < 0) {
+        } else if (steerAngle < 0) {
             smoothedAngle = std::min(steerAngle + dt * CHANGE_MODIFIER, 0.0f);
         }
     }
@@ -251,8 +251,7 @@ void Player::handleKeyboardEvents(GLFWwindow* /*window*/, int key, int /*scancod
         }
         if (key == GLFW_KEY_A || key == GLFW_KEY_LEFT) {
             steerChange = ROTATION_SPEED;
-        }
-        else if (key == GLFW_KEY_D || key == GLFW_KEY_RIGHT) {
+        } else if (key == GLFW_KEY_D || key == GLFW_KEY_RIGHT) {
             steerChange = -ROTATION_SPEED;
         }
     }

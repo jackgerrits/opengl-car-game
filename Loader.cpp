@@ -6,8 +6,7 @@
 #define VALS_PER_NORMAL 3
 #define VALS_PER_TEX 2
 
-Image::Image()
-    : data(nullptr), width(-1), height(-1), channels(-1) {
+Image::Image() : data(nullptr), width(-1), height(-1), channels(-1) {
 }
 
 Image::Image(unsigned char* data, int width, int height, int channels)
@@ -16,9 +15,11 @@ Image::Image(unsigned char* data, int width, int height, int channels)
 
 glm::vec3 Image::getPixel(int x, int y) const {
     if (x < 0 || x >= width || y < 0 || y >= height) {
-        return glm::vec3(-1.0f, -1.0f, -1.0f);    // Returns a vector of -1 to indicate the image does not contain a pixel at that location.
+        return glm::vec3(-1.0f, -1.0f,
+            -1.0f);  // Returns a vector of -1 to indicate the image does not contain a pixel at that location.
     }
-    int offset = ((width * y) + x) * channels;  // Determine the position in data to start reading. Each pixel is 1 byte.
+    int offset =
+        ((width * y) + x) * channels;  // Determine the position in data to start reading. Each pixel is 1 byte.
     return glm::vec3((float)data[offset] / 255, (float)data[offset + 1] / 255, (float)data[offset + 2] / 255);
 }
 
@@ -35,12 +36,11 @@ Loader* Loader::getLoader() {
 
 glm::vec3 getVertex(const std::vector<float>& vertices, int index) {
     int pos = index * 3;
-    return glm::vec3(vertices[pos],
-        vertices[pos + 1],
-        vertices[pos + 2]);
+    return glm::vec3(vertices[pos], vertices[pos + 1], vertices[pos + 2]);
 }
 
-std::vector<float> Loader::generateNormals(const std::vector<float>& vertices, const std::vector<unsigned int>& indices) {
+std::vector<float> Loader::generateNormals(
+    const std::vector<float>& vertices, const std::vector<unsigned int>& indices) {
     std::vector<float> resultNormals(vertices.size(), 0.0f);
 
     // Iterate over each triangle as defined in indices
@@ -57,8 +57,7 @@ std::vector<float> Loader::generateNormals(const std::vector<float>& vertices, c
 
         // Iterate over each vertex in that triangle
         for (size_t j = i; j < i + 3; j++) {
-            glm::vec3 vertNormal(resultNormals[indices[j] * 3],
-                resultNormals[(indices[j] * 3) + 1],
+            glm::vec3 vertNormal(resultNormals[indices[j] * 3], resultNormals[(indices[j] * 3) + 1],
                 resultNormals[(indices[j] * 3) + 2]);
 
             // Add the current faces normal to the vertexes normal
@@ -72,7 +71,6 @@ std::vector<float> Loader::generateNormals(const std::vector<float>& vertices, c
 
     return resultNormals;
 }
-
 
 // http://stackoverflow.com/questions/12774207/fastest-way-to-check-if-a-file-exist-using-standard-c-c11-c
 inline bool Loader::fileExists(const std::string& name) {
@@ -95,19 +93,18 @@ Model Loader::loadModel(const std::string& model_file) {
     // Load object
     std::string err;
     bool succeeded = tinyobj::LoadObj(shapes, materials, err, model_file.c_str(), model_file_path.c_str());
-    if (!err.empty())
-    {
+    if (!err.empty()) {
         std::cerr << err << std::endl;
     }
-    if (!succeeded)
-    {
+    if (!succeeded) {
         exit(1);
     }
 
     return loadModel(shapes, materials, model_file_path);
 }
 
-Model Loader::loadModel(const std::vector<tinyobj::shape_t>& shapes, const std::vector<tinyobj::material_t>& materials, const std::string& materialpath) {
+Model Loader::loadModel(const std::vector<tinyobj::shape_t>& shapes, const std::vector<tinyobj::material_t>& materials,
+    const std::string& materialpath) {
     Model model;
     for (size_t i = 0; i < shapes.size(); i++) {
         ModelComponent component = loadModelComponent(shapes[i], materials, materialpath);
@@ -117,22 +114,25 @@ Model Loader::loadModel(const std::vector<tinyobj::shape_t>& shapes, const std::
     return model;
 }
 
-ModelComponent Loader::loadModelComponent(const tinyobj::shape_t& shape, const std::vector<tinyobj::material_t>& materials, const std::string& materialpath) {
+ModelComponent Loader::loadModelComponent(
+    const tinyobj::shape_t& shape, const std::vector<tinyobj::material_t>& materials, const std::string& materialpath) {
     GLuint vao = loadVAO(shape);
     size_t numIndices = shape.mesh.indices.size();
 
-    // TODO - revisit this. Likely a result of the file not loading on windows requiring this, meaning no textures can load.
+    // TODO - revisit this. Likely a result of the file not loading on windows requiring this, meaning no textures can
+    // load.
     tinyobj::material_t material;
     initMaterial(material);
     if (shape.mesh.material_ids.size() > 0 && shape.mesh.material_ids[0] != -1) {
-        material = materials[shape.mesh.material_ids[0]]; // Loads the first material
+        material = materials[shape.mesh.material_ids[0]];  // Loads the first material
     }
     GLuint textureID = loadTexture(materialpath + material.diffuse_texname);
 
     return ModelComponent(vao, numIndices, textureID, material);
 }
 
-ModelComponent Loader::loadModelComponent(const std::vector<float>& vertices, const std::vector<unsigned int>& indices, const std::vector<float>& texCoords) {
+ModelComponent Loader::loadModelComponent(
+    const std::vector<float>& vertices, const std::vector<unsigned int>& indices, const std::vector<float>& texCoords) {
     GLuint vao = loadVAO(vertices, indices, texCoords);
     size_t numIndices = indices.size();
     GLuint textureID = loadDefaultTexture();
@@ -140,7 +140,8 @@ ModelComponent Loader::loadModelComponent(const std::vector<float>& vertices, co
     return ModelComponent(vao, numIndices, textureID);
 }
 
-ModelComponent Loader::loadModelComponent(const std::vector<float>& vertices, const std::vector<unsigned int>& indices, const std::vector<float>& texCoords, const std::vector<float>& normals) {
+ModelComponent Loader::loadModelComponent(const std::vector<float>& vertices, const std::vector<unsigned int>& indices,
+    const std::vector<float>& texCoords, const std::vector<float>& normals) {
     GLuint vao = loadVAO(vertices, indices, texCoords, normals);
     size_t numIndices = indices.size();
     GLuint textureID = loadDefaultTexture();
@@ -148,7 +149,8 @@ ModelComponent Loader::loadModelComponent(const std::vector<float>& vertices, co
     return ModelComponent(vao, numIndices, textureID);
 }
 
-ModelComponent Loader::loadModelComponent(const std::vector<float>& vertices, const std::vector<unsigned int>& indices, const std::vector<float>& texCoords, const std::string& texturepath) {
+ModelComponent Loader::loadModelComponent(const std::vector<float>& vertices, const std::vector<unsigned int>& indices,
+    const std::vector<float>& texCoords, const std::string& texturepath) {
     GLuint vao = loadVAO(vertices, indices, texCoords);
     size_t numIndices = indices.size();
     GLuint textureID = loadTexture(texturepath);
@@ -156,7 +158,8 @@ ModelComponent Loader::loadModelComponent(const std::vector<float>& vertices, co
     return ModelComponent(vao, numIndices, textureID);
 }
 
-ModelComponent Loader::loadModelComponent(const std::vector<float>& vertices, const std::vector<unsigned int>& indices, const std::vector<float>& texCoords, const std::vector<float>& normals, const std::string& texturepath) {
+ModelComponent Loader::loadModelComponent(const std::vector<float>& vertices, const std::vector<unsigned int>& indices,
+    const std::vector<float>& texCoords, const std::vector<float>& normals, const std::string& texturepath) {
     GLuint vao = loadVAO(vertices, indices, texCoords, normals);
     size_t numIndices = indices.size();
     GLuint textureID = loadTexture(texturepath);
@@ -164,7 +167,8 @@ ModelComponent Loader::loadModelComponent(const std::vector<float>& vertices, co
     return ModelComponent(vao, numIndices, textureID);
 }
 
-GLuint Loader::loadVAO(const std::vector<float>& vertices, const std::vector<unsigned int>& indices, const std::vector<float>& texCoords) {
+GLuint Loader::loadVAO(
+    const std::vector<float>& vertices, const std::vector<unsigned int>& indices, const std::vector<float>& texCoords) {
     GLuint vaoHandle;
     glGenVertexArrays(1, &vaoHandle);
     glBindVertexArray(vaoHandle);
@@ -197,7 +201,8 @@ GLuint Loader::loadVAO(const std::vector<float>& vertices, const std::vector<uns
     return vaoHandle;
 }
 
-GLuint Loader::loadVAO(const std::vector<float>& vertices, const std::vector<unsigned int>& indices, const std::vector<float>& texCoords, const std::vector<float>& normals) {
+GLuint Loader::loadVAO(const std::vector<float>& vertices, const std::vector<unsigned int>& indices,
+    const std::vector<float>& texCoords, const std::vector<float>& normals) {
     GLuint vaoHandle;
     glGenVertexArrays(1, &vaoHandle);
     glBindVertexArray(vaoHandle);
@@ -215,12 +220,10 @@ GLuint Loader::loadVAO(const std::vector<float>& vertices, const std::vector<uns
     return vaoHandle;
 }
 
-GLuint Loader::setupBuffer(unsigned int buffer, const std::vector<float>& values, int attributeIndex, int dataDimension) {
+GLuint Loader::setupBuffer(
+    unsigned int buffer, const std::vector<float>& values, int attributeIndex, int dataDimension) {
     glBindBuffer(GL_ARRAY_BUFFER, buffer);
-    glBufferData(GL_ARRAY_BUFFER,
-        sizeof(float) * values.size(),
-        &values[0],
-        GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(float) * values.size(), &values[0], GL_STATIC_DRAW);
     glVertexAttribPointer(attributeIndex, dataDimension, GL_FLOAT, GL_FALSE, 0, 0);
 
     return buffer;
@@ -228,10 +231,7 @@ GLuint Loader::setupBuffer(unsigned int buffer, const std::vector<float>& values
 
 GLuint Loader::setupIndicesBuffer(unsigned int buffer, const std::vector<unsigned int>& values) {
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffer);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER,
-        sizeof(unsigned int) * values.size(),
-        &values[0],
-        GL_STATIC_DRAW);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * values.size(), &values[0], GL_STATIC_DRAW);
     return buffer;
 }
 
@@ -249,20 +249,16 @@ GLuint Loader::loadVAO(const tinyobj::shape_t& shape) {
         return loadVAO(shapeCopy);
     }
 
-    return loadVAO(shape.mesh.positions,
-        shape.mesh.indices,
-        shape.mesh.texcoords,
-        shape.mesh.normals);
+    return loadVAO(shape.mesh.positions, shape.mesh.indices, shape.mesh.texcoords, shape.mesh.normals);
 }
 
 Image Loader::loadImage(const std::string& filepath) {
     int x, y, n;
-    unsigned char* data = stbi_load(
-        filepath.c_str(),   // char* filepath
-        &x,                 // The address to store the width of the image
-        &y,                 // The address to store the height of the image
-        &n,                  // Number of channels in the image
-        0                   // Force number of channels if > 0
+    unsigned char* data = stbi_load(filepath.c_str(),  // char* filepath
+        &x,                                            // The address to store the width of the image
+        &y,                                            // The address to store the height of the image
+        &n,                                            // Number of channels in the image
+        0                                              // Force number of channels if > 0
     );
 
     return Image(data, x, y, n);
@@ -293,7 +289,8 @@ GLuint Loader::loadCubemapTexture(const std::vector<std::string>& filenames) {
         }
 
         // The first cast works because the enums are defined sequentially.
-        glTexImage2D(static_cast<GLenum>(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i), 0, GL_RGB, image.width, image.height, 0, format, GL_UNSIGNED_BYTE, image.data);
+        glTexImage2D(static_cast<GLenum>(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i), 0, GL_RGB, image.width, image.height, 0,
+            format, GL_UNSIGNED_BYTE, image.data);
         stbi_image_free(image.data);
         glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
         glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);

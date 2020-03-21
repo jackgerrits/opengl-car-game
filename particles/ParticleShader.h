@@ -15,11 +15,12 @@ const std::string PARTICLE_VERTEX_SHADER = "particles/particle.vert";
 const std::string PARTICLE_FRAGMENT_SHADER = "particles/particle.frag";
 
 class ParticleShader : public ShaderProgram {
-private:
+  private:
     GLuint location_projection;
     GLuint location_model;
     GLuint location_view;
-public:
+
+  public:
     ParticleShader();
 
     void bindUniformLocations();

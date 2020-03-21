@@ -84,8 +84,8 @@ void Model::addRange(const std::vector<float>& vertices) {
 }
 
 // [xMin, xMax, yMin, yMax, zMin, zMax]
-void Model::setRange(const std::tuple<float, float, float>& /*minXYZ*/, const std::tuple<float, float, float>& /*maxXYZ*/)
-{
+void Model::setRange(
+    const std::tuple<float, float, float>& /*minXYZ*/, const std::tuple<float, float, float>& /*maxXYZ*/) {
     throw new std::runtime_error("Not implemented");
 }
 

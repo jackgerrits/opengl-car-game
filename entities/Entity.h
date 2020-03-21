@@ -11,7 +11,7 @@
 #include <glm/glm.hpp>
 
 class Entity {
-protected:
+  protected:
     const Model* m_model;
 
     glm::vec3 m_position;
@@ -20,7 +20,7 @@ protected:
     float m_y_rot;
     float m_z_rot;
 
-public:
+  public:
     Entity(const Model* model);
     Entity();
 

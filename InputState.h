@@ -3,11 +3,16 @@
 #define _USE_MATH_DEFINES
 
 struct InputState {
-    InputState() : lMousePressed(false),
-        rMousePressed(false),
-        prevX(0), prevY(0),
-        deltaX(0), deltaY(0),
-        scrollDeltaX(0), scrollDeltaY(0) {}
+    InputState()
+        : lMousePressed(false)
+        , rMousePressed(false)
+        , prevX(0)
+        , prevY(0)
+        , deltaX(0)
+        , deltaY(0)
+        , scrollDeltaX(0)
+        , scrollDeltaY(0) {
+    }
 
     // Is the mouse button currently being held down?
     bool lMousePressed;
@@ -17,7 +22,7 @@ struct InputState {
     float prevX;
     float prevY;
 
-    // Accumulated change in cursor position. 
+    // Accumulated change in cursor position.
     float deltaX;
     float deltaY;
 

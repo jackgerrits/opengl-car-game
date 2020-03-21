@@ -8,7 +8,7 @@
 #include <glm/glm.hpp>
 
 class ShadowMap : public FrameBuffer {
-private:
+  private:
     Player* player;
 
     const GLuint textureSize;
@@ -17,7 +17,7 @@ private:
     glm::mat4 projection;
     glm::mat4 view;
 
-public:
+  public:
     ShadowMap(Player* player, Light* light, GLuint textureSize = 2048);
 
     GLuint getTextureID();

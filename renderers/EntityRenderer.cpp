@@ -1,6 +1,7 @@
 #include "EntityRenderer.h"
 
-void EntityRenderer::render(const std::vector<Entity*>& entities, const std::vector<Light*>& lights, const glm::mat4& view, const glm::mat4& proj, GLuint reflectionTexture, const glm::vec4& clipPlane) {
+void EntityRenderer::render(const std::vector<Entity*>& entities, const std::vector<Light*>& lights,
+    const glm::mat4& view, const glm::mat4& proj, GLuint reflectionTexture, const glm::vec4& clipPlane) {
     m_shader.enable();
     m_shader.loadProjection(proj);
     m_shader.loadLights(lights);
@@ -20,19 +21,16 @@ void EntityRenderer::render(const std::vector<Entity*>& entities, const std::vec
     m_shader.disable();
 }
 
-void EntityRenderer::render(const std::vector<Entity*>& entities, const std::vector<Light*>& lights, const glm::mat4& view, const glm::mat4& proj, GLuint reflectionTexture, const glm::mat4& depthView, const glm::mat4& depthProj, GLuint shadowMap, const glm::vec4& clipPlane) {
+void EntityRenderer::render(const std::vector<Entity*>& entities, const std::vector<Light*>& lights,
+    const glm::mat4& view, const glm::mat4& proj, GLuint reflectionTexture, const glm::mat4& depthView,
+    const glm::mat4& depthProj, GLuint shadowMap, const glm::vec4& clipPlane) {
     m_shader.enable();
     m_shader.loadProjection(proj);
     m_shader.loadLights(lights);
     m_shader.loadView(view);
     m_shader.loadClipPlane(clipPlane);
 
-    glm::mat4 biasMatrix(
-        0.5, 0.0, 0.0, 0.0,
-        0.0, 0.5, 0.0, 0.0,
-        0.0, 0.0, 0.5, 0.0,
-        0.5, 0.5, 0.5, 1.0
-    );
+    glm::mat4 biasMatrix(0.5, 0.0, 0.0, 0.0, 0.0, 0.5, 0.0, 0.0, 0.0, 0.0, 0.5, 0.0, 0.5, 0.5, 0.5, 1.0);
 
     glm::mat4 depthBiasPV = biasMatrix * depthProj * depthView;
     m_shader.loadDepth(depthBiasPV);
@@ -53,7 +51,7 @@ void EntityRenderer::render(const std::vector<Entity*>& entities, const std::vec
 }
 
 void EntityRenderer::renderModel(const Model* model) {
-    for(const auto& component : model->getModelComponents()) {
+    for (const auto& component : model->getModelComponents()) {
         m_shader.loadModelComponent(component);
 
         glActiveTexture(GL_TEXTURE0);

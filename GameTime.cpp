@@ -29,5 +29,5 @@ float GameTime::getDt() const {
 }
 
 float GameTime::getFPS() const {
-    return  static_cast <float>(1.f / getDt());
+    return static_cast<float>(1.f / getDt());
 }

@@ -4,7 +4,7 @@
 #include <cstdint>
 
 class FrameBuffer {
-private:
+  private:
     GLuint framebufferID;
 
     GLuint depthTexture;
@@ -13,7 +13,8 @@ private:
 
     GLuint width;
     GLuint height;
-public:
+
+  public:
     FrameBuffer(uint32_t width, uint32_t height);
     void addColourTexture();
     void addDepthTexture();

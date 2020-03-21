@@ -8,7 +8,7 @@
 #include <GLFW/glfw3.h>
 
 class Player : public Entity {
-private:
+  private:
     const float MOVE_SPEED = 10.0f;
     float ROTATION_SPEED;
 
@@ -33,7 +33,8 @@ private:
     bool basic_controls;
 
     float smoothSteering(float);
-public:
+
+  public:
     Player(Model* model, Terrain* terrain, bool basic_controls);
     virtual bool update();
     float getThrottle();

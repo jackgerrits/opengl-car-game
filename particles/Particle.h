@@ -6,15 +6,16 @@
 #include <glm/glm.hpp>
 
 class Particle : public Entity {
-protected:
+  protected:
     glm::vec3 velocity;
     float gravityEffect;
     float lifeDuration;
     float elapsedTime;
     GLuint texid;
 
-public:
-    Particle(const glm::vec3& position, const glm::vec3& velocity, float gravityEffect, float lifeDuration, GLuint texture);
+  public:
+    Particle(
+        const glm::vec3& position, const glm::vec3& velocity, float gravityEffect, float lifeDuration, GLuint texture);
     bool update();
     GLuint getTextureID() const;
 };

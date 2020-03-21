@@ -9,12 +9,12 @@ void initMaterial(tinyobj::material_t& material);
 
 // Represents a single mesh/shape/vao
 class ModelComponent {
-private:
+  private:
     GLuint vaoID;
     size_t indexCount;
     tinyobj::material_t material;
 
-public:
+  public:
     GLuint textureID;
     ModelComponent(GLuint, size_t, GLuint, const tinyobj::material_t&);
     ModelComponent(GLuint, size_t, GLuint);
@@ -28,11 +28,12 @@ public:
 
 // Represents a grouping of meshes/shapes/vaos/ModelComponents to form a larger object.
 class Model {
-private:
+  private:
     std::vector<ModelComponent> components;
     // Essentially forms a bounding box for the model. Format: [xMin, xMax, yMin, yMax, zMin, zMax]
     std::vector<float> maxRanges;
-public:
+
+  public:
     Model(const std::vector<ModelComponent>&);
     Model();
     void addModelComponent(const ModelComponent&);

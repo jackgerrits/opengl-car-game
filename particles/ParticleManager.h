@@ -6,14 +6,14 @@
 #include <vector>
 
 class ParticleManager {
-private:
+  private:
     static ParticleManager* particleManager;
     ParticleManager() = default;
 
     ParticleRenderer renderer;
     std::vector<Particle*> particles;
 
-public:
+  public:
     static ParticleManager* getParticleManager();
 
     // Should be called once per frame

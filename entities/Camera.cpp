@@ -8,8 +8,8 @@
 
 #include <glm/gtc/matrix_transform.hpp>
 
-#define DEG2RAD(x) ((x)*constants::PI/180.0)
-#define RAD2DEG(x) ((x)*180.0/constants::PI)
+#define DEG2RAD(x) ((x)*constants::PI / 180.0)
+#define RAD2DEG(x) ((x)*180.0 / constants::PI)
 
 const glm::mat4& Camera::getViewMtx() const {
     return m_view_matrix;
@@ -78,11 +78,9 @@ void PlayerCamera::update(InputState& input) {
     if (m_player->getThrottle() > 0.1f) {
         if (fabs(m_angle_around) < change) {
             m_angle_around = 0.0f;
-        }
-        else if (m_angle_around > 0) {
+        } else if (m_angle_around > 0) {
             m_angle_around -= change;
-        }
-        else if (m_angle_around < 0) {
+        } else if (m_angle_around < 0) {
             m_angle_around += change;
         }
     }

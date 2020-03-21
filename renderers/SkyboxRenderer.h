@@ -7,12 +7,13 @@
 #include <glad/glad.h>
 
 class SkyboxRenderer {
-private:
+  private:
     SkyboxShader shader;
     GLuint vao;
     GLuint texture;
     size_t indexCount;
-public:
+
+  public:
     /*
     Images should be in order:
         PosXFilename,

@@ -8,13 +8,14 @@
 
 // Abstract shader program class, holds all uniforms,
 class ShaderProgram {
-protected:
+  protected:
     GLuint shaderID;
 
-private:
+  private:
     int compileShader(const std::string& ShaderPath, GLuint ShaderID);
     GLuint loadShaders(const std::string& vertex_file_path, const std::string& fragment_file_path);
-public:
+
+  public:
     ShaderProgram(const std::string&, const std::string&);
     ShaderProgram(int);
     virtual void enable();
@@ -36,7 +37,6 @@ public:
 
     GLuint getShaderID();
 };
-
 
 // Should generalise this to take 'lights' as a parameter
 template <typename T>

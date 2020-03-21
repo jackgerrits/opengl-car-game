@@ -7,10 +7,11 @@
 #include <glm/glm.hpp>
 
 class ParticleRenderer {
-private:
+  private:
     ParticleShader shader;
     ModelComponent quad;
-public:
+
+  public:
     ParticleRenderer();
 
     void render(std::vector<Particle*> particles, glm::mat4 view, glm::mat4 proj);

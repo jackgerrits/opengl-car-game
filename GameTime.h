@@ -1,14 +1,15 @@
 #pragma once
 
 class GameTime {
-private:
+  private:
     static GameTime* gameTime;
     GameTime();
 
     double initialTime;
     double lastTime;
     double currentTime;
-public:
+
+  public:
     static GameTime* getGameTime();
 
     void update();  // Should be called once per frame

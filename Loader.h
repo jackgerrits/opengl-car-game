@@ -23,7 +23,7 @@ struct Image {
 };
 
 class Loader {
-private:
+  private:
     static Loader* loader;
     Loader() = default;
 
@@ -32,23 +32,32 @@ private:
     GLuint loadTextureData(GLubyte* data, int x, int y, int n, GLenum textureUnit);
     GLuint setupBuffer(unsigned int buffer, const std::vector<float>& values, int attributeIndex, int dataDimension);
     GLuint setupIndicesBuffer(unsigned int buffer, const std::vector<unsigned int>& values);
-public:
+
+  public:
     static Loader* getLoader();
 
     std::vector<float> generateNormals(const std::vector<float>& vertices, const std::vector<unsigned int>& indices);
 
     bool fileExists(const std::string& name);
     Model loadModel(const std::string& filepath);
-    Model loadModel(const std::vector<tinyobj::shape_t>& shapes, const std::vector<tinyobj::material_t>& materials, const std::string& materialpath);
-    ModelComponent loadModelComponent(const tinyobj::shape_t&, const std::vector<tinyobj::material_t>& materials, const std::string& materialpath);
-    ModelComponent loadModelComponent(const std::vector<float>& vertices, const std::vector<unsigned int>& indices, const std::vector<float>& texCoords);
-    ModelComponent loadModelComponent(const std::vector<float>& vertices, const std::vector<unsigned int>& indices, const std::vector<float>& texCoords, const std::vector<float>& normals);
-    ModelComponent loadModelComponent(const std::vector<float>& vertices, const std::vector<unsigned int>& indices, const std::vector<float>& texCoords, const std::string& texturepath);
-    ModelComponent loadModelComponent(const std::vector<float>& vertices, const std::vector<unsigned int>& indices, const std::vector<float>& texCoords, const std::vector<float>& normals, const std::string& texturepath);
+    Model loadModel(const std::vector<tinyobj::shape_t>& shapes, const std::vector<tinyobj::material_t>& materials,
+        const std::string& materialpath);
+    ModelComponent loadModelComponent(
+        const tinyobj::shape_t&, const std::vector<tinyobj::material_t>& materials, const std::string& materialpath);
+    ModelComponent loadModelComponent(const std::vector<float>& vertices, const std::vector<unsigned int>& indices,
+        const std::vector<float>& texCoords);
+    ModelComponent loadModelComponent(const std::vector<float>& vertices, const std::vector<unsigned int>& indices,
+        const std::vector<float>& texCoords, const std::vector<float>& normals);
+    ModelComponent loadModelComponent(const std::vector<float>& vertices, const std::vector<unsigned int>& indices,
+        const std::vector<float>& texCoords, const std::string& texturepath);
+    ModelComponent loadModelComponent(const std::vector<float>& vertices, const std::vector<unsigned int>& indices,
+        const std::vector<float>& texCoords, const std::vector<float>& normals, const std::string& texturepath);
 
     GLuint loadVAO(const std::vector<float>& vertices, const std::vector<unsigned int>& indices);
-    GLuint loadVAO(const std::vector<float>& vertices, const std::vector<unsigned int>& indices, const std::vector<float>& texCoords);
-    GLuint loadVAO(const std::vector<float>& vertices, const std::vector<unsigned int>& indices, const std::vector<float>& texCoords, const std::vector<float>& normals);
+    GLuint loadVAO(const std::vector<float>& vertices, const std::vector<unsigned int>& indices,
+        const std::vector<float>& texCoords);
+    GLuint loadVAO(const std::vector<float>& vertices, const std::vector<unsigned int>& indices,
+        const std::vector<float>& texCoords, const std::vector<float>& normals);
     GLuint loadVAO(const tinyobj::shape_t&);
 
     Image loadImage(const std::string& filepath);

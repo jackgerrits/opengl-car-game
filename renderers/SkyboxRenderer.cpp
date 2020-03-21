@@ -2,6 +2,7 @@
 #include "../Loader.h"
 
 SkyboxRenderer::SkyboxRenderer(const std::vector<std::string>& images, const float SIZE) {
+    // clang-format off
     std::vector<float> vertices = {
         -SIZE, -SIZE, SIZE,
         SIZE, -SIZE, SIZE,
@@ -21,7 +22,7 @@ SkyboxRenderer::SkyboxRenderer(const std::vector<std::string>& images, const flo
         3,2,6, 6,7,3,
         4,5,1, 1,0,4
     };
-
+    // clang-format on
     vao = Loader::getLoader()->loadVAO(vertices, indices);
     indexCount = indices.size();
     texture = Loader::getLoader()->loadCubemapTexture(images);

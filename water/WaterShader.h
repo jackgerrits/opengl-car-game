@@ -12,7 +12,7 @@ const std::string WATER_VERTEX_SHADER = "water/water.vert";
 const std::string WATER_FRAGMENT_SHADER = "water/water.frag";
 
 class WaterShader : public ShaderProgram {
-private:
+  private:
     GLuint location_projection;
     GLuint location_view;
     GLuint location_model;
@@ -25,7 +25,8 @@ private:
 
     GLuint location_lightColour;
     GLuint location_lightPosition;
-public:
+
+  public:
     WaterShader();
 
     void bindUniformLocations();

@@ -20,10 +20,14 @@
 #include <glad/glad.h>
 
 class EntityRenderer {
-private:
+  private:
     EntityShader m_shader;
-public:
-    void render(const std::vector<Entity*>& entities, const std::vector<Light*>& lights, const glm::mat4& view, const glm::mat4& proj, GLuint reflectionTexture, const glm::vec4& clipPlane);
-    void render(const std::vector<Entity*>& entities, const std::vector<Light*>& lights, const glm::mat4& view, const glm::mat4& proj, GLuint reflectionTexture, const glm::mat4& depthView, const glm::mat4& depthProj, GLuint shadowMap, const glm::vec4& clipPlane);
+
+  public:
+    void render(const std::vector<Entity*>& entities, const std::vector<Light*>& lights, const glm::mat4& view,
+        const glm::mat4& proj, GLuint reflectionTexture, const glm::vec4& clipPlane);
+    void render(const std::vector<Entity*>& entities, const std::vector<Light*>& lights, const glm::mat4& view,
+        const glm::mat4& proj, GLuint reflectionTexture, const glm::mat4& depthView, const glm::mat4& depthProj,
+        GLuint shadowMap, const glm::vec4& clipPlane);
     void renderModel(const Model* model);
 };

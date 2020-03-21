@@ -5,14 +5,12 @@
 
 using namespace std;
 
-const float Terrain::TERRAIN_SIZE = 301.43f;    // Set so that the fences fit better
+const float Terrain::TERRAIN_SIZE = 301.43f;  // Set so that the fences fit better
 const float Terrain::TERRAIN_MAX_HEIGHT = 10.0f;
 
 // Constructor accepts a model defining vertex, colour and index data for this Terrain.
-Terrain::Terrain(Model* model, std::vector<GLuint> textures, Image heightMap) :
-    Entity(model),
-    textures(textures),
-    heightMap(heightMap) {
+Terrain::Terrain(Model* model, std::vector<GLuint> textures, Image heightMap)
+    : Entity(model), textures(textures), heightMap(heightMap) {
 }
 
 Terrain* Terrain::loadTerrain(const std::vector<std::string>& images, const std::string& heightMapFile) {
@@ -79,10 +77,7 @@ bool Terrain::isOnTerrain(float x, float z) const {
     int z_int = convertCoordinate(z);
 
     // Bring in boundaries slightly from absolute edge and do check.
-    if (x_int < 4
-        || x_int >= heightMap.width - 4
-        || z_int < 4
-        || z_int >= heightMap.width - 4) {
+    if (x_int < 4 || x_int >= heightMap.width - 4 || z_int < 4 || z_int >= heightMap.width - 4) {
         return false;
     }
 
@@ -92,7 +87,6 @@ bool Terrain::isOnTerrain(float x, float z) const {
 
     return true;
 }
-
 
 GLuint Terrain::getVaoID() const {
     return m_model->getModelComponents().at(0).getVaoID();
@@ -146,34 +140,28 @@ float Terrain::getAngle(float x, float z, float rotation, float offset) const {
 
     int x_nxt = 0;
     int z_nxt = 0;
-    rotation += constants::PI / 8; // apply small rotation to offset
-    rotation -= offset; // Allows to test both front and next to car
-    if (rotation < 0) rotation += constants::PI * 2.f;
-    if (rotation > 0 && rotation <= constants::PI / 4.f) { // North
+    rotation += constants::PI / 8;  // apply small rotation to offset
+    rotation -= offset;             // Allows to test both front and next to car
+    if (rotation < 0)
+        rotation += constants::PI * 2.f;
+    if (rotation > 0 && rotation <= constants::PI / 4.f) {  // North
         z_nxt = -1;
-    }
-    else if (rotation > constants::PI / 4.f && rotation <= constants::PI / 2) { // North west
+    } else if (rotation > constants::PI / 4.f && rotation <= constants::PI / 2) {  // North west
         x_nxt = -1;
         z_nxt = -1;
-    }
-    else if (rotation > constants::PI / 2.f && rotation <= 3.f * constants::PI / 4.f) { // West
+    } else if (rotation > constants::PI / 2.f && rotation <= 3.f * constants::PI / 4.f) {  // West
         x_nxt = -1;
-    }
-    else if (rotation > 3.f * constants::PI / 4.f && rotation <= constants::PI) {    // South west
+    } else if (rotation > 3.f * constants::PI / 4.f && rotation <= constants::PI) {  // South west
         x_nxt = -1;
         z_nxt = +1;
-    }
-    else if (rotation > constants::PI&& rotation <= 5.f * constants::PI / 4.f) {    // South
+    } else if (rotation > constants::PI && rotation <= 5.f * constants::PI / 4.f) {  // South
         z_nxt = +1;
-    }
-    else if (rotation > 5.f * constants::PI / 4.f && rotation <= 3.f * constants::PI / 2.f) { // South east
+    } else if (rotation > 5.f * constants::PI / 4.f && rotation <= 3.f * constants::PI / 2.f) {  // South east
         x_nxt = +1;
         z_nxt = +1;
-    }
-    else if (rotation > 3.f * constants::PI / 2.f && rotation <= 7.f * constants::PI / 4.f) {    // East
+    } else if (rotation > 3.f * constants::PI / 2.f && rotation <= 7.f * constants::PI / 4.f) {  // East
         x_nxt = +1;
-    }
-    else if (rotation > 7.f * constants::PI / 4.f && rotation <= 2.f * constants::PI) {  // North East
+    } else if (rotation > 7.f * constants::PI / 4.f && rotation <= 2.f * constants::PI) {  // North East
         x_nxt = +1;
         z_nxt = -1;
     }
@@ -185,8 +173,7 @@ float Terrain::getAngle(float x, float z, float rotation, float offset) const {
     // However, if that is negative (meaning off map), it tightens until either 0 or a good reading is received
     const int LOOK_AHEAD = 5;
     for (int i = LOOK_AHEAD; i > 0; --i) {
-        if (h_nxt > 0.0)
-        {
+        if (h_nxt > 0.0) {
             break;
         }
         h_nxt = getHeight(x_cur + x_nxt * i, z_cur + z_nxt * i);

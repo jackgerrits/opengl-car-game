@@ -4,7 +4,8 @@
 
 #include <glad/glad.h>
 
-ParticleRenderer::ParticleRenderer(){
+ParticleRenderer::ParticleRenderer() {
+    // clang-format off
     // Create a square mesh encompassing the viewport
     std::vector<float> vertices = {
         -0.5f, 0.5f, 0.0f,
@@ -24,11 +25,11 @@ ParticleRenderer::ParticleRenderer(){
         0, 1, 2,
         2, 3, 0
     };
-
+    // clang-format on
     quad = Loader::getLoader()->loadModelComponent(vertices, indices, texcoords);
 }
 
-void ParticleRenderer::render(std::vector<Particle*> particles, glm::mat4 view, glm::mat4 proj){
+void ParticleRenderer::render(std::vector<Particle*> particles, glm::mat4 view, glm::mat4 proj) {
     shader.enable();
 
     glActiveTexture(GL_TEXTURE0);
@@ -44,7 +45,7 @@ void ParticleRenderer::render(std::vector<Particle*> particles, glm::mat4 view, 
     glEnableVertexAttribArray(0);
     glEnableVertexAttribArray(1);
 
-    for(size_t i = 0; i < particles.size(); i++){
+    for (size_t i = 0; i < particles.size(); i++) {
         shader.loadParticle(particles[i], view);
         glBindTexture(GL_TEXTURE_2D, particles[i]->getTextureID());
         glDrawElements(GL_TRIANGLES, static_cast<GLsizei>(quad.getIndexCount()), GL_UNSIGNED_INT, (void*)0);

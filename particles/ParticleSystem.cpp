@@ -4,7 +4,8 @@
 #include "ParticleManager.h"
 #include "../GameTime.h"
 
-ParticleSystem::ParticleSystem(float particlesPerSecond, float particleSpeed, float gravityFactor, float lifeDuration, GLuint textureid) {
+ParticleSystem::ParticleSystem(
+    float particlesPerSecond, float particleSpeed, float gravityFactor, float lifeDuration, GLuint textureid) {
     this->particlesPerSecond = particlesPerSecond;
     this->particleSpeed = particleSpeed;
     this->gravityFactor = gravityFactor;
