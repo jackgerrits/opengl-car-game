@@ -1,6 +1,7 @@
 #include "Model.h"
 
 #include <algorithm>
+#include <stdexcept>
 
 // Taken from tiny_obj_loader.h as its hidden in a different namespace in the implementation.
 void initMaterial(tinyobj::material_t& material) {
@@ -83,9 +84,9 @@ void Model::addRange(const std::vector<float>& vertices) {
 }
 
 // [xMin, xMax, yMin, yMax, zMin, zMax]
-void Model::setRange(const std::tuple<float, float, float>& minXYZ, const std::tuple<float, float, float>& maxXYZ)
+void Model::setRange(const std::tuple<float, float, float>& /*minXYZ*/, const std::tuple<float, float, float>& /*maxXYZ*/)
 {
-    maxRanges = { std::get<0>(minXYZ), };
+    throw new std::runtime_error("Not implemented");
 }
 
 std::pair<float, float> Model::getRangeInDim(int dim) const {
