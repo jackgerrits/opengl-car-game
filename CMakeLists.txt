@@ -87,35 +87,39 @@ set_target_properties(opengl-car-game PROPERTIES VS_GLOBAL_ClangTidyChecks "-*,c
 # Copy assets
 add_custom_command(TARGET opengl-car-game POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_directory
-    ${CMAKE_SOURCE_DIR}/res
-    ${PROJECT_BINARY_DIR}/res
+    ${CMAKE_CURRENT_LIST_DIR}/res/
+    ${PROJECT_BINARY_DIR}/res/
     COMMENT "Copy resources to build tree")
 
 function(target_add_shader target out_dir)
   foreach(shader_file ${ARGN})
     add_custom_command(
       TARGET ${target} POST_BUILD
+      COMMAND ${CMAKE_COMMAND} -E make_directory ${out_dir}
       COMMAND ${CMAKE_COMMAND} -E copy ${shader_file} ${out_dir}
       MAIN_DEPENDENCY ${shader_file}
+      DEPENDS ${shader_file}
     )
     target_sources(${target} PRIVATE ${shader_file})
   endforeach()
 endfunction()
 
 # Copy shaders
-target_add_shader(opengl-car-game ${PROJECT_BINARY_DIR}/water
-  ${CMAKE_SOURCE_DIR}/water/water.frag
-  ${CMAKE_SOURCE_DIR}/water/water.vert
+target_add_shader(opengl-car-game ${PROJECT_BINARY_DIR}/water/
+  ${CMAKE_CURRENT_LIST_DIR}/water/water.frag
+  ${CMAKE_CURRENT_LIST_DIR}/water/water.vert
 )
-target_add_shader(opengl-car-game ${PROJECT_BINARY_DIR}/particles
-  ${CMAKE_SOURCE_DIR}/particles/particle.frag
-  ${CMAKE_SOURCE_DIR}/particles/particle.vert
+
+target_add_shader(opengl-car-game ${PROJECT_BINARY_DIR}/particles/
+  ${CMAKE_CURRENT_LIST_DIR}/particles/particle.frag
+  ${CMAKE_CURRENT_LIST_DIR}/particles/particle.vert
 )
-target_add_shader(opengl-car-game ${PROJECT_BINARY_DIR}/shaders
-  ${CMAKE_SOURCE_DIR}/shaders/entity.frag
-  ${CMAKE_SOURCE_DIR}/shaders/entity.vert
-  ${CMAKE_SOURCE_DIR}/shaders/skybox.frag
-  ${CMAKE_SOURCE_DIR}/shaders/skybox.vert
-  ${CMAKE_SOURCE_DIR}/shaders/terrain.frag
-  ${CMAKE_SOURCE_DIR}/shaders/terrain.vert
+
+target_add_shader(opengl-car-game ${PROJECT_BINARY_DIR}/shaders/
+  ${CMAKE_CURRENT_LIST_DIR}/shaders/entity.frag
+  ${CMAKE_CURRENT_LIST_DIR}/shaders/entity.vert
+  ${CMAKE_CURRENT_LIST_DIR}/shaders/skybox.frag
+  ${CMAKE_CURRENT_LIST_DIR}/shaders/skybox.vert
+  ${CMAKE_CURRENT_LIST_DIR}/shaders/terrain.frag
+  ${CMAKE_CURRENT_LIST_DIR}/shaders/terrain.vert
 )
