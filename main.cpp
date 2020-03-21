@@ -24,7 +24,7 @@
 #include <cmath>
 #include <ctime>
 #include <algorithm>
-//#include <glad/glad.h>
+#include <fmt/format.h>
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
 #pragma warning(push, 0)
@@ -35,13 +35,6 @@
 #include <cfloat>
 
 #include <glad/glad.h>
-
-// Windows specific headers.
-#ifdef _WIN32
-#include <io.h>
-#endif
-
-
 
 using namespace std;
 using namespace glm;
@@ -126,8 +119,9 @@ GLFWwindow* initialise(){
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
     // Create the window and OpenGL context
-    window = glfwCreateWindow(winX, winY, "OpenGL Car Game", NULL, NULL);
+    window = glfwCreateWindow(winX, winY, "OpenGL Car Game", nullptr, nullptr);
     if (!window) {
+        fmt::print(stderr, "Failed to create window");
         glfwTerminate();
         exit(1);
     }
@@ -143,20 +137,10 @@ GLFWwindow* initialise(){
     glfwSwapInterval(1);
 
     if (!gladLoadGL()) {
-        printf("Something went wrong!\n");
+        fmt::print(stderr, "Failed to load OpenGL");
         glfwTerminate();
-        exit(-1);
+        exit(1);
     }
-    printf("OpenGL %d.%d\n", GLVersion.major, GLVersion.minor);
-
-    //// Initialize GLEW
-    //glewExperimental = GL_TRUE; // Needed for core profile
-    //if (glewInit() != GLEW_OK)
-    //{
-    //    std::cerr << "glewInit() failed" << std::endl;
-    //
-    //    exit(1);
-    //}
     glfwGetFramebufferSize(window, &winX, &winY);
 
     // Sets the (background) colour for each time the frame-buffer
@@ -191,7 +175,7 @@ int main(int argc, char **argv) {
         cout << "Controls: \n\tw - throttle\n\ts - brake\n\ta/d - steer left/right\n\tspace - handbrake" << endl;
     }
 
-    srand(static_cast<unsigned int>(time(NULL)));
+    srand(static_cast<unsigned int>(time(nullptr)));
 
     // Define skybox textures
     // The current skybox is unfortunately quite low res and has compression issues.

@@ -71,7 +71,7 @@ find_package(GLEW REQUIRED)
 find_package(glm REQUIRED)
 
 add_executable(opengl-car-game ${all_sources} ${all_headers})
-target_link_libraries(opengl-car-game PRIVATE glad::glad OpenGL::GL glfw glm stb_image tiny_obj_loader ${CMAKE_DL_LIBS})
+target_link_libraries(opengl-car-game PRIVATE glad::glad OpenGL::GL glfw fmt::fmt glm stb_image tiny_obj_loader ${CMAKE_DL_LIBS})
 
 # Turn on more warnings
 if(MSVC)
