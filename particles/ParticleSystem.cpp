@@ -20,7 +20,7 @@ void ParticleSystem::generateParticles(glm::vec3 emissionPoint) {
         glm::vec3 velo((rand() % 100) / 50.f - 1.0f, 1.0f, (rand() % 100) / 50.f - 1.0f);
         velo = glm::normalize(velo);
         velo *= particleSpeed;
-        Particle* p = new Particle(emissionPoint, velo, gravityFactor, lifeDuration, textureid);
+        auto* p = new Particle(emissionPoint, velo, gravityFactor, lifeDuration, textureid);
         float scaleVal = (rand() % 100) / 100.f;
         p->setScale(glm::vec3(scaleVal, scaleVal, scaleVal));
 

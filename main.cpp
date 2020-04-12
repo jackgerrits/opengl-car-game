@@ -3,17 +3,7 @@
 
 #include "constants.h"
 #include "renderers/RenderManager.h"
-#include "Loader.h"
-#include "Model.h"
-#include "ShadowMap.h"
-#include "entities/Entity.h"
-#include "entities/Light.h"
-#include "entities/Camera.h"
-#include "entities/Player.h"
-#include "entities/Terrain.h"
-#include "InputState.h"
 #include "GameTime.h"
-#include "FrameBuffer.h"
 
 #include "particles/ParticleManager.h"
 #include "particles/ParticleSystem.h"
@@ -21,7 +11,6 @@
 #include <iostream>
 #include <vector>
 #include <cstdlib>
-#include <cmath>
 #include <ctime>
 #include <algorithm>
 #include <fmt/format.h>
@@ -32,7 +21,6 @@
 #pragma warning(pop)
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/string_cast.hpp>
-#include <cfloat>
 
 #include <glad/glad.h>
 
@@ -226,7 +214,7 @@ int main(int argc, char** argv) {
     Camera* cam = new PlayerCamera(player);
 
     // Create light sources
-    Light* sun = new Light();
+    auto* sun = new Light();
     sun->position =
         vec4(-1.25 * SKYBOX_SIZE / 10, 2.5 * SKYBOX_SIZE / 10, 3 * SKYBOX_SIZE / 10, 0.0f);  // w = 0 - directional
     sun->specular = vec3(1.0f, 1.0f, 1.0f);
@@ -234,7 +222,7 @@ int main(int argc, char** argv) {
     sun->ambient = vec3(0.1f, 0.1f, 0.1f);
     lights.push_back(sun);
 
-    Light* headlight = new Light();
+    auto* headlight = new Light();
     headlight->position = vec4(2.0f, 8.0f, 0.0f, 1.0f);
     headlight->specular = vec3(0.8f, 0.8f, 0.4f);
     headlight->diffuse = vec3(0.8f, 0.8f, 0.4f);
@@ -278,7 +266,7 @@ int main(int argc, char** argv) {
     // clang-format on
     // Creates cones from the positions and adds them.
     for (size_t i = 0; i < conePositions.size(); i += 2) {
-        Entity* cone = new Entity(&coneModel);
+        auto* cone = new Entity(&coneModel);
         cone->setPosition(terrain->getPositionFromPixel(conePositions[i], conePositions[i + 1]));
         cone->setScale(vec3(0.01f, 0.01f, 0.01f));  // The cone model was MASSIVE
         entities.push_back(cone);
@@ -287,7 +275,7 @@ int main(int argc, char** argv) {
     // Add the bordering fences to the map.
     float fenceSize = fenceModel.getRangeInDim(0).second - fenceModel.getRangeInDim(0).first;
     for (float x = -Terrain::TERRAIN_SIZE / 2; x < Terrain::TERRAIN_SIZE / 2; x += fenceSize) {
-        Entity* fence = new Entity(&fenceModel);
+        auto* fence = new Entity(&fenceModel);
         fence->setPosition(vec3(x, 0.0f, Terrain::TERRAIN_SIZE / 2 - 1.0f));
         entities.push_back(fence);
 
@@ -297,24 +285,24 @@ int main(int argc, char** argv) {
     }
 
     for (float z = -Terrain::TERRAIN_SIZE / 2; z < Terrain::TERRAIN_SIZE / 2; z += fenceSize) {
-        Entity* fence = new Entity(&fenceModel);
+        auto* fence = new Entity(&fenceModel);
         fence->setPosition(vec3(Terrain::TERRAIN_SIZE / 2 - 1.0f, 0.0f, z));
-        fence->rotateY((float)-constants::PI / 2);
+        fence->rotateY(-constants::PI / 2);
         entities.push_back(fence);
 
         fence = new Entity(&fenceModel);
         fence->setPosition(vec3(-Terrain::TERRAIN_SIZE / 2 + 1.0f, 0.0f, z));
-        fence->rotateY((float)-constants::PI / 2);
+        fence->rotateY(-constants::PI / 2);
         entities.push_back(fence);
     }
 
     // Goes through each entity and aligns its bottom edge with the terrain at that position.
-    for (size_t i = 0; i < entities.size(); i++) {
-        entities[i]->placeBottomEdge(terrain->getHeight(entities[i]->getPosition().x, entities[i]->getPosition().z));
+    for (auto & entity : entities) {
+        entity->placeBottomEdge(terrain->getHeight(entity->getPosition().x, entity->getPosition().z));
     }
 
     // Create the large lake
-    Entity* water = new Entity();
+    auto* water = new Entity();
     water->setScale(vec3(100.0f, 1.0f, 50.0f));
     water->setPosition(terrain->getPositionFromPixel(650, 826));
     water->setPosition(glm::vec3(water->getPosition().x, 0.4f, water->getPosition().z));
@@ -332,8 +320,8 @@ int main(int argc, char** argv) {
 
         // Updates all particles and entities.
         ParticleManager::getParticleManager()->update();
-        for (size_t i = 0; i < entities.size(); i++) {
-            entities[i]->update();
+        for (auto* entity : entities) {
+            entity->update();
         }
 
         // Generate dust particles at the players positions if the car is going past enough or moving
@@ -341,7 +329,7 @@ int main(int argc, char** argv) {
             particleSystem.generateParticles(player->getPosition() - player->getDirectionVector());
         }
 
-        // Update the postion of the car headlights
+        // Update the position of the car headlights
         headlight->position = vec4(player->getPosition() + vec3(0.0f, 0.1f, 0.0f), 1.0f);
         headlight->coneDirection = player->getDirectionVector();
 
@@ -354,8 +342,8 @@ int main(int argc, char** argv) {
     // Cleanup program, delete all the dynamic entities.
     delete player;
     delete water;
-    for (size_t i = 0; i < entities.size(); i++) {
-        delete entities[i];
+    for (auto* entity : entities) {
+        delete entity;
     }
 
     glfwDestroyWindow(window);

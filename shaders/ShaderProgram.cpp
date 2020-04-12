@@ -141,7 +141,7 @@ GLuint ShaderProgram::loadShaders(const std::string& vertex_file_path, const std
     glGetProgramiv(program_id, GL_INFO_LOG_LENGTH, &info_log_length);
     if (info_log_length > 0) {
         std::vector<char> program_error_message(info_log_length + 1);
-        glGetProgramInfoLog(program_id, info_log_length, NULL, &program_error_message[0]);
+        glGetProgramInfoLog(program_id, info_log_length, nullptr, &program_error_message[0]);
         std::cerr << &program_error_message[0] << std::endl;
     }
 

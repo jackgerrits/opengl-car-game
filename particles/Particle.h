@@ -16,6 +16,6 @@ class Particle : public Entity {
   public:
     Particle(
         const glm::vec3& position, const glm::vec3& velocity, float gravityEffect, float lifeDuration, GLuint texture);
-    bool update();
+    bool update() override;
     GLuint getTextureID() const;
 };

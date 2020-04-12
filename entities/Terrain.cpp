@@ -9,7 +9,7 @@ const float Terrain::TERRAIN_SIZE = 301.43f;  // Set so that the fences fit bett
 const float Terrain::TERRAIN_MAX_HEIGHT = 10.0f;
 
 // Constructor accepts a model defining vertex, colour and index data for this Terrain.
-Terrain::Terrain(Model* model, std::vector<GLuint> textures, Image heightMap)
+Terrain::Terrain(Model* model, const vector<GLuint>& textures, Image heightMap)
     : Entity(model), textures(textures), heightMap(heightMap) {
 }
 
@@ -17,8 +17,9 @@ Terrain* Terrain::loadTerrain(const std::vector<std::string>& images, const std:
     Image heightMap = Loader::getLoader()->loadImage(heightMapFile);
     Model* model = Terrain::generateTerrainModel(heightMap);
     std::vector<GLuint> textures;
-    for (size_t i = 0; i < images.size(); i++) {
-        textures.push_back(Loader::getLoader()->loadTexture(images[i]));
+    textures.reserve(images.size());
+    for (const auto& image : images) {
+        textures.push_back(Loader::getLoader()->loadTexture(image));
     }
 
     return new Terrain(model, textures, heightMap);
@@ -65,7 +66,7 @@ Model* Terrain::generateTerrainModel(const Image& heightMap) {
     GLuint tex = Loader::getLoader()->loadDefaultTexture();
 
     ModelComponent component(vao, indices.size(), tex);
-    Model* model = new Model();
+    auto* model = new Model();
     model->addRange(vertices);
     model->addModelComponent(component);
 
@@ -81,11 +82,7 @@ bool Terrain::isOnTerrain(float x, float z) const {
         return false;
     }
 
-    if (getHeight(x, z) < 0.0f) {
-        return false;
-    }
-
-    return true;
+    return getHeight(x, z) >= 0.0f;
 }
 
 GLuint Terrain::getVaoID() const {

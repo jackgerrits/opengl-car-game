@@ -27,5 +27,5 @@ class ShadowMap : public FrameBuffer {
 
     // Override default bind of FrameBuffer to update state.
     // Unbind is unchanged
-    virtual void bind();
+    void bind() override;
 };

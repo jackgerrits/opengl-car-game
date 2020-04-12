@@ -36,7 +36,7 @@ class Player : public Entity {
 
   public:
     Player(Model* model, Terrain* terrain, bool basic_controls);
-    virtual bool update();
+    bool update() override;
     float getThrottle();
     float getBrake();
     float getSteer();

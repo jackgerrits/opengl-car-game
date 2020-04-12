@@ -23,7 +23,7 @@ class SkyboxRenderer {
         PosZFilename,
         NegZFilename
     */
-    SkyboxRenderer(const std::vector<std::string>& images, const float SIZE);
+    SkyboxRenderer(const std::vector<std::string>& images, float SIZE);
     GLuint getSkyboxTexture() const;
     void render(const glm::mat4& view, const glm::mat4&);
 };

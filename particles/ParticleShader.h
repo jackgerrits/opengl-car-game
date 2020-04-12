@@ -25,6 +25,6 @@ class ParticleShader : public ShaderProgram {
 
     void bindUniformLocations();
     void loadCamera(const glm::mat4& view);
-    void loadParticle(Particle* particle, const glm::mat4& view);
+    void loadParticle(const Particle *particle, const glm::mat4& viewmtx);
     void loadProjection(const glm::mat4& proj);
 };

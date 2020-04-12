@@ -18,7 +18,7 @@ class Terrain : public Entity {
     static const float TERRAIN_SIZE;
     static const float TERRAIN_MAX_HEIGHT;
 
-    Terrain(Model* model, std::vector<GLuint> textures, Image heightMap);
+    Terrain(Model* model, const std::vector<GLuint> &textures, Image heightMap);
     static Terrain* loadTerrain(const std::vector<std::string>& images, const std::string& heightMapFile);
     static Model* generateTerrainModel(const Image& heightMap);
 

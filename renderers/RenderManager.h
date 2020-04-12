@@ -31,5 +31,5 @@ class RenderManager {
     // Not sure what a better way to manage all of these parameters is
     void render(const std::vector<Entity*>& entities, const std::vector<Light*>& lights, Terrain* terrain,
         Entity* water, SkyboxRenderer& skybox, ShadowMap& shadowMap, Camera* cam, const glm::mat4& projection,
-        const int winX, const int winY);
+        int winX, int winY);
 };

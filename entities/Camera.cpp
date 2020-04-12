@@ -1,6 +1,5 @@
 #include "Camera.h"
 
-#include <cstdio>
 #include <iostream>
 #include <algorithm>
 #include "../constants.h"

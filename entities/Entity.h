@@ -36,7 +36,7 @@ class Entity {
 
     [[nodiscard]] glm::vec3 getDirectionVector();
 
-    // Can be overriden in inheriting class if behaviour requires it.
+    // Can be overridden in inheriting class if behaviour requires it.
     // Set the value absolutely of position, scale, or rotation.
     virtual void setPosition(const glm::vec3&);
     virtual void placeBottomEdge(float surfaceY);

@@ -17,7 +17,7 @@ RenderManager::RenderManager() : reflectionBuffer(640, 320), refractionBuffer(12
 
 void RenderManager::render(const std::vector<Entity*>& entities, const std::vector<Light*>& lights, Terrain* terrain,
     Entity* water, SkyboxRenderer& skybox, ShadowMap& shadowMap, Camera* cam, const glm::mat4& projection,
-    const int winX, const int winY) {
+    int winX, int winY) {
     // SHADOW PASS
     glDisable(GL_CLIP_DISTANCE0);
     shadowMap.bind();

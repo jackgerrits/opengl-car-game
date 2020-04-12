@@ -45,9 +45,9 @@ void ParticleRenderer::render(std::vector<Particle*> particles, glm::mat4 view, 
     glEnableVertexAttribArray(0);
     glEnableVertexAttribArray(1);
 
-    for (size_t i = 0; i < particles.size(); i++) {
-        shader.loadParticle(particles[i], view);
-        glBindTexture(GL_TEXTURE_2D, particles[i]->getTextureID());
+    for (const auto& particle : particles) {
+        shader.loadParticle(particle, view);
+        glBindTexture(GL_TEXTURE_2D, particle->getTextureID());
         glDrawElements(GL_TRIANGLES, static_cast<GLsizei>(quad.getIndexCount()), GL_UNSIGNED_INT, (void*)0);
     }
 

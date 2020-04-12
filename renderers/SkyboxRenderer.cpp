@@ -1,7 +1,7 @@
 #include "SkyboxRenderer.h"
 #include "../Loader.h"
 
-SkyboxRenderer::SkyboxRenderer(const std::vector<std::string>& images, const float SIZE) {
+SkyboxRenderer::SkyboxRenderer(const std::vector<std::string>& images, float SIZE) {
     // clang-format off
     std::vector<float> vertices = {
         -SIZE, -SIZE, SIZE,

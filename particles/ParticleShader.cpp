@@ -14,7 +14,7 @@ void ParticleShader::loadCamera(const glm::mat4& view) {
     loadUniformValue(location_view, view);
 }
 
-void ParticleShader::loadParticle(Particle* particle, const glm::mat4& viewmtx) {
+void ParticleShader::loadParticle(const Particle *particle, const glm::mat4& viewmtx) {
     auto modelmtx = particle->calculateModelMatrix();
 
     // Apply transpose of view matrix to make sure the particle always faces the camera.

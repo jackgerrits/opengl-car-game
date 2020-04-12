@@ -74,7 +74,7 @@ std::vector<float> Loader::generateNormals(
 
 // http://stackoverflow.com/questions/12774207/fastest-way-to-check-if-a-file-exist-using-standard-c-c11-c
 inline bool Loader::fileExists(const std::string& name) {
-    struct stat buffer;
+    struct stat buffer{};
     return (stat(name.c_str(), &buffer) == 0);
 }
 
@@ -86,7 +86,7 @@ Model Loader::loadModel(const std::string& model_file) {
     // If the object file is in a different directory, the material file path must be specified.
     // Assumes material file is in the same directory as obj
     std::string model_file_path;
-    if (model_file.find("/") != std::string::npos) {
+    if (model_file.find('/') != std::string::npos) {
         model_file_path = model_file.substr(0, model_file.find_last_of("\\/") + 1);
     }
 
@@ -106,9 +106,9 @@ Model Loader::loadModel(const std::string& model_file) {
 Model Loader::loadModel(const std::vector<tinyobj::shape_t>& shapes, const std::vector<tinyobj::material_t>& materials,
     const std::string& materialpath) {
     Model model;
-    for (size_t i = 0; i < shapes.size(); i++) {
-        ModelComponent component = loadModelComponent(shapes[i], materials, materialpath);
-        model.addRange(shapes[i].mesh.positions);
+    for (const auto& shape : shapes) {
+        ModelComponent component = loadModelComponent(shape, materials, materialpath);
+        model.addRange(shape.mesh.positions);
         model.addModelComponent(component);
     }
     return model;
@@ -123,7 +123,7 @@ ModelComponent Loader::loadModelComponent(
     // load.
     tinyobj::material_t material;
     initMaterial(material);
-    if (shape.mesh.material_ids.size() > 0 && shape.mesh.material_ids[0] != -1) {
+    if (!shape.mesh.material_ids.empty() && shape.mesh.material_ids[0] != -1) {
         material = materials[shape.mesh.material_ids[0]];  // Loads the first material
     }
     GLuint textureID = loadTexture(materialpath + material.diffuse_texname);
@@ -237,7 +237,7 @@ GLuint Loader::setupIndicesBuffer(unsigned int buffer, const std::vector<unsigne
 
 GLuint Loader::loadVAO(const tinyobj::shape_t& shape) {
     // If texcoords is null, set it to some dummy values
-    if (shape.mesh.texcoords.size() == 0) {
+    if (shape.mesh.texcoords.empty()) {
         auto shapeCopy = shape;
         std::vector<float> texVec;
         for (size_t i = 0; i < shapeCopy.mesh.positions.size(); i += 3) {
