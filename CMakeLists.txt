@@ -1,5 +1,7 @@
-cmake_minimum_required(VERSION 3.14)
+cmake_minimum_required(VERSION 3.15)
 
+# Removes /W3 from default MSVC options so there isn't a warning when building.
+cmake_policy(SET CMP0092 NEW)
 project(opengl-car-game LANGUAGES C CXX)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
