@@ -69,11 +69,19 @@ set(all_sources
 
 find_package(OpenGL REQUIRED)
 find_package(glfw3 REQUIRED)
-find_package(GLEW REQUIRED)
 find_package(glm REQUIRED)
 
 add_executable(opengl-car-game ${all_sources} ${all_headers})
-target_link_libraries(opengl-car-game PRIVATE glad::glad OpenGL::GL glfw fmt::fmt glm stb_image tiny_obj_loader ${CMAKE_DL_LIBS})
+target_link_libraries(opengl-car-game PRIVATE glad::glad OpenGL::GL glfw fmt::fmt stb_image tiny_obj_loader ${CMAKE_DL_LIBS})
+
+# Vcpkg exports the target, but the default find_package does not. This is a
+# quick hack since the dependencies on Windows are usually with vcpkg and usually
+# apt (or some other system package manager) on Ubuntu
+if(MSVC)
+target_link_libraries(opengl-car-game PRIVATE glm)
+else()
+target_include_directories(opengl-car-game PRIVATE ${GLM_INCLUDE_DIRS})
+endif()
 
 # Turn on more warnings
 if(MSVC)

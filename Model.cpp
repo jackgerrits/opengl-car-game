@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <stdexcept>
+#include <cfloat>
 
 // Taken from tiny_obj_loader.h as its hidden in a different namespace in the implementation.
 void initMaterial(tinyobj::material_t& material) {
