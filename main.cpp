@@ -16,9 +16,7 @@
 #include <fmt/format.h>
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
-#pragma warning(push, 0)
-#include <glm/ext.hpp>
-#pragma warning(pop)
+#include "glm_ext.h"
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/string_cast.hpp>
 

@@ -1,8 +1,6 @@
 #include "Entity.h"
 
-#pragma warning(push, 0)
-#include <glm/ext.hpp>
-#pragma warning(pop)
+#include "glm_ext.h"
 
 using namespace std;
 

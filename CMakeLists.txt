@@ -18,6 +18,7 @@ set(all_headers
   entities/Terrain.h
   FrameBuffer.h
   GameTime.h
+  glm_ext.h
   InputState.h
   Loader.h
   Model.h
