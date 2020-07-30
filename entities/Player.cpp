@@ -19,32 +19,32 @@ I didnt make many changes since it is a complete equation, but I did add code to
 */
 
 // Static variables used for car physics
-float gravity = 9.81f;        // m/s^2
-float mass = 2000.0f;         // kg
-float inertiaScale = 1.0f;    // Multiply by mass for inertia
-float halfWidth = 0.8f;       // Centre to side of chassis (metres)
-float cgToFront = 1.5f;       // Centre of gravity to front of chassis (metres)
-float cgToRear = 1.5f;        // Centre of gravity to rear of chassis
-float cgToFrontAxle = 1.25f;  // Centre gravity to front axle
-float cgToRearAxle = 1.25f;   // Centre gravity to rear axle
-float cgHeight = 0.55f;       // Centre gravity height
-float wheelRadius = 0.3f;     // Includes tire (also represents height of axle)
-float wheelWidth = 0.2f;      // Used for render only
-float tireGrip = 3.0f;        // How much grip tires have
-float lockGrip = 0.8f;        // % of grip available when wheel is locked
-float engineForce = 8000.0f;
-float brakeForce = 12000.0f;
-float eBrakeForce = brakeForce / 2.5f;
-float weightTransfer = 0.2f;  // How much weight is transferred during acceleration/braking
-float maxSteer = 0.6f;        // Maximum steering angle in radians
-float cornerStiffnessFront = 5.0f;
-float cornerStiffnessRear = 5.2f;
-float airResist = 3.0f;  // air resistance (* vel)
-float rollResist = 5.0f;
-float inertia = mass * inertiaScale;                    // will be = mass
-float wheelBase = cgToFrontAxle + cgToRearAxle;         // set from axle to CG lengths
-float axleWeightRatioFront = cgToRearAxle / wheelBase;  // % car weight on the front axle
-float axleWeightRatioRear = cgToFrontAxle / wheelBase;  // % car weight on the rear axle
+constexpr float gravity = 9.81f;        // m/s^2
+constexpr float mass = 2000.0f;         // kg
+constexpr float inertiaScale = 1.0f;    // Multiply by mass for inertia
+constexpr float halfWidth = 0.8f;       // Centre to side of chassis (metres)
+constexpr float cgToFront = 1.5f;       // Centre of gravity to front of chassis (metres)
+constexpr float cgToRear = 1.5f;        // Centre of gravity to rear of chassis
+constexpr float cgToFrontAxle = 1.25f;  // Centre gravity to front axle
+constexpr float cgToRearAxle = 1.25f;   // Centre gravity to rear axle
+constexpr float cgHeight = 0.55f;       // Centre gravity height
+constexpr float wheelRadius = 0.3f;     // Includes tire (also represents height of axle)
+constexpr float wheelWidth = 0.2f;      // Used for render only
+constexpr float tireGrip = 3.0f;        // How much grip tires have
+constexpr float lockGrip = 0.8f;        // % of grip available when wheel is locked
+constexpr float engineForce = 8000.0f;
+constexpr float brakeForce = 12000.0f;
+constexpr float eBrakeForce = brakeForce / 2.5f;
+constexpr float weightTransfer = 0.2f;  // How much weight is transferred during acceleration/braking
+constexpr float maxSteer = 0.6f;        // Maximum steering angle in radians
+constexpr float cornerStiffnessFront = 5.0f;
+constexpr float cornerStiffnessRear = 5.2f;
+constexpr float airResist = 3.0f;  // air resistance (* vel)
+constexpr float rollResist = 5.0f;
+constexpr float inertia = mass * inertiaScale;                    // will be = mass
+constexpr float wheelBase = cgToFrontAxle + cgToRearAxle;         // set from axle to CG lengths
+constexpr float axleWeightRatioFront = cgToRearAxle / wheelBase;  // % car weight on the front axle
+constexpr float axleWeightRatioRear = cgToFrontAxle / wheelBase;  // % car weight on the rear axle
 
 Player::Player(Model* model, Terrain* terrain, bool basic_controls) : Entity(model) {
     this->terrain = terrain;
@@ -72,15 +72,15 @@ int sgn(T val) {
     return (T(0) < val) - (val < T(0));
 }
 
-float Player::getThrottle() {
+float Player::getThrottle() const {
     return throttle_input;
 }
 
-float Player::getBrake() {
+float Player::getBrake() const {
     return brake_input;
 }
 
-float Player::getSteer() {
+float Player::getSteer() const {
     return steerAngle;
 }
 

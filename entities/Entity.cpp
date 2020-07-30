@@ -59,7 +59,7 @@ float Entity::getRotationZ() const {
     return m_z_rot;
 }
 
-glm::vec3 Entity::getDirectionVector() {
+glm::vec3 Entity::calculateDirectionVector() const {
     return glm::normalize(glm::vec3(glm::sin(m_y_rot), glm::sin(m_x_rot), glm::cos(m_y_rot)));
 }
 

@@ -24,6 +24,8 @@ class Entity {
     Entity(const Model* model);
     Entity();
 
+    virtual ~Entity() = default;
+
     virtual bool update();
 
     [[nodiscard]] const Model* getModel() const;
@@ -34,7 +36,7 @@ class Entity {
     [[nodiscard]] float getRotationY() const;
     [[nodiscard]] float getRotationZ() const;
 
-    [[nodiscard]] glm::vec3 getDirectionVector();
+    [[nodiscard]] glm::vec3 calculateDirectionVector() const;
 
     // Can be overridden in inheriting class if behaviour requires it.
     // Set the value absolutely of position, scale, or rotation.

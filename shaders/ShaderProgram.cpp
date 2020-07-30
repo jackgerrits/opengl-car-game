@@ -4,9 +4,7 @@
 #include <iostream>
 #include <vector>
 
-#pragma warning(push, 0)
-#include <glm/ext.hpp>
-#pragma warning(pop)
+#include "glm_ext.h"
 
 ShaderProgram::ShaderProgram(const std::string& vertexShader, const std::string& fragmentShader) {
     this->shaderID = loadShaders(vertexShader, fragmentShader);

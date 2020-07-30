@@ -19,7 +19,7 @@ struct Image {
 
     Image();
     Image(unsigned char* data, int width, int height, int channels);
-    glm::vec3 getPixel(int x, int y) const;
+    [[nodiscard]] glm::vec3 getPixel(int x, int y) const;
 };
 
 class Loader {

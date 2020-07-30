@@ -37,9 +37,9 @@ class Player : public Entity {
   public:
     Player(Model* model, Terrain* terrain, bool basic_controls);
     bool update() override;
-    float getThrottle();
-    float getBrake();
-    float getSteer();
+    float getThrottle() const;
+    float getBrake() const;
+    float getSteer() const;
     float absVel;
 
     void handleKeyboardEvents(GLFWwindow* window, int key, int scancode, int action, int mods);
