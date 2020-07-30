@@ -30,3 +30,6 @@ driver
 
 # Build output directory
 build
+
+.idea
+cmake-build-debug
