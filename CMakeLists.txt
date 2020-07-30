@@ -38,6 +38,7 @@ set(all_headers
   ShadowMap.h
   water/WaterRenderer.h
   water/WaterShader.h
+  Window.h
 )
 
 set(all_sources
@@ -66,6 +67,7 @@ set(all_sources
   ShadowMap.cpp
   water/WaterRenderer.cpp
   water/WaterShader.cpp
+  Window.cpp
 )
 
 find_package(OpenGL REQUIRED)
@@ -74,6 +76,7 @@ find_package(glm REQUIRED)
 
 add_executable(opengl-car-game ${all_sources} ${all_headers})
 target_link_libraries(opengl-car-game PRIVATE glad::glad OpenGL::GL glfw fmt::fmt stb_image tiny_obj_loader ${CMAKE_DL_LIBS})
+target_include_directories(opengl-car-game PUBLIC ${CMAKE_CURRENT_LIST_DIR})
 
 # Vcpkg exports the target, but the default find_package does not. This is a
 # quick hack since the dependencies on Windows are usually with vcpkg and usually

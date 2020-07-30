@@ -7,145 +7,35 @@
 
 #include "particles/ParticleManager.h"
 #include "particles/ParticleSystem.h"
+#include "Window.h"
 
 #include <iostream>
 #include <vector>
 #include <cstdlib>
 #include <ctime>
-#include <algorithm>
-#include <fmt/format.h>
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
 #include "glm_ext.h"
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/string_cast.hpp>
 
-#include <glad/glad.h>
-
-using namespace std;
 using namespace glm;
 
-int winX = 640;
-int winY = 480;
-const float SKYBOX_SIZE = 200.0f;
+constexpr float SKYBOX_SIZE = 200.0f;
 
-// Data structure storing mouse input info
-InputState input;
-glm::mat4 projection;
-
-// Player must be declared here so that keyboard callbacks can be sent
-Player* player;
-
-// Error callback for GLFW. Simply prints error message to stderr.
-void error_callback(int /*error*/, const char* description) {
-    fputs(description, stderr);
-}
-
-void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods) {
-    // Terminate program if escape is pressed
-    if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS) {
-        glfwDestroyWindow(window);
-        glfwTerminate();
-        exit(0);
-    }
-
-    player->handleKeyboardEvents(window, key, scancode, action, mods);
-}
-
-void mouse_pos_callback(GLFWwindow* /*window*/, double x, double y) {
-    // Use a global data structure to store mouse info
-    // We can then use it however we want
-    input.update((float)x, (float)y);
-}
-
-void scroll_callback(GLFWwindow* /*window*/, double xoffset, double yoffset) {
-    input.updateScroll((float)xoffset, (float)yoffset);
-}
-
-void mouse_button_callback(GLFWwindow* /*window*/, int button, int action, int /*mods*/) {
-    if (button == GLFW_MOUSE_BUTTON_RIGHT && action == GLFW_PRESS) {
-        input.rMousePressed = true;
-    } else if (button == GLFW_MOUSE_BUTTON_RIGHT && action == GLFW_RELEASE) {
-        input.rMousePressed = false;
-    } else if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS) {
-        input.lMousePressed = true;
-    } else if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_RELEASE) {
-        input.lMousePressed = false;
-    }
-}
-
-void setProjection(int inputWinX, int inputWinY) {
+auto setProjection(int inputWinX, int inputWinY) {
     // float aspect = (float) winX / winY;
     // FOV angle is in radians
-    projection = glm::perspective(constants::PI / 4.0, double(inputWinX) / double(inputWinY), 1.0, 800.0);
+    return glm::perspective(constants::PI / 4.0, double(inputWinX) / double(inputWinY), 1.0, 800.0);
 }
 
-// Called when the window is resized.
-void reshape_callback(GLFWwindow* /*window*/, int x, int y) {
-    winX = x;
-    winY = y;
-
-    setProjection(x, y);
-    glViewport(0, 0, x, y);
-}
-
-GLFWwindow* initialise() {
-    GLFWwindow* window;
-    glfwSetErrorCallback(error_callback);
-    if (!glfwInit())
-        exit(1);
-
-    // Specify that we want OpenGL 3.3
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-
-    // Create the window and OpenGL context
-    window = glfwCreateWindow(winX, winY, "OpenGL Car Game", nullptr, nullptr);
-    if (!window) {
-        fmt::print(stderr, "Failed to create window");
-        glfwTerminate();
-        exit(1);
-    }
-
-    // Set callbacks key press and mouse press.
-    glfwSetKeyCallback(window, key_callback);
-    glfwSetCursorPosCallback(window, mouse_pos_callback);
-    glfwSetMouseButtonCallback(window, mouse_button_callback);
-    glfwSetFramebufferSizeCallback(window, reshape_callback);
-    glfwSetScrollCallback(window, scroll_callback);
-
-    glfwMakeContextCurrent(window);
-    glfwSwapInterval(1);
-
-    if (!gladLoadGL()) {
-        fmt::print(stderr, "Failed to load OpenGL");
-        glfwTerminate();
-        exit(1);
-    }
-    glfwGetFramebufferSize(window, &winX, &winY);
-
-    // Sets the (background) colour for each time the frame-buffer
-    // (colour buffer) is cleared
-    glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
-    glEnable(GL_DEPTH_TEST);
-    glEnable(GL_CULL_FACE);
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-    return window;
-}
-
-/**
- * Program entry. Sets up OpenGL state, GLSL Shaders and GLFW window and function call backs
- * Takes no arguments
- */
 int main(int argc, char** argv) {
-    GLFWwindow* window = initialise();
+    InputState input;
+    glm::mat4 projection;
+    Player* player;
 
     if (argc != 2) {
-        cerr << "USAGE: " << argv[0] << " basic|physics" << endl;
+        std::cerr << "USAGE: " << argv[0] << " basic|physics" << std::endl;
         exit(1);
     }
 
@@ -153,10 +43,44 @@ int main(int argc, char** argv) {
     bool basic_controls = strcmp(argv[1], "basic") == 0;
 
     if (basic_controls) {
-        cout << "Controls: \n\tw - forward\n\ts - backwards\n\ta/d - turn left/right" << endl;
+        std::cout << "Controls: \n\tw - forward\n\ts - backwards\n\ta/d - turn left/right" << std::endl;
     } else {
-        cout << "Controls: \n\tw - throttle\n\ts - brake\n\ta/d - steer left/right\n\tspace - handbrake" << endl;
+        std::cout << "Controls: \n\tw - throttle\n\ts - brake\n\ta/d - steer left/right\n\tspace - handbrake" << std::endl;
     }
+
+    Window window;
+    window.set_key_callback([&](GLFWwindow* window, int key, int scancode, int action, int mods) {
+        // Terminate program if escape is pressed
+        if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS) {
+            glfwSetWindowShouldClose(window, GLFW_TRUE);
+        }
+        player->handleKeyboardEvents(window, key, scancode, action, mods);
+    });
+
+    window.set_mouse_position_callback([&](GLFWwindow* /*window*/, double x, double y) {
+        input.update((float)x, (float)y);
+    });
+
+    window.set_mouse_scroll_callback([&](GLFWwindow* /*window*/, double xoffset, double yoffset) {
+        input.updateScroll((float)xoffset, (float)yoffset);
+    });
+
+    window.set_mouse_button_callback([&](GLFWwindow* /*window*/, int button, int action, int /*mods*/) {
+        if (button == GLFW_MOUSE_BUTTON_RIGHT && action == GLFW_PRESS) {
+            input.rMousePressed = true;
+        } else if (button == GLFW_MOUSE_BUTTON_RIGHT && action == GLFW_RELEASE) {
+            input.rMousePressed = false;
+        } else if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS) {
+            input.lMousePressed = true;
+        } else if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_RELEASE) {
+            input.lMousePressed = false;
+        }
+    });
+
+    window.set_window_reshape_callback([&](GLFWwindow* /*window*/, int x, int y) {
+        projection = setProjection(x, y);
+        glViewport(0, 0, x, y);
+    });
 
     srand(static_cast<unsigned int>(time(nullptr)));
     // clang-format off
@@ -190,7 +114,7 @@ int main(int argc, char** argv) {
     RenderManager manager;
 
     // Create Terrain using blend map, height map and all of the remaining texture components.
-    std::vector<string> terrainImages = {"res/terrain/blendMap.png", "res/terrain/grass.jpg", "res/terrain/road.jpg",
+    std::vector<std::string> terrainImages = {"res/terrain/blendMap.png", "res/terrain/grass.jpg", "res/terrain/road.jpg",
         "res/terrain/dirt.png", "res/terrain/mud.jpg"};
     Terrain* terrain = Terrain::loadTerrain(terrainImages, "res/terrain/heightmap.png");
     // Moves the terrain model to be centered about the origin.
@@ -208,7 +132,7 @@ int main(int argc, char** argv) {
     entities.push_back(player);
 
     // Initialisation of camera, projection matrix
-    setProjection(winX, winY);
+    projection = setProjection(window.get_width(), window.get_height());
     Camera* cam = new PlayerCamera(player);
 
     // Create light sources
@@ -252,7 +176,7 @@ int main(int argc, char** argv) {
 
     // Set of pre calculated cone positions on corners of the track
     // clang-format off
-    vector<int> conePositions = {
+    std::vector<int> conePositions = {
         263, 262, 226, 250, 209, 273,
         213, 299, 342, 717, 329, 734,
         326, 751, 354, 755, 372, 754,
@@ -295,7 +219,7 @@ int main(int argc, char** argv) {
     }
 
     // Goes through each entity and aligns its bottom edge with the terrain at that position.
-    for (auto & entity : entities) {
+    for (auto& entity : entities) {
         entity->placeBottomEdge(terrain->getHeight(entity->getPosition().x, entity->getPosition().z));
     }
 
@@ -309,12 +233,13 @@ int main(int argc, char** argv) {
     ShadowMap shadowMap(player, lights[0], 4096);
 
     // Main logic/render loop.
-    while (!glfwWindowShouldClose(window)) {
+    while (!glfwWindowShouldClose(window.get_window())) {
         GameTime::getGameTime()->update();
         cam->update(input);
 
         // Render entire scene
-        manager.render(entities, lights, terrain, water, skybox, shadowMap, cam, projection, winX, winY);
+        manager.render(entities, lights, terrain, water, skybox, shadowMap, cam, projection, window.get_width(),
+            window.get_height());
 
         // Updates all particles and entities.
         ParticleManager::getParticleManager()->update();
@@ -324,16 +249,16 @@ int main(int argc, char** argv) {
 
         // Generate dust particles at the players positions if the car is going past enough or moving
         if (player->absVel > 5.0f || player->getThrottle() > 0.1f || (basic_controls && player->getBrake() > 0.1f)) {
-            particleSystem.generateParticles(player->getPosition() - player->getDirectionVector());
+            particleSystem.generateParticles(player->getPosition() - player->calculateDirectionVector());
         }
 
         // Update the position of the car headlights
         headlight->position = vec4(player->getPosition() + vec3(0.0f, 0.1f, 0.0f), 1.0f);
-        headlight->coneDirection = player->getDirectionVector();
+        headlight->coneDirection = player->calculateDirectionVector();
 
         glFlush();
 
-        glfwSwapBuffers(window);
+        glfwSwapBuffers(window.get_window());
         glfwPollEvents();
     }
 
@@ -344,7 +269,7 @@ int main(int argc, char** argv) {
         delete entity;
     }
 
-    glfwDestroyWindow(window);
+    glfwDestroyWindow(window.get_window());
     glfwTerminate();
 
     return 0;
