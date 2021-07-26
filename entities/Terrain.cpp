@@ -10,11 +10,11 @@ const float Terrain::TERRAIN_MAX_HEIGHT = 10.0f;
 
 // Constructor accepts a model defining vertex, colour and index data for this Terrain.
 Terrain::Terrain(Model* model, const vector<GLuint>& textures, Image heightMap)
-    : Entity(model), textures(textures), heightMap(heightMap) {
+    : Entity(model), textures(textures), heightMap(std::move(heightMap)) {
 }
 
 Terrain* Terrain::loadTerrain(const std::vector<std::string>& images, const std::string& heightMapFile) {
-    Image heightMap = Loader::getLoader()->loadImage(heightMapFile);
+    Image heightMap = Image::loadFromFile(heightMapFile);
     Model* model = Terrain::generateTerrainModel(heightMap);
     std::vector<GLuint> textures;
     textures.reserve(images.size());
@@ -22,7 +22,7 @@ Terrain* Terrain::loadTerrain(const std::vector<std::string>& images, const std:
         textures.push_back(Loader::getLoader()->loadTexture(image));
     }
 
-    return new Terrain(model, textures, heightMap);
+    return new Terrain(model, textures, std::move(heightMap));
 }
 
 Model* Terrain::generateTerrainModel(const Image& heightMap) {

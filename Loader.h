@@ -12,14 +12,40 @@
 #include <glm/glm.hpp>
 
 struct Image {
+    static Image loadFromFile(std::string_view filePath);
+
+    Image();
+    ~Image();
+    Image(const Image& other) = delete;
+
+    Image(Image&& other) noexcept
+        : data(other.data), width(other.width), height(other.height), channels(other.channels) {
+        other.data = nullptr;
+    }
+
+    Image& operator=(const Image& other) = delete;
+
+    Image& operator=(Image&& other) noexcept {
+        if (this == &other)
+            return *this;
+        data = other.data;
+        width = other.width;
+        height = other.height;
+        channels = other.channels;
+        other.data = nullptr;
+        return *this;
+    }
+
     unsigned char* data;
     int width;
     int height;
     int channels;
 
-    Image();
-    Image(unsigned char* data, int width, int height, int channels);
     [[nodiscard]] glm::vec3 getPixel(int x, int y) const;
+
+  private:
+
+    Image(unsigned char* data, int width, int height, int channels);
 };
 
 class Loader {
@@ -60,7 +86,6 @@ class Loader {
         const std::vector<float>& texCoords, const std::vector<float>& normals);
     GLuint loadVAO(const tinyobj::shape_t&);
 
-    static Image loadImage(const std::string& filepath);
     static GLuint loadCubemapTexture(const std::vector<std::string>& filenames);
     GLuint loadTexture(const std::string& filepath);
     GLuint loadDefaultTexture();

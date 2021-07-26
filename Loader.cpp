@@ -6,7 +6,23 @@
 #define VALS_PER_NORMAL 3
 #define VALS_PER_TEX 2
 
+Image Image::loadFromFile(std::string_view filePath) {
+    Image image;
+    const std::string definitelyNullTerminatedFilePath(filePath);
+    image.data = stbi_load(definitelyNullTerminatedFilePath.c_str(),  // char* filepath
+        &image.width,                                                 // The address to store the width of the image
+        &image.height,                                                // The address to store the height of the image
+        &image.channels,                                              // Number of channels in the image
+        0                                                             // Force number of channels if > 0
+    );
+    return image;
+}
+
 Image::Image() : data(nullptr), width(-1), height(-1), channels(-1) {
+}
+
+Image::~Image() {
+    stbi_image_free(data);
 }
 
 Image::Image(unsigned char* data, int width, int height, int channels)
@@ -252,18 +268,6 @@ GLuint Loader::loadVAO(const tinyobj::shape_t& shape) {
     return loadVAO(shape.mesh.positions, shape.mesh.indices, shape.mesh.texcoords, shape.mesh.normals);
 }
 
-Image Loader::loadImage(const std::string& filepath) {
-    int x, y, n;
-    unsigned char* data = stbi_load(filepath.c_str(),  // char* filepath
-        &x,                                            // The address to store the width of the image
-        &y,                                            // The address to store the height of the image
-        &n,                                            // Number of channels in the image
-        0                                              // Force number of channels if > 0
-    );
-
-    return Image(data, x, y, n);
-}
-
 GLuint Loader::loadCubemapTexture(const std::vector<std::string>& filenames) {
     if (filenames.size() != 6) {
         std::cerr << "[Loader][Error] Cubemap requires 6 texture files." << std::endl;
@@ -281,7 +285,7 @@ GLuint Loader::loadCubemapTexture(const std::vector<std::string>& filenames) {
             std::cerr << "[Loader][Error] Skybox texture file " << i << " doesnt exist." << std::endl;
         }
 
-        Image image = loadImage(filenames[i]);
+        Image image = Image::loadFromFile(filenames[i]);
 
         GLenum format = GL_RGB;
         if (image.channels == 4) {
@@ -291,7 +295,6 @@ GLuint Loader::loadCubemapTexture(const std::vector<std::string>& filenames) {
         // The first cast works because the enums are defined sequentially.
         glTexImage2D(static_cast<GLenum>(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i), 0, GL_RGB, image.width, image.height, 0,
             format, GL_UNSIGNED_BYTE, image.data);
-        stbi_image_free(image.data);
         glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
         glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
         glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
@@ -315,11 +318,9 @@ GLuint Loader::loadTexture(const std::string& filepath) {
     }
 
     // Load an image from file as texture
-    Image image = loadImage(filepath);
+    const Image image = Image::loadFromFile(filepath);
 
     GLuint textureID = loadTextureData(image.data, image.width, image.height, image.channels, GL_TEXTURE0);
-
-    stbi_image_free(image.data);
 
     // Save texture to cache
     loadedTextures[filepath] = textureID;
